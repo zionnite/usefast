@@ -12,6 +12,8 @@ import '../util/common.dart';
 class ApiServices {
   static var client = http.Client();
   static const String _mybaseUrl = baseUrl;
+  static const String privateKey =
+      'FLWSECK_TEST-e87034a1db84700165c21f6cd3c2ef54-X';
 
   /***
    * below relife start
@@ -33,6 +35,10 @@ class ApiServices {
   static const String _get_transaction = 'get_transaction';
   static const String _getAccountDetails = 'get_wallet_detail';
   static const String _verify_deposit = 'verify_deposit';
+  static const String _verify_transaction_pin = 'verify_transaction';
+  static const String _debit_wallet = 'debit_wallet';
+  static const String _add_transaction_history = 'add_transaction_history';
+  static const String _refund_wallet = 'refund_wallet';
 
   static Future uploadProfOfPayment({
     required String userId,
@@ -175,8 +181,7 @@ class ApiServices {
   static Future fetchBillCategories() async {
     try {
       Map<String, String> header = {};
-      header["Authorization"] =
-          'Bearer FLWSECK_TEST-e87034a1db84700165c21f6cd3c2ef54-X';
+      header["Authorization"] = 'Bearer $privateKey';
       header["Content-Type"] = 'application/json';
       final uri = Uri.parse('https://api.flutterwave.com/v3/bill-categories');
 
@@ -214,8 +219,7 @@ class ApiServices {
   static Future fetchBillDisDataPlan({required String billerCode}) async {
     try {
       Map<String, String> header = {};
-      header["Authorization"] =
-          'Bearer FLWSECK_TEST-e87034a1db84700165c21f6cd3c2ef54-X';
+      header["Authorization"] = 'Bearer $privateKey';
       header["Content-Type"] = 'application/json';
       final uri = Uri.parse(
           'https://api.flutterwave.com/v3/bill-categories?biller_code=$billerCode');
@@ -246,6 +250,258 @@ class ApiServices {
       }
     } catch (ex) {
       // print(ex.toString());
+    }
+  }
+
+  static Future verifyPin({
+    required String userId,
+    required String amount,
+    required String pin,
+  }) async {
+    try {
+      final uri = Uri.parse('$_mybaseUrl$_verify_transaction_pin/$userId');
+
+      var response = await http.post(uri, body: {
+        'userId': userId.toString(),
+        'amount': amount.toString(),
+        'pin': pin.toString(),
+      });
+
+      if (response.statusCode == 200) {
+        var body = response.body;
+
+        final j = json.decode(body) as Map<String, dynamic>;
+        String status = j['status'];
+        print(status);
+        return status;
+      } else {
+        showSnackBar(
+          title: 'Oops!',
+          msg: 'could not connect to server ',
+          backgroundColor: Colors.red,
+          duration: Duration(seconds: 56),
+        );
+      }
+    } catch (ex) {
+      print(ex.toString());
+    }
+  }
+
+  static Future validateInputDetails({
+    required String phoneNumber,
+    required String billerCode,
+    required String billerName,
+    required String itemCode,
+  }) async {
+    try {
+      Map<String, String> header = {};
+      header["Authorization"] = 'Bearer $privateKey';
+      header["Content-Type"] = 'application/json';
+      final uri = Uri.parse(
+          'https://api.flutterwave.com/v3/bill-items/$itemCode/validate?code=$billerCode&customer=$phoneNumber');
+      var response = await http
+          .get(uri, headers: header)
+          .timeout(const Duration(minutes: 60));
+
+      if (response.statusCode == 200) {
+        var body = response.body;
+        final j = json.decode(body) as Map<String, dynamic>;
+        String status = j['status'];
+        String message = j['message'];
+        if (status == 'success') {
+          return status;
+        } else {
+          return message;
+        }
+      } else {
+        showSnackBar(
+          title: 'Oops!',
+          msg: 'could not connect to server',
+          backgroundColor: Colors.red,
+        );
+      }
+    } catch (ex) {
+      print(ex.toString());
+    }
+  }
+
+  static Future debitWallet({
+    required String userId,
+    required String amount,
+    required String ref,
+    required String billType,
+    required String customer,
+  }) async {
+    print('debbiting wallet');
+    try {
+      final uri = Uri.parse('$_mybaseUrl$_debit_wallet/$userId');
+
+      var response = await http.post(uri, body: {
+        'userId': userId.toString(),
+        'amount': amount.toString(),
+        'ref': ref.toString(),
+        'bill_type': billType.toString(),
+        'customer': customer.toString(),
+      });
+
+      if (response.statusCode == 200) {
+        var body = response.body;
+
+        final j = json.decode(body) as Map<String, dynamic>;
+        String status = j['status'];
+        print(status);
+        return status;
+      } else {
+        showSnackBar(
+          title: 'Oops!',
+          msg: 'could not connect to server',
+          backgroundColor: Colors.red,
+        );
+      }
+    } catch (ex) {
+      print(ex.toString());
+    }
+  }
+
+  static Future createBillPurchase({
+    required String phoneNumber,
+    required String billerCode,
+    required String billerName,
+    required String itemCode,
+    required String country,
+    required String amount,
+    required bool isAirtime,
+    required String ref,
+  }) async {
+    print('creating bill');
+    try {
+      Map<String, String> header = {};
+      header["Authorization"] = 'Bearer $privateKey';
+      header["Content-Type"] = 'application/json';
+      final uri = Uri.parse('https://api.flutterwave.com/v3/bills');
+      var response = await http
+          .post(
+            uri,
+            headers: header,
+            body: jsonEncode({
+              'country': country,
+              'customer': phoneNumber,
+              'amount': int.parse(amount),
+              'type': (isAirtime) ? 'AIRTIME' : billerName,
+              'reference': ref,
+            }),
+          )
+          .timeout(const Duration(minutes: 60));
+
+      print('response statuscode ${response.statusCode}');
+      print('response  ${response.body}');
+      if (response.statusCode == 200) {
+        var body = response.body;
+        final j = json.decode(body) as Map<String, dynamic>;
+        String status = j['status'];
+        String message = j['message'];
+        if (status == 'success') {
+          return status;
+        } else {
+          return message;
+        }
+      } else {
+        // showSnackBar(
+        //   title: 'Oops!',
+        //   msg: 'could not connect to server',
+        //   backgroundColor: Colors.red,
+        // );
+      }
+    } catch (ex) {
+      print(ex.toString());
+    }
+  }
+
+  static Future addToTransactionHistory({
+    required String userId,
+    required String amount,
+    required String ref,
+    required String billType,
+    required String customer,
+  }) async {
+    print('add to transaction history');
+    try {
+      final uri = Uri.parse('$_mybaseUrl$_add_transaction_history/$userId');
+
+      var response = await http.post(uri, body: {
+        'userId': userId.toString(),
+        'amount': amount.toString(),
+        'ref': ref.toString(),
+        'bill_type': billType.toString(),
+        'customer': customer.toString(),
+      });
+
+      if (response.statusCode == 200) {
+        var body = response.body;
+
+        final j = json.decode(body) as Map<String, dynamic>;
+        String status = j['status'];
+        if (status != 'fail') {
+          var disData = j['transaction'];
+
+          final data = accountModelFromJson(jsonEncode(disData).toString());
+          return data;
+        } else {
+          return status;
+        }
+      } else {
+        showSnackBar(
+          title: 'Oops!',
+          msg: 'could not connect to server',
+          backgroundColor: Colors.red,
+        );
+      }
+    } catch (ex) {
+      print(ex.toString());
+    }
+  }
+
+  static Future refundWallet({
+    required String userId,
+    required String amount,
+    required String ref,
+    required String billType,
+    required String customer,
+  }) async {
+    print('Refund wallet');
+    try {
+      final uri = Uri.parse('$_mybaseUrl$_refund_wallet/$userId');
+
+      var response = await http.post(uri, body: {
+        'userId': userId.toString(),
+        'amount': amount.toString(),
+        'ref': ref.toString(),
+        'bill_type': billType.toString(),
+        'customer': customer.toString(),
+      });
+
+      if (response.statusCode == 200) {
+        var body = response.body;
+
+        final j = json.decode(body) as Map<String, dynamic>;
+        String status = j['status'];
+        if (status != 'fail') {
+          var disData = j['transaction'];
+
+          final data = accountModelFromJson(jsonEncode(disData).toString());
+          return data;
+        } else {
+          return status;
+        }
+      } else {
+        showSnackBar(
+          title: 'Oops!',
+          msg: 'could not connect to server',
+          backgroundColor: Colors.red,
+        );
+      }
+    } catch (ex) {
+      print(ex.toString());
     }
   }
 }

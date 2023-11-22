@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_native_contact_picker/flutter_native_contact_picker.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:get/get.dart';
+import 'package:giffy_dialog/giffy_dialog.dart';
 import 'package:h3m_shimmer_card/h3m_shimmer_card.dart';
 import 'package:intl/intl.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:loading_overlay_pro/loading_overlay_pro.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sliding_sheet2/sliding_sheet2.dart';
 import 'package:usefast/constant.dart';
@@ -73,13 +76,15 @@ class _PurchaseBillDataState extends State<PurchaseBillData> {
 
     if (mounted) {
       setState(() {
-        user_id = userId1;
+        // user_id = userId1;
+        user_id = '1';
       });
 
-      await billController.fetchBillCategories();
+      // await billController.fetchBillCategories();
     }
   }
 
+  bool pageLoading = false;
   @override
   void initState() {
     initUserDetail();
@@ -90,360 +95,375 @@ class _PurchaseBillDataState extends State<PurchaseBillData> {
   Widget build(BuildContext context) {
     var utilityType = widget.utilityType;
     var type = (utilityType == 'airtime') ? 'airtime' : 'data';
-    return Scaffold(
-      backgroundColor: kPrimaryColor,
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const SizedBox(
-            height: 40,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 0.0),
-            child: Row(
-              children: [
-                InkWell(
-                  onTap: () {
-                    Get.back();
-                  },
-                  child: const Icon(
-                    Icons.chevron_left_rounded,
-                    color: Colors.white,
-                    size: 42,
-                  ),
-                ),
-              ],
+    return WillPopScope(
+      onWillPop: () async => !pageLoading,
+      child: Scaffold(
+        backgroundColor: kPrimaryColor,
+        body: LoadingOverlayPro(
+          isLoading: pageLoading,
+          progressIndicator: Center(
+            child: LoadingAnimationWidget.discreteCircle(
+              color: Colors.white,
+              size: 20,
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(
-              left: 18.0,
-              right: 8.0,
-              top: 8,
-              bottom: 8,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  (utilityType == 'airtime') ? 'Buy Airtime' : 'Buy Data',
-                  style: TextStyle(
-                    color: textColorWhite,
-                    fontSize: 25,
-                    fontWeight: FontWeight.w800,
-                  ),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Text(
-                  'Enter receiver\'s phone number to buy $type instantly',
-                  style: TextStyle(
-                    color: textColorWhite,
-                  ),
-                ),
-                const SizedBox(
-                  height: 18,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(
+                height: 40,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 0.0),
+                child: Row(
                   children: [
-                    Expanded(
-                      child: SizedBox(
-                        width: 200,
-                        child: MyNumField(
-                          myTextFormController: phoneController,
-                          fieldName: 'Phone Number',
-                          prefix: Icons.phone_android_sharp,
-                          onChange: (string) {},
-                        ),
+                    InkWell(
+                      onTap: () {
+                        Get.back();
+                      },
+                      child: const Icon(
+                        Icons.chevron_left_rounded,
+                        color: Colors.white,
+                        size: 42,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(
+                  left: 18.0,
+                  right: 8.0,
+                  top: 8,
+                  bottom: 8,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      (utilityType == 'airtime') ? 'Buy Airtime' : 'Buy Data',
+                      style: TextStyle(
+                        color: textColorWhite,
+                        fontSize: 25,
+                        fontWeight: FontWeight.w800,
                       ),
                     ),
                     const SizedBox(
-                      width: 10,
+                      height: 10,
+                    ),
+                    Text(
+                      'Enter receiver\'s phone number to buy $type instantly',
+                      style: TextStyle(
+                        color: textColorWhite,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 18,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: SizedBox(
+                            width: 200,
+                            child: MyNumField(
+                              myTextFormController: phoneController,
+                              fieldName: 'Phone Number',
+                              prefix: Icons.phone_android_sharp,
+                              onChange: (string) {},
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        InkWell(
+                          onTap: () async {
+                            Contact? contact =
+                                await _contactPicker.selectContact();
+                            if (contact != null) {
+                              setState(() {
+                                _contact = contact;
+                                phoneController.text =
+                                    _contact.phoneNumbers![0];
+                              });
+                            }
+                          },
+                          child: Container(
+                            width: 80,
+                            decoration: BoxDecoration(
+                              color: kSecondaryColor,
+                              borderRadius: const BorderRadius.all(
+                                Radius.circular(8),
+                              ),
+                              border: Border.all(
+                                color: Colors.white,
+                              ),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                left: 5.0,
+                                right: 5.0,
+                                top: 15,
+                                bottom: 15,
+                              ),
+                              child: Icon(
+                                Icons.contacts,
+                                color: textColorWhite,
+                                size: 25,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+
+                    (phoneError)
+                        ? const Text('Phone number is required!',
+                            style: TextStyle(
+                              color: Colors.red,
+                            ))
+                        : Container(),
+                    const SizedBox(
+                      height: 18,
+                    ),
+                    Text(
+                      'Select Network Provider',
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: textColorWhite,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    Container(
+                      height: 100,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: networkProvider.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          var data = networkProvider[index];
+                          return InkWell(
+                            onTap: () async {
+                              setState(() {
+                                networkSelected = data;
+                                isSelected = true;
+                              });
+
+                              if (networkSelected == 'MTN') {
+                                setState(() {
+                                  billerCode = 'BIL104';
+                                });
+                              } else if (networkSelected == 'AIRTEL') {
+                                setState(() {
+                                  billerCode = 'BIL106';
+                                });
+                              } else if (networkSelected == 'GLO') {
+                                setState(() {
+                                  billerCode = 'BIL105';
+                                });
+                              } else if (networkSelected == '9MOBILE') {
+                                setState(() {
+                                  billerCode = 'BIL107';
+                                });
+                              }
+
+                              await billController.fetchBillDisDataPlan(
+                                  billerCode: billerCode!);
+                            },
+                            child: Container(
+                              // width: 150,
+                              height: 100,
+                              decoration: BoxDecoration(
+                                color: kSecondaryColor,
+                                borderRadius: const BorderRadius.all(
+                                  Radius.circular(8),
+                                ),
+                                border: Border.all(
+                                  color: (networkSelected == data)
+                                      ? Colors.white
+                                      : Colors.white12,
+                                ),
+                              ),
+                              padding: const EdgeInsets.all(20),
+                              margin: const EdgeInsets.only(
+                                top: 10,
+                                right: 10,
+                                // bottom: 10,
+                              ),
+                              child: Center(
+                                child: Text(
+                                  data,
+                                  style: TextStyle(
+                                    color: textColorWhite,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+
+                    (networkError)
+                        ? const Text('Network provider not selected!',
+                            style: TextStyle(
+                              color: Colors.red,
+                            ))
+                        : Container(),
+
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      'Data Plan',
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: textColorWhite,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                     InkWell(
-                      onTap: () async {
-                        Contact? contact = await _contactPicker.selectContact();
-                        if (contact != null) {
+                      onTap: () {
+                        if (networkSelected != null) {
                           setState(() {
-                            _contact = contact;
-                            phoneController.text = _contact.phoneNumbers![0];
+                            dataError = false;
+                          });
+                          selectDataPlanBottomSheet();
+                        } else {
+                          setState(() {
+                            dataError = true;
                           });
                         }
                       },
                       child: Container(
-                        width: 80,
+                        // width: 150,
+                        // height: 100,
                         decoration: BoxDecoration(
                           color: kSecondaryColor,
                           borderRadius: const BorderRadius.all(
                             Radius.circular(8),
                           ),
                           border: Border.all(
-                            color: Colors.white,
+                            color: Colors.white12,
                           ),
                         ),
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                            left: 5.0,
-                            right: 5.0,
-                            top: 15,
-                            bottom: 15,
-                          ),
-                          child: Icon(
-                            Icons.contacts,
-                            color: textColorWhite,
-                            size: 25,
+                        padding: const EdgeInsets.all(20),
+                        margin: const EdgeInsets.only(
+                          top: 10,
+                          right: 10,
+                          // bottom: 10,
+                        ),
+                        child: Center(
+                          child: Text(
+                            'Select a data plan',
+                            style: TextStyle(
+                              color: textColorWhite,
+                            ),
                           ),
                         ),
+                      ),
+                    ),
+                    (dataError)
+                        ? const Text('select network provider!',
+                            style: TextStyle(
+                              color: Colors.red,
+                            ))
+                        : Container(),
+
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    //
+                    MyMoneyField(
+                      myTextFormController: amountController,
+                      fieldName: 'Amount',
+                      editable: true,
+                      prefix: Icons.attach_money,
+                      onChange: (string) {
+                        if (amountController.text.isNotEmpty) {
+                          string =
+                              '${_formatNumber(string.replaceAll(',', ''))}';
+                          amountController.value = TextEditingValue(
+                            text: string,
+                            selection:
+                                TextSelection.collapsed(offset: string.length),
+                          );
+                        } else {
+                          setState(() {
+                            string = '0';
+                          });
+                        }
+                        setState(() {
+                          disAmount = string;
+                          disAmount = disAmount!.replaceAll(",", "");
+                        });
+                      },
+                    ),
+
+                    (amountError)
+                        ? const Text('Amount is required!',
+                            style: TextStyle(
+                              color: Colors.red,
+                            ))
+                        : Container(),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 0.0),
+                      child: propertyBtn(
+                        card_margin:
+                            const EdgeInsets.only(top: 0, left: 0, right: 0),
+                        onTap: () async {
+                          print('disamount $disAmount');
+                          if (networkSelected != null &&
+                              disAmount != '0' &&
+                              phoneController.text != '') {
+                            setState(() {
+                              isLoading = true;
+                              // showError = false;
+                              phoneError = false;
+                              networkError = false;
+                              amountError = false;
+                            });
+
+                            Future.delayed(const Duration(seconds: 1), () {
+                              setState(() {
+                                amountController.text = '';
+                                isLoading = false;
+                              });
+                              verifySelectedAirtime();
+                            });
+                          } else {
+                            setState(() {
+                              isLoading = false;
+                            });
+                            if (phoneController.text == '') {
+                              setState(() {
+                                phoneError = true;
+                              });
+                            } else if (disAmount == null || disAmount == '0') {
+                              setState(() {
+                                amountError = true;
+                              });
+                            } else if (networkSelected == null) {
+                              setState(() {
+                                networkError = true;
+                              });
+                            }
+                          }
+                        },
+                        title: 'Continue',
+                        bgColor: kSecondaryColor,
+                        isLoading: isLoading,
                       ),
                     ),
                   ],
                 ),
-
-                (phoneError)
-                    ? const Text('Phone number is required!',
-                        style: TextStyle(
-                          color: Colors.red,
-                        ))
-                    : Container(),
-                const SizedBox(
-                  height: 18,
-                ),
-                Text(
-                  'Select Network Provider',
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: textColorWhite,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                Container(
-                  height: 100,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: networkProvider.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      var data = networkProvider[index];
-                      return InkWell(
-                        onTap: () async {
-                          setState(() {
-                            networkSelected = data;
-                            isSelected = true;
-                          });
-
-                          if (networkSelected == 'MTN') {
-                            setState(() {
-                              billerCode = 'BIL104';
-                            });
-                          } else if (networkSelected == 'AIRTEL') {
-                            setState(() {
-                              billerCode = 'BIL106';
-                            });
-                          } else if (networkSelected == 'GLO') {
-                            setState(() {
-                              billerCode = 'BIL105';
-                            });
-                          } else if (networkSelected == '9MOBILE') {
-                            setState(() {
-                              billerCode = 'BIL107';
-                            });
-                          }
-
-                          await billController.fetchBillDisDataPlan(
-                              billerCode: billerCode!);
-                        },
-                        child: Container(
-                          // width: 150,
-                          height: 100,
-                          decoration: BoxDecoration(
-                            color: kSecondaryColor,
-                            borderRadius: const BorderRadius.all(
-                              Radius.circular(8),
-                            ),
-                            border: Border.all(
-                              color: (networkSelected == data)
-                                  ? Colors.white
-                                  : Colors.white12,
-                            ),
-                          ),
-                          padding: const EdgeInsets.all(20),
-                          margin: const EdgeInsets.only(
-                            top: 10,
-                            right: 10,
-                            // bottom: 10,
-                          ),
-                          child: Center(
-                            child: Text(
-                              data,
-                              style: TextStyle(
-                                color: textColorWhite,
-                              ),
-                            ),
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-
-                (networkError)
-                    ? const Text('Network provider not selected!',
-                        style: TextStyle(
-                          color: Colors.red,
-                        ))
-                    : Container(),
-
-                const SizedBox(
-                  height: 20,
-                ),
-                Text(
-                  'Data Plan',
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: textColorWhite,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                InkWell(
-                  onTap: () {
-                    if (networkSelected != null) {
-                      setState(() {
-                        dataError = false;
-                      });
-                      selectDataPlanBottomSheet();
-                    } else {
-                      setState(() {
-                        dataError = true;
-                      });
-                    }
-                  },
-                  child: Container(
-                    // width: 150,
-                    // height: 100,
-                    decoration: BoxDecoration(
-                      color: kSecondaryColor,
-                      borderRadius: const BorderRadius.all(
-                        Radius.circular(8),
-                      ),
-                      border: Border.all(
-                        color: Colors.white12,
-                      ),
-                    ),
-                    padding: const EdgeInsets.all(20),
-                    margin: const EdgeInsets.only(
-                      top: 10,
-                      right: 10,
-                      // bottom: 10,
-                    ),
-                    child: Center(
-                      child: Text(
-                        'Select a data plan',
-                        style: TextStyle(
-                          color: textColorWhite,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                (dataError)
-                    ? const Text('select network provider!',
-                        style: TextStyle(
-                          color: Colors.red,
-                        ))
-                    : Container(),
-
-                const SizedBox(
-                  height: 20,
-                ),
-                //
-                MyMoneyField(
-                  myTextFormController: amountController,
-                  fieldName: 'Amount',
-                  editable: true,
-                  prefix: Icons.attach_money,
-                  onChange: (string) {
-                    if (amountController.text.isNotEmpty) {
-                      string = '${_formatNumber(string.replaceAll(',', ''))}';
-                      amountController.value = TextEditingValue(
-                        text: string,
-                        selection:
-                            TextSelection.collapsed(offset: string.length),
-                      );
-                    } else {
-                      setState(() {
-                        string = '0';
-                      });
-                    }
-                    setState(() {
-                      disAmount = string;
-                      disAmount = disAmount!.replaceAll(",", "");
-                    });
-                  },
-                ),
-
-                (amountError)
-                    ? const Text('Amount is required!',
-                        style: TextStyle(
-                          color: Colors.red,
-                        ))
-                    : Container(),
-                const SizedBox(
-                  height: 20,
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 0.0),
-                  child: propertyBtn(
-                    card_margin:
-                        const EdgeInsets.only(top: 0, left: 0, right: 0),
-                    onTap: () async {
-                      print('disamount $disAmount');
-                      if (networkSelected != null &&
-                          disAmount != '0' &&
-                          phoneController.text != '') {
-                        setState(() {
-                          isLoading = true;
-                          // showError = false;
-                          phoneError = false;
-                          networkError = false;
-                          amountError = false;
-                        });
-
-                        Future.delayed(const Duration(seconds: 1), () {
-                          setState(() {
-                            amountController.text = '';
-                            isLoading = false;
-                          });
-                          verifySelectedAirtime();
-                        });
-                      } else {
-                        setState(() {
-                          isLoading = false;
-                        });
-                        if (phoneController.text == '') {
-                          setState(() {
-                            phoneError = true;
-                          });
-                        } else if (disAmount == null || disAmount == '0') {
-                          setState(() {
-                            amountError = true;
-                          });
-                        } else if (networkSelected == null) {
-                          setState(() {
-                            networkError = true;
-                          });
-                        }
-                      }
-                    },
-                    title: 'Continue',
-                    bgColor: kSecondaryColor,
-                    isLoading: isLoading,
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
@@ -945,6 +965,7 @@ class _PurchaseBillDataState extends State<PurchaseBillData> {
                                   billerName: billerName!,
                                   itemCode: itemCode!,
                                   isAirtime: false,
+                                  userId: user_id!,
                                 );
                               }
 
@@ -983,7 +1004,6 @@ class _PurchaseBillDataState extends State<PurchaseBillData> {
                 if (disAmount != null &&
                     networkSelected != null &&
                     phoneController.text != '') {
-                  verifyTransactionPin();
                   completeTransactionPin(
                     transactionPin: transactionPin!,
                     amount: disAmount,
@@ -993,6 +1013,7 @@ class _PurchaseBillDataState extends State<PurchaseBillData> {
                     billerName: billerName!,
                     itemCode: itemCode!,
                     isAirtime: false,
+                    userId: user_id!,
                   );
 
                   Future.delayed(const Duration(seconds: 1), () {
@@ -1004,7 +1025,7 @@ class _PurchaseBillDataState extends State<PurchaseBillData> {
                 }
               },
               title: 'Continue',
-              bgColor: (authenticated) ? kSecondaryColor : Colors.grey,
+              bgColor: kSecondaryColor,
               isLoading: isLoading,
             ),
           ),
@@ -1021,8 +1042,12 @@ class _PurchaseBillDataState extends State<PurchaseBillData> {
     required String billerName,
     required String itemCode,
     required bool isAirtime,
+    required String userId,
   }) async {
-    await accountController.purchaseBill(
+    setState(() {
+      pageLoading = true;
+    });
+    var status = await accountController.purchaseBill(
       amount: amount,
       network: network,
       phoneNumber: phoneNumber,
@@ -1030,7 +1055,13 @@ class _PurchaseBillDataState extends State<PurchaseBillData> {
       billerName: billerName,
       itemCode: itemCode,
       isAirtime: isAirtime,
+      userId: userId,
     );
+
+    setState(() {
+      pageLoading = false;
+    });
+    displayResult(status);
   }
 
   completeTransactionPin({
@@ -1042,8 +1073,12 @@ class _PurchaseBillDataState extends State<PurchaseBillData> {
     required String billerName,
     required String itemCode,
     required bool isAirtime,
+    required String userId,
   }) async {
-    await accountController.verifyTransactionPin(
+    setState(() {
+      pageLoading = true;
+    });
+    var status = await accountController.verifyTransactionPin(
       transactionPin: transactionPin!,
       amount: disAmount,
       network: networkSelected!,
@@ -1052,6 +1087,51 @@ class _PurchaseBillDataState extends State<PurchaseBillData> {
       billerName: billerName!,
       itemCode: itemCode!,
       isAirtime: isAirtime,
+      userId: userId,
+    );
+
+    setState(() {
+      pageLoading = false;
+    });
+    displayResult(status);
+  }
+
+  displayResult(String status) {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return GiffyDialog.image(
+          Image.asset(
+            "assets/images/fast_pay.png",
+            height: 200,
+            fit: BoxFit.cover,
+          ),
+          title: const Text(
+            'Feedback',
+            textAlign: TextAlign.center,
+          ),
+          content: Text(
+            (status == 'error_pin')
+                ? 'Pin entered it\'s inaccurate, please enter correct pin to continue'
+                : (status == 'error_wallet' || status == 'error_debit_1')
+                    ? 'Insufficient Balance in your wallet, please top up your account and try again'
+                    : (status == 'error_debit_2')
+                        ? 'having difficulties performing operation with your wallet'
+                        : (status == 'not_successful')
+                            ? 'Purchase not successful, please try again later!'
+                            : (status == 'successful')
+                                ? 'Congratulation, Purchase was successful'
+                                : status,
+            textAlign: TextAlign.center,
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context, 'OK'),
+              child: const Text('OK'),
+            ),
+          ],
+        );
+      },
     );
   }
 }

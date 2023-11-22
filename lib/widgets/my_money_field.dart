@@ -43,7 +43,6 @@ class _MyMoneyFieldState extends State<MyMoneyField> {
           color: Colors.white,
         ),
         readOnly: widget.editable,
-        focusNode: FocusNode(),
         keyboardType: TextInputType.number,
         onChanged: widget.onChange,
         controller: widget.myTextFormController,

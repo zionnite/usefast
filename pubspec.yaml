@@ -55,6 +55,8 @@ dependencies:
   local_auth: ^2.1.7
   flutter_otp_text_field: ^1.1.1
   h3m_shimmer_card: ^0.0.2
+  giffy_dialog: ^2.0.0+2
+  loading_overlay_pro: ^2.1.1
 
 dependency_overrides:
 #  flutter_svg: ^1.0.0
