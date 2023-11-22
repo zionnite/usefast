@@ -4,7 +4,10 @@ import 'package:usefast/constant.dart';
 import 'package:usefast/screens/purchase_bill.dart';
 import 'package:usefast/util/common.dart';
 
+import 'purchase_bill_cable.dart';
 import 'purchase_bill_data.dart';
+import 'purchase_bill_electricity.dart';
+import 'purchase_bill_wifi.dart';
 
 class BillPage extends StatefulWidget {
   const BillPage({Key? key}) : super(key: key);
@@ -115,6 +118,139 @@ class _BillPageState extends State<BillPage> {
                             ),
                             Text(
                               'Data Purchase',
+                              style: TextStyle(color: kTextColor),
+                            ),
+                          ],
+                        ),
+                        Icon(
+                          Icons.chevron_right_sharp,
+                          color: kTextColor,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: SizedBox(
+                    height: 10,
+                    child: Divider(
+                      color: greyColor,
+                    ),
+                  ),
+                ),
+                InkWell(
+                  onTap: () {
+                    Get.to(
+                      () => const PurchaseBillElectricity(
+                          utilityType: 'electricity'),
+                    );
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Icon(
+                              Icons.power_rounded,
+                              color: kTextColor,
+                            ),
+                            const SizedBox(
+                              width: 8,
+                            ),
+                            Text(
+                              'Electricity Purchase',
+                              style: TextStyle(color: kTextColor),
+                            ),
+                          ],
+                        ),
+                        Icon(
+                          Icons.chevron_right_sharp,
+                          color: kTextColor,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: SizedBox(
+                    height: 10,
+                    child: Divider(
+                      color: greyColor,
+                    ),
+                  ),
+                ),
+                InkWell(
+                  onTap: () {
+                    Get.to(
+                      () => const PurchaseBillWifi(utilityType: 'internet'),
+                    );
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Icon(
+                              Icons.wifi,
+                              color: kTextColor,
+                            ),
+                            const SizedBox(
+                              width: 8,
+                            ),
+                            Text(
+                              'Wi-Fi Internet',
+                              style: TextStyle(color: kTextColor),
+                            ),
+                          ],
+                        ),
+                        Icon(
+                          Icons.chevron_right_sharp,
+                          color: kTextColor,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: SizedBox(
+                    height: 10,
+                    child: Divider(
+                      color: greyColor,
+                    ),
+                  ),
+                ),
+                InkWell(
+                  onTap: () {
+                    Get.to(
+                      () => const PurchaseBillCable(utilityType: 'cable'),
+                    );
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Icon(
+                              Icons.tv,
+                              color: kTextColor,
+                            ),
+                            const SizedBox(
+                              width: 8,
+                            ),
+                            Text(
+                              'Cable TV subscriptions',
                               style: TextStyle(color: kTextColor),
                             ),
                           ],

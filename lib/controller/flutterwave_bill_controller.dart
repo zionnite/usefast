@@ -66,4 +66,34 @@ class FlutterWaveBillController extends GetxController {
 
     return status;
   }
+
+  fetchBillElectricProvider() async {
+    var seeker = await ApiServices.fetchBillElectricProvider();
+    if (seeker != null) {
+      isRequestProcessing.value = 'yes';
+      billCatList.value = seeker.cast<Datum>();
+    } else {
+      isRequestProcessing.value = 'no';
+    }
+  }
+
+  fetchBillWifiProvider() async {
+    var seeker = await ApiServices.fetchBillWifiProvider();
+    if (seeker != null) {
+      isRequestProcessing.value = 'yes';
+      billCatList.value = seeker.cast<Datum>();
+    } else {
+      isRequestProcessing.value = 'no';
+    }
+  }
+
+  fetchBillCableProvider() async {
+    var seeker = await ApiServices.fetchBillCableProvider();
+    if (seeker != null) {
+      isRequestProcessing.value = 'yes';
+      billCatList.value = seeker.cast<Datum>();
+    } else {
+      isRequestProcessing.value = 'no';
+    }
+  }
 }

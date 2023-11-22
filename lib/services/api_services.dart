@@ -293,6 +293,7 @@ class ApiServices {
     required String billerName,
     required String itemCode,
   }) async {
+    print('started validating');
     try {
       Map<String, String> header = {};
       header["Authorization"] = 'Bearer $privateKey';
@@ -303,9 +304,11 @@ class ApiServices {
           .get(uri, headers: header)
           .timeout(const Duration(minutes: 60));
 
+      print('this response ${response.statusCode}');
+      print('this response body ${response.body}');
+      var body = response.body;
+      final j = json.decode(body) as Map<String, dynamic>;
       if (response.statusCode == 200) {
-        var body = response.body;
-        final j = json.decode(body) as Map<String, dynamic>;
         String status = j['status'];
         String message = j['message'];
         if (status == 'success') {
@@ -314,6 +317,14 @@ class ApiServices {
           return message;
         }
       } else {
+        String status = j['status'];
+        String message = j['message'];
+        if (status == 'success') {
+          return status;
+        } else {
+          return message;
+        }
+        print('error validating');
         showSnackBar(
           title: 'Oops!',
           msg: 'could not connect to server',
@@ -395,9 +406,9 @@ class ApiServices {
 
       print('response statuscode ${response.statusCode}');
       print('response  ${response.body}');
+      var body = response.body;
+      final j = json.decode(body) as Map<String, dynamic>;
       if (response.statusCode == 200) {
-        var body = response.body;
-        final j = json.decode(body) as Map<String, dynamic>;
         String status = j['status'];
         String message = j['message'];
         if (status == 'success') {
@@ -408,7 +419,7 @@ class ApiServices {
       } else {
         // showSnackBar(
         //   title: 'Oops!',
-        //   msg: 'could not connect to server',
+        //   msg: 'could not connect to server create',
         //   backgroundColor: Colors.red,
         // );
       }
@@ -502,6 +513,123 @@ class ApiServices {
       }
     } catch (ex) {
       print(ex.toString());
+    }
+  }
+
+  static Future fetchBillElectricProvider() async {
+    try {
+      Map<String, String> header = {};
+      header["Authorization"] = 'Bearer $privateKey';
+      header["Content-Type"] = 'application/json';
+      final uri = Uri.parse(
+          'https://api.flutterwave.com/v3/bill-categories?power=1&country=NG');
+
+      var response = await http
+          .get(
+            uri,
+            headers: header,
+          )
+          .timeout(const Duration(minutes: 60));
+
+      if (response.statusCode == 200) {
+        var body = response.body;
+
+        final j = json.decode(body) as Map<String, dynamic>;
+        String status = j['status'];
+        if (status == 'success') {
+          var disData = j['data'] as List;
+
+          final data =
+              disData.map<Datum>((json) => Datum.fromJson(json)).toList();
+          return data;
+        }
+      } else {
+        return showSnackBar(
+          title: 'Oops!',
+          msg: 'could not connect to server',
+          backgroundColor: Colors.red,
+        );
+      }
+    } catch (ex) {
+      // print(ex.toString());
+    }
+  }
+
+  static Future fetchBillWifiProvider() async {
+    try {
+      Map<String, String> header = {};
+      header["Authorization"] = 'Bearer $privateKey';
+      header["Content-Type"] = 'application/json';
+      final uri = Uri.parse(
+          'https://api.flutterwave.com/v3/bill-categories?internet=1&country=NG');
+
+      var response = await http
+          .get(
+            uri,
+            headers: header,
+          )
+          .timeout(const Duration(minutes: 60));
+
+      if (response.statusCode == 200) {
+        var body = response.body;
+
+        final j = json.decode(body) as Map<String, dynamic>;
+        String status = j['status'];
+        if (status == 'success') {
+          var disData = j['data'] as List;
+
+          final data =
+              disData.map<Datum>((json) => Datum.fromJson(json)).toList();
+          return data;
+        }
+      } else {
+        return showSnackBar(
+          title: 'Oops!',
+          msg: 'could not connect to server',
+          backgroundColor: Colors.red,
+        );
+      }
+    } catch (ex) {
+      // print(ex.toString());
+    }
+  }
+
+  static Future fetchBillCableProvider() async {
+    try {
+      Map<String, String> header = {};
+      header["Authorization"] = 'Bearer $privateKey';
+      header["Content-Type"] = 'application/json';
+      final uri = Uri.parse(
+          'https://api.flutterwave.com/v3/bill-categories?cables=1&country=NG');
+
+      var response = await http
+          .get(
+            uri,
+            headers: header,
+          )
+          .timeout(const Duration(minutes: 60));
+
+      if (response.statusCode == 200) {
+        var body = response.body;
+
+        final j = json.decode(body) as Map<String, dynamic>;
+        String status = j['status'];
+        if (status == 'success') {
+          var disData = j['data'] as List;
+
+          final data =
+              disData.map<Datum>((json) => Datum.fromJson(json)).toList();
+          return data;
+        }
+      } else {
+        return showSnackBar(
+          title: 'Oops!',
+          msg: 'could not connect to server',
+          backgroundColor: Colors.red,
+        );
+      }
+    } catch (ex) {
+      // print(ex.toString());
     }
   }
 }
