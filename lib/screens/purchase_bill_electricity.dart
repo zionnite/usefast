@@ -77,8 +77,8 @@ class _PurchaseBillElectricityState extends State<PurchaseBillElectricity> {
 
     if (mounted) {
       setState(() {
-        // user_id = userId1;
-        user_id = '1';
+        user_id = userId1;
+        // user_id = '1';
       });
 
       await billController.fetchBillElectricProvider();

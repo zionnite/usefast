@@ -73,8 +73,8 @@ class _PurchaseUtilityBillState extends State<PurchaseUtilityBill> {
 
     if (mounted) {
       setState(() {
-        // user_id = userId1;
-        user_id = '1';
+        user_id = userId1;
+        // user_id = '1';
       });
 
       await billController.fetchBillCategories();

@@ -76,8 +76,8 @@ class _PurchaseBillCableState extends State<PurchaseBillCable> {
 
     if (mounted) {
       setState(() {
-        // user_id = userId1;
-        user_id = '1';
+        user_id = userId1;
+        // user_id = '1';
       });
 
       await billController.fetchBillCableProvider();
