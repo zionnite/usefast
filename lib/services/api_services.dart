@@ -3,9 +3,11 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:usefast/model/account_model.dart';
 import 'package:usefast/model/flutterwave_bill_model.dart';
 import 'package:usefast/model/transaction_model.dart';
+import 'package:usefast/model/user_model.dart';
 
 import '../util/common.dart';
 
@@ -39,6 +41,12 @@ class ApiServices {
   static const String _debit_wallet = 'debit_wallet';
   static const String _add_transaction_history = 'add_transaction_history';
   static const String _refund_wallet = 'refund_wallet';
+  static const String _get_dis_user = 'get_dis_user';
+  static const String _update_profile = 'update_profile';
+  static const String _update_profile_image = 'update_profile_image';
+  static const String _verify_bank_account = 'verify_bank_account';
+  static const String _update_bank_detail = 'update_bank_detail';
+  static const String _update_transaction_pin = 'update_transaction_pin';
 
   static Future uploadProfOfPayment({
     required String userId,
@@ -630,6 +638,588 @@ class ApiServices {
       }
     } catch (ex) {
       // print(ex.toString());
+    }
+  }
+
+  static Future<String> signUp({
+    required String userName,
+    required String fullName,
+    required String email,
+    required String phone,
+    required String password,
+  }) async {
+    try {
+      final uri = Uri.parse('$_mybaseUrl$_signup');
+
+      var response = await http.post(uri, body: {
+        'user_name': userName.toString(),
+        'full_name': fullName.toString(),
+        'email': email.toString(),
+        'phone': phone.toString(),
+        'password': password.toString(),
+      });
+      if (response.statusCode == 200) {
+        var body = response.body;
+
+        final j = json.decode(body) as Map<String, dynamic>;
+        String status = j['status'];
+        if (status == 'success') {
+          return 'true';
+        } else {
+          String msg = j['status_msg'];
+          return msg;
+        }
+      } else {
+        return showSnackBar(
+          title: 'Oops!',
+          msg: 'could not connect to server',
+          backgroundColor: Colors.red,
+        );
+      }
+    } catch (ex) {
+      // print(ex);
+      return showSnackBar(
+        title: 'Oops!',
+        msg: ex.toString(),
+        backgroundColor: Colors.red,
+      );
+    }
+  }
+
+  static Future<String> login({
+    required String email,
+    required String password,
+  }) async {
+    try {
+      final uri = Uri.parse('$_mybaseUrl$_login');
+
+      var response = await http.post(uri, body: {
+        'email': email.toString(),
+        'password': password.toString(),
+      });
+      if (response.statusCode == 200) {
+        var body = response.body;
+
+        final j = json.decode(body) as Map<String, dynamic>;
+        String status = j['status'];
+        if (status == 'success') {
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+
+          String user_id = j['id'];
+          String user_name = j['user_name'];
+          String full_name = j['full_name'];
+          String email = j['email'];
+          String image_name = j['image_name'];
+          String status = j['user_status'];
+          String phone = j['phone'];
+          String age = j['age'];
+          String sex = j['sex'];
+          String address = j['address'];
+          String date_created = j['date_created'];
+          String account_name = j['account_name'];
+          String account_number = j['account_number'];
+          String bank_name = j['bank_name'];
+          String bank_code = j['bank_code'];
+          String current_balance = j['current_balance'];
+          String login_status = j['login_status'];
+          bool admin_status = j['admin_status'];
+          String isbank_verify = j['isbank_verify'];
+          String pin = j['pin'];
+          String pin_set = j['pin_set'];
+
+          prefs.setString('user_id', user_id);
+          prefs.setString('user_name', user_name);
+          prefs.setString('full_name', full_name);
+          prefs.setString('email', email);
+          prefs.setString('image_name', image_name);
+          prefs.setString('user_status', status);
+          prefs.setString('phone', phone);
+          prefs.setString('age', age);
+          prefs.setString('sex', sex);
+          prefs.setString('address', address);
+          prefs.setString('date_created', date_created);
+          prefs.setString('account_name', account_name);
+          prefs.setString('account_number', account_number);
+          prefs.setString('bank_name', bank_name);
+          prefs.setString('bank_code', bank_code);
+          prefs.setString('current_balance', current_balance);
+          prefs.setString('login_status', login_status);
+          prefs.setBool('admin_status', admin_status);
+          prefs.setString('isbank_verify', isbank_verify);
+          prefs.setBool('isUserLogin', true);
+          prefs.setBool('tempLoginStatus', true);
+          prefs.setString('pin', pin);
+          prefs.setString('pin_set', pin_set);
+
+          var isGuestLogin = prefs.getBool('isGuestLogin');
+          if (isGuestLogin != null) {
+            prefs.remove("isGuestLogin");
+          }
+
+          return 'true';
+        } else {
+          String msg = j['status_msg'];
+          return msg;
+        }
+      } else {
+        return showSnackBar(
+          title: 'Oops!',
+          msg: 'could not connect to server',
+          backgroundColor: Colors.red,
+        );
+      }
+    } catch (ex) {
+      // print(ex);
+      return showSnackBar(
+        title: 'Oops!',
+        msg: ex.toString(),
+        backgroundColor: Colors.red,
+      );
+    }
+  }
+
+  static Future<String> resetPassword({required String email}) async {
+    try {
+      final uri = Uri.parse('$_mybaseUrl$_resetPassword');
+
+      var response = await http.post(uri, body: {
+        'email': email.toString(),
+      });
+      if (response.statusCode == 200) {
+        var body = response.body;
+
+        final j = json.decode(body) as Map<String, dynamic>;
+        String status = j['status'];
+        if (status == 'success') {
+          return 'true';
+        } else {
+          String msg = j['status_msg'];
+          return msg;
+        }
+      } else {
+        return showSnackBar(
+          title: 'Oops!',
+          msg: 'could not connect to server',
+          backgroundColor: Colors.red,
+        );
+      }
+    } catch (ex) {
+      // print(ex);
+      return showSnackBar(
+        title: 'Oops!',
+        msg: ex.toString(),
+        backgroundColor: Colors.red,
+      );
+    }
+  }
+
+  static Future<List<UsersModel?>?> getDisUser(var userId) async {
+    try {
+      final uri = Uri.parse('$_mybaseUrl$_get_dis_user/$userId');
+
+      final result = await client.get(uri);
+
+      if (result.statusCode == 200) {
+        var body = result.body;
+        final j = json.decode(body) as Map<String, dynamic>;
+        String status = j['status'];
+        if (status == 'success') {
+          var disData = j['users'] as List;
+
+          final data = disData
+              .map<UsersModel>((json) => UsersModel.fromJson(json))
+              .toList();
+          return data;
+        }
+      } else {
+        return showSnackBar(
+          title: 'Oops!',
+          msg: 'could not connect to server',
+          backgroundColor: Colors.red,
+        );
+      }
+    } catch (ex) {
+      // print(ex.toString());
+      // return showSnackBar(
+      //   title: 'Oops!',
+      //   msg: ex.toString(),
+      //   backgroundColor: Colors.red,
+      // );
+    }
+  }
+
+  static Future<String> updateUserBio({
+    required String fullName,
+    required String email,
+    required String phone,
+    required String age,
+    required String address,
+    required String sex,
+    required String my_id,
+  }) async {
+    try {
+      final uri = Uri.parse('$_mybaseUrl$_update_profile/$my_id');
+
+      var response = await http.post(uri, body: {
+        'full_name': fullName.toString(),
+        'email': email.toString(),
+        'phone': phone.toString(),
+        'age': age.toString(),
+        'address': address.toString(),
+        'sex': sex.toString(),
+      });
+      if (response.statusCode == 200) {
+        var body = response.body;
+
+        final j = json.decode(body) as Map<String, dynamic>;
+        String status = j['status'];
+        if (status == 'success') {
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+
+          String user_id = j['agent_id'];
+          String user_name = j['agent_user_name'];
+          String full_name = j['agent_full_name'];
+          String email = j['agent_email'];
+          String image_name = j['agent_image_name'];
+          String status = j['agent_status'];
+          String phone = j['agent_phone'];
+          String age = j['agent_age'];
+          String sex = j['agent_sex'];
+          String address = j['agent_address'];
+          String date_created = j['agent_date_created'];
+          String account_name = j['agent_account_name'];
+          String account_number = j['agent_account_number'];
+          String bank_name = j['agent_bank_name'];
+          String bank_code = j['agent_bank_code'];
+          String current_balance = j['agent_current_balance'];
+          String login_status = j['agent_login_status'];
+          String prop_counter = j['agent_prop_counter'];
+          bool admin_status = j['admin_status'];
+          String isbank_verify = j['isbank_verify'];
+
+          prefs.setString('user_id', user_id);
+          prefs.setString('user_name', user_name);
+          prefs.setString('full_name', full_name);
+          prefs.setString('email', email);
+          prefs.setString('image_name', image_name);
+          prefs.setString('user_status', status);
+          prefs.setString('phone', phone);
+          prefs.setString('age', age);
+          prefs.setString('sex', sex);
+          prefs.setString('address', address);
+          prefs.setString('date_created', date_created);
+          prefs.setString('account_name', account_name);
+          prefs.setString('account_number', account_number);
+          prefs.setString('bank_name', bank_name);
+          prefs.setString('bank_code', bank_code);
+          prefs.setString('current_balance', current_balance);
+          prefs.setString('login_status', login_status);
+          prefs.setString('prop_counter', prop_counter);
+          prefs.setBool('admin_status', admin_status);
+          prefs.setString('isbank_verify', isbank_verify);
+
+          return 'true';
+        } else {
+          String msg = j['status_msg'];
+          return msg;
+        }
+      } else {
+        return showSnackBar(
+          title: 'Oops!',
+          msg: 'could not connect to server',
+          backgroundColor: Colors.red,
+        );
+      }
+    } catch (ex) {
+      // print(ex);
+      return showSnackBar(
+        title: 'Oops!',
+        msg: ex.toString(),
+        backgroundColor: Colors.red,
+      );
+    }
+  }
+
+  static Future<String> updateUserBank({
+    required String accountName,
+    required String accountNum,
+    required String bankName,
+    required String my_id,
+  }) async {
+    try {
+      final uri = Uri.parse('$_mybaseUrl$_update_bank_detail/$my_id');
+
+      var response = await http.post(uri, body: {
+        'account_name': accountName.toString(),
+        'account_num': accountNum.toString(),
+        'bank_code': bankName.toString(),
+      });
+      if (response.statusCode == 200) {
+        var body = response.body;
+
+        final j = json.decode(body) as Map<String, dynamic>;
+        String status = j['status'];
+        if (status == 'success') {
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+
+          String user_id = j['agent_id'];
+          String user_name = j['agent_user_name'];
+          String full_name = j['agent_full_name'];
+          String email = j['agent_email'];
+          String image_name = j['agent_image_name'];
+          String status = j['agent_status'];
+          String phone = j['agent_phone'];
+          String age = j['agent_age'];
+          String sex = j['agent_sex'];
+          String address = j['agent_address'];
+          String date_created = j['agent_date_created'];
+          String account_name = j['agent_account_name'];
+          String account_number = j['agent_account_number'];
+          String bank_name = j['agent_bank_name'];
+          String bank_code = j['agent_bank_code'];
+          String current_balance = j['agent_current_balance'];
+          String login_status = j['agent_login_status'];
+          String prop_counter = j['agent_prop_counter'];
+          bool admin_status = j['admin_status'];
+          String isbank_verify = j['isbank_verify'];
+
+          prefs.setString('user_id', user_id);
+          prefs.setString('user_name', user_name);
+          prefs.setString('full_name', full_name);
+          prefs.setString('email', email);
+          prefs.setString('image_name', image_name);
+          prefs.setString('user_status', status);
+          prefs.setString('phone', phone);
+          prefs.setString('age', age);
+          prefs.setString('sex', sex);
+          prefs.setString('address', address);
+          prefs.setString('date_created', date_created);
+          prefs.setString('account_name', account_name);
+          prefs.setString('account_number', account_number);
+          prefs.setString('bank_name', bank_name);
+          prefs.setString('bank_code', bank_code);
+          prefs.setString('current_balance', current_balance);
+          prefs.setString('login_status', login_status);
+          prefs.setString('prop_counter', prop_counter);
+          prefs.setBool('admin_status', admin_status);
+          prefs.setString('isbank_verify', isbank_verify);
+
+          return 'true';
+        } else {
+          String msg = j['status_msg'];
+          return msg;
+        }
+      } else {
+        return showSnackBar(
+          title: 'Oops!',
+          msg: 'could not connect to server',
+          backgroundColor: Colors.red,
+        );
+      }
+    } catch (ex) {
+      // print(ex);
+      return showSnackBar(
+        title: 'Oops!',
+        msg: ex.toString(),
+        backgroundColor: Colors.red,
+      );
+    }
+  }
+
+  static Future uploadUserImage({
+    required String userId,
+    required File image,
+  }) async {
+    try {
+      final uri = Uri.parse('$_mybaseUrl$_update_profile_image/$userId');
+      var request = http.MultipartRequest('POST', uri);
+
+      request.fields['user_id'] = userId.toString();
+
+      var productImage =
+          await http.MultipartFile.fromPath('property_image', image.path);
+      request.files.add(productImage);
+
+      var respond = await request.send();
+
+      if (respond.statusCode == 200) {
+        var result = await respond.stream.bytesToString();
+        final j = json.decode(result) as Map<String, dynamic>;
+        bool status = j['status'];
+
+        if (status) {
+          String image_name = j['image_name'];
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          prefs.setString('image_name', image_name);
+          return image_name;
+        }
+        return false;
+      } else {
+        return showSnackBar(
+          title: 'Oops!',
+          msg: 'could not connect to server',
+          backgroundColor: Colors.red,
+        );
+      }
+    } catch (ex) {
+      // print(ex.toString());
+      // return showSnackBar(
+      //   title: 'Oops!',
+      //   msg: ex.toString(),
+      //   backgroundColor: Colors.red,
+      // );
+    }
+  }
+
+  static Future<String> verifyBank({
+    required String accountNum,
+    required String bankCode,
+    required String my_id,
+  }) async {
+    // print(accountNum);
+    // print(bankCode);
+    // print(my_id);
+    try {
+      final uri = Uri.parse(
+          '$_mybaseUrl$_verify_bank_account/$my_id/$bankCode/$accountNum');
+
+      var response = await http.post(uri);
+      if (response.statusCode == 200) {
+        var body = response.body;
+
+        final j = json.decode(body) as Map<String, dynamic>;
+        String status = j['status'];
+        return status;
+      } else {
+        return showSnackBar(
+          title: 'Oops!',
+          msg: 'could not connect to server',
+          backgroundColor: Colors.red,
+        );
+      }
+    } catch (ex) {
+      // print(ex);
+      return showSnackBar(
+        title: 'Oops!',
+        msg: ex.toString(),
+        backgroundColor: Colors.red,
+      );
+    }
+  }
+
+  static Future checkIfBan(var userId) async {
+    try {
+      final result =
+          await client.get(Uri.parse('$_mybaseUrl$_checkIfBan/$userId'));
+
+      if (result.statusCode == 200) {
+        final j = json.decode(result.body) as Map<String, dynamic>;
+        bool status = j['status'];
+
+        return status;
+      } else {
+        return showSnackBar(
+          title: 'Oops!',
+          msg: 'could not connect to server',
+          backgroundColor: Colors.red,
+        );
+      }
+    } catch (ex) {
+      // print(ex);
+      // return showSnackBar(
+      //   title: 'Oops!',
+      //   msg: ex.toString(),
+      //   backgroundColor: Colors.red,
+      // );
+    }
+  }
+
+  static Future deleteAccount(var userId) async {
+    try {
+      final result =
+          await client.get(Uri.parse('$_mybaseUrl$_deleteAccount/$userId'));
+
+      if (result.statusCode == 200) {
+        final j = json.decode(result.body) as Map<String, dynamic>;
+        bool status = j['status'];
+
+        return status;
+      } else {
+        return showSnackBar(
+          title: 'Oops!',
+          msg: 'could not connect to server',
+          backgroundColor: Colors.red,
+        );
+      }
+    } catch (ex) {
+      // print(ex);
+      // return showSnackBar(
+      //   title: 'Oops!',
+      //   msg: ex.toString(),
+      //   backgroundColor: Colors.red,
+      // );
+    }
+  }
+
+  static Future<int> isAppHasNewUpdate() async {
+    final response = await http.get(Uri.parse('$_mybaseUrl$_has_new_update/'));
+
+    Map<String, dynamic> j = json.decode(response.body);
+    int counter = j['counter'];
+    return counter;
+  }
+
+  static Future<String> iosStoreLink() async {
+    final response = await http.get(Uri.parse('$_mybaseUrl$_ios_store_link/'));
+
+    Map<String, dynamic> j = json.decode(response.body);
+    String counter = j['link'];
+    return counter;
+  }
+
+  static Future<String> androidStoreLink() async {
+    final response =
+        await http.get(Uri.parse('$_mybaseUrl$_android_store_link/'));
+
+    Map<String, dynamic> j = json.decode(response.body);
+    String counter = j['link'];
+    return counter;
+  }
+
+  static Future<String> updateTransactionPin(
+      {required String pin, required String userId}) async {
+    try {
+      final uri = Uri.parse('$_mybaseUrl$_update_transaction_pin');
+
+      var response = await http.post(uri, body: {
+        'pin': pin.toString(),
+        'user_id': userId.toString(),
+      });
+      if (response.statusCode == 200) {
+        var body = response.body;
+
+        final j = json.decode(body) as Map<String, dynamic>;
+        String status = j['status'];
+        if (status == 'success') {
+          return 'true';
+        } else {
+          String msg = j['status_msg'];
+          return msg;
+        }
+      } else {
+        return showSnackBar(
+          title: 'Oops!',
+          msg: 'could not connect to server',
+          backgroundColor: Colors.red,
+        );
+      }
+    } catch (ex) {
+      // print(ex);
+      return showSnackBar(
+        title: 'Oops!',
+        msg: ex.toString(),
+        backgroundColor: Colors.red,
+      );
     }
   }
 }

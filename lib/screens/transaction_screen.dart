@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:usefast/constant.dart';
 import 'package:usefast/widgets/cards_list.dart';
 import 'package:usefast/widgets/header.dart';
 import 'package:usefast/widgets/section_title.dart';
@@ -14,6 +15,7 @@ class TransactionScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: kPrimaryColor,
       body: SafeArea(
         child: ListView(
           physics: const BouncingScrollPhysics(),

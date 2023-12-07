@@ -305,10 +305,12 @@ class _PurchaseBillDataState extends State<PurchaseBillData> {
                     ),
 
                     (networkError)
-                        ? const Text('Network provider not selected!',
+                        ? const Text(
+                            'Network provider not selected!',
                             style: TextStyle(
                               color: Colors.red,
-                            ))
+                            ),
+                          )
                         : Container(),
 
                     const SizedBox(

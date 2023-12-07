@@ -9,6 +9,8 @@ class propertyBtn extends StatefulWidget {
     this.isLoading,
     this.card_margin,
     this.container_margin,
+    this.borderRadius = 0,
+    this.elevation = 10,
   });
 
   final VoidCallback onTap;
@@ -17,6 +19,8 @@ class propertyBtn extends StatefulWidget {
   final bool? isLoading;
   final EdgeInsets? card_margin;
   final EdgeInsets? container_margin;
+  final double borderRadius;
+  final double elevation;
 
   @override
   State<propertyBtn> createState() => _propertyBtnState();
@@ -28,6 +32,10 @@ class _propertyBtnState extends State<propertyBtn> {
     return InkWell(
       onTap: widget.onTap,
       child: Card(
+        clipBehavior: Clip.antiAlias,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(widget.borderRadius),
+        ),
         margin: (widget.card_margin == null)
             ? const EdgeInsets.only(
                 left: 15,
@@ -36,10 +44,11 @@ class _propertyBtnState extends State<propertyBtn> {
                 top: 20,
               )
             : widget.card_margin,
-        elevation: 10,
+        elevation: widget.elevation,
         child: Ink(
           color: widget.bgColor,
           child: Container(
+            // decoration: BoxDecoration(borderRadius: BorderRadius.circular(0)),
             margin: (widget.container_margin == null)
                 ? const EdgeInsets.only(
                     left: 20,
@@ -49,6 +58,7 @@ class _propertyBtnState extends State<propertyBtn> {
                   )
                 : widget.container_margin,
             width: double.infinity,
+            // width: 150,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: (widget.isLoading == true)

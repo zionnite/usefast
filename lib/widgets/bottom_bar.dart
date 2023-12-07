@@ -21,6 +21,7 @@ class _BottomBarState extends State<BottomBar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: kPrimaryColor,
       body: _page[_selectedIndex],
       bottomNavigationBar: Container(
         height: 100,
@@ -47,12 +48,11 @@ class _BottomBarState extends State<BottomBar> {
               height: 50,
               width: 133,
               child: TextButton(
-                child: const Text('Chat'),
                 onPressed: () {
                   print('hello');
                 },
                 style: TextButton.styleFrom(
-                  primary: kTextColor,
+                  foregroundColor: kTextColor,
                   backgroundColor: kSecondaryColor,
                   textStyle: kSFUI16,
                   shape: const RoundedRectangleBorder(
@@ -61,6 +61,7 @@ class _BottomBarState extends State<BottomBar> {
                     ),
                   ),
                 ),
+                child: const Text('Chat'),
               ),
             ),
             IconButton(

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:usefast/constant.dart';
+import 'package:usefast/util/common.dart';
 
 class MyTextFieldIcon extends StatefulWidget {
   MyTextFieldIcon({
@@ -29,22 +31,41 @@ class _MyTextFieldIconState extends State<MyTextFieldIcon> {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4.0),
       child: TextFormField(
+        style: const TextStyle(
+          color: Colors.white,
+        ),
         obscureText: widget.isPassword,
         onChanged: widget.onChange,
         controller: widget.myTextFormController,
         decoration: InputDecoration(
+          filled: true,
+          fillColor: kSecondaryColor,
           border: const OutlineInputBorder(),
           focusedBorder: const OutlineInputBorder(
             borderSide: BorderSide(
-              color: Colors.blue,
+              color: Colors.white,
+            ),
+          ),
+          enabledBorder: const OutlineInputBorder(
+            borderSide: BorderSide(
+              color: Colors.white12,
             ),
           ),
           labelText: widget.fieldName,
+          labelStyle: const TextStyle(
+            color: Colors.white,
+          ),
           prefixIcon: (widget.prefix != '' && widget.prefix != null)
-              ? Icon(widget.prefix)
+              ? Icon(
+                  widget.prefix,
+                  color: textColorWhite,
+                )
               : null,
           suffixIcon: (widget.suffix != '' && widget.suffix != null)
-              ? Icon(widget.suffix)
+              ? Icon(
+                  widget.suffix,
+                  color: textColorWhite,
+                )
               : null,
           enabled: widget.enableDisable,
         ),

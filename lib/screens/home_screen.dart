@@ -65,6 +65,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: kPrimaryColor,
       body: SafeArea(
         child: ListView(
           physics: const BouncingScrollPhysics(),
