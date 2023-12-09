@@ -47,6 +47,8 @@ class ApiServices {
   static const String _verify_bank_account = 'verify_bank_account';
   static const String _update_bank_detail = 'update_bank_detail';
   static const String _update_transaction_pin = 'update_transaction_pin';
+  static const String _update_email = 'update_email';
+  static const String _update_password = 'update_password';
 
   static Future uploadProfOfPayment({
     required String userId,
@@ -848,12 +850,10 @@ class ApiServices {
     }
   }
 
-  static Future<String> updateUserBio({
+  static Future<String> updateUserBio2({
     required String fullName,
-    required String email,
     required String phone,
     required String age,
-    required String address,
     required String sex,
     required String my_id,
   }) async {
@@ -862,40 +862,41 @@ class ApiServices {
 
       var response = await http.post(uri, body: {
         'full_name': fullName.toString(),
-        'email': email.toString(),
         'phone': phone.toString(),
         'age': age.toString(),
-        'address': address.toString(),
         'sex': sex.toString(),
       });
+
       if (response.statusCode == 200) {
         var body = response.body;
 
         final j = json.decode(body) as Map<String, dynamic>;
+
         String status = j['status'];
         if (status == 'success') {
           SharedPreferences prefs = await SharedPreferences.getInstance();
 
-          String user_id = j['agent_id'];
-          String user_name = j['agent_user_name'];
-          String full_name = j['agent_full_name'];
-          String email = j['agent_email'];
-          String image_name = j['agent_image_name'];
-          String status = j['agent_status'];
-          String phone = j['agent_phone'];
-          String age = j['agent_age'];
-          String sex = j['agent_sex'];
-          String address = j['agent_address'];
-          String date_created = j['agent_date_created'];
-          String account_name = j['agent_account_name'];
-          String account_number = j['agent_account_number'];
-          String bank_name = j['agent_bank_name'];
-          String bank_code = j['agent_bank_code'];
-          String current_balance = j['agent_current_balance'];
-          String login_status = j['agent_login_status'];
-          String prop_counter = j['agent_prop_counter'];
+          String user_id = j['id'].toString();
+          String user_name = j['user_name'].toString();
+          String full_name = j['full_name'].toString();
+          String email = j['email'].toString();
+          String image_name = j['image_name'].toString();
+          String status = j['user_status'].toString();
+          String phone = j['phone'].toString();
+          String age = j['age'].toString();
+          String sex = j['sex'].toString();
+          String address = j['address'].toString();
+          String date_created = j['date_created'].toString();
+          String account_name = j['account_name'].toString();
+          String account_number = j['account_number'].toString();
+          String bank_name = j['bank_name'].toString();
+          String bank_code = j['bank_code'].toString();
+          String current_balance = j['current_balance'].toString();
+          String login_status = j['login_status'].toString();
           bool admin_status = j['admin_status'];
-          String isbank_verify = j['isbank_verify'];
+          String isbank_verify = j['isbank_verify'].toString();
+          String pin = j['pin'].toString();
+          String pin_set = j['pin_set'].toString();
 
           prefs.setString('user_id', user_id);
           prefs.setString('user_name', user_name);
@@ -914,9 +915,112 @@ class ApiServices {
           prefs.setString('bank_code', bank_code);
           prefs.setString('current_balance', current_balance);
           prefs.setString('login_status', login_status);
-          prefs.setString('prop_counter', prop_counter);
           prefs.setBool('admin_status', admin_status);
           prefs.setString('isbank_verify', isbank_verify);
+          prefs.setBool('isUserLogin', true);
+          prefs.setBool('tempLoginStatus', true);
+          prefs.setString('pin', pin);
+          prefs.setString('pin_set', pin_set);
+
+          return 'true';
+        } else {
+          String msg = j['status_msg'];
+          return msg;
+        }
+      } else {
+        return "could not connect to server";
+        // return showSnackBar(
+        //   title: 'Oops!',
+        //   msg: 'could not connect to server',
+        //   backgroundColor: Colors.red,
+        // );
+      }
+    } catch (ex) {
+      print(ex.toString());
+      return ex.toString();
+      // print(ex);
+      // return showSnackBar(
+      //   title: 'Oops!',
+      //   msg: ex.toString(),
+      //   backgroundColor: Colors.red,
+      // );
+    }
+  }
+
+  static Future<String> updateUserBio({
+    required String fullName,
+    required String phone,
+    required String age,
+    required String sex,
+    required String my_id,
+  }) async {
+    try {
+      final uri = Uri.parse('$_mybaseUrl$_update_profile/$my_id');
+
+      var response = await http.post(uri, body: {
+        'full_name': fullName.toString(),
+        'phone': phone.toString(),
+        'age': age.toString(),
+        'sex': sex.toString(),
+      });
+      if (response.statusCode == 200) {
+        var body = response.body;
+
+        final j = json.decode(body) as Map<String, dynamic>;
+        String status = j['status'];
+        if (status == 'success') {
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+
+          String user_id = j['id'];
+          String user_name = j['user_name'];
+          String full_name = j['full_name'];
+          String email = j['email'];
+          String image_name = j['image_name'];
+          String status = j['user_status'];
+          String phone = j['phone'];
+          String age = j['age'];
+          String sex = j['sex'];
+          String address = j['address'];
+          String date_created = j['date_created'];
+          String account_name = j['account_name'];
+          String account_number = j['account_number'];
+          String bank_name = j['bank_name'];
+          String bank_code = j['bank_code'];
+          String current_balance = j['current_balance'];
+          String login_status = j['login_status'];
+          bool admin_status = j['admin_status'];
+          String isbank_verify = j['isbank_verify'];
+          String pin = j['pin'];
+          String pin_set = j['pin_set'];
+
+          prefs.setString('user_id', user_id);
+          prefs.setString('user_name', user_name);
+          prefs.setString('full_name', full_name);
+          prefs.setString('email', email);
+          prefs.setString('image_name', image_name);
+          prefs.setString('user_status', status);
+          prefs.setString('phone', phone);
+          prefs.setString('age', age);
+          prefs.setString('sex', sex);
+          prefs.setString('address', address);
+          prefs.setString('date_created', date_created);
+          prefs.setString('account_name', account_name);
+          prefs.setString('account_number', account_number);
+          prefs.setString('bank_name', bank_name);
+          prefs.setString('bank_code', bank_code);
+          prefs.setString('current_balance', current_balance);
+          prefs.setString('login_status', login_status);
+          prefs.setBool('admin_status', admin_status);
+          prefs.setString('isbank_verify', isbank_verify);
+          prefs.setBool('isUserLogin', true);
+          prefs.setBool('tempLoginStatus', true);
+          prefs.setString('pin', pin);
+          prefs.setString('pin_set', pin_set);
+
+          var isGuestLogin = prefs.getBool('isGuestLogin');
+          if (isGuestLogin != null) {
+            prefs.remove("isGuestLogin");
+          }
 
           return 'true';
         } else {
@@ -931,12 +1035,14 @@ class ApiServices {
         );
       }
     } catch (ex) {
-      // print(ex);
-      return showSnackBar(
-        title: 'Oops!',
-        msg: ex.toString(),
-        backgroundColor: Colors.red,
-      );
+      print(ex);
+      return ex.toString();
+      // return
+      // showSnackBar(
+      //   title: 'Oops!',
+      //   msg: ex.toString(),
+      //   backgroundColor: Colors.red,
+      // );
     }
   }
 
@@ -944,6 +1050,7 @@ class ApiServices {
     required String accountName,
     required String accountNum,
     required String bankName,
+    required String bankCode,
     required String my_id,
   }) async {
     try {
@@ -952,7 +1059,8 @@ class ApiServices {
       var response = await http.post(uri, body: {
         'account_name': accountName.toString(),
         'account_num': accountNum.toString(),
-        'bank_code': bankName.toString(),
+        'bank_name': bankName.toString(),
+        'bank_code': bankCode.toString(),
       });
       if (response.statusCode == 200) {
         var body = response.body;
@@ -1193,6 +1301,90 @@ class ApiServices {
 
       var response = await http.post(uri, body: {
         'pin': pin.toString(),
+        'user_id': userId.toString(),
+      });
+      if (response.statusCode == 200) {
+        var body = response.body;
+
+        final j = json.decode(body) as Map<String, dynamic>;
+        String status = j['status'];
+        if (status == 'success') {
+          return 'true';
+        } else {
+          String msg = j['status_msg'];
+          return msg;
+        }
+      } else {
+        return showSnackBar(
+          title: 'Oops!',
+          msg: 'could not connect to server',
+          backgroundColor: Colors.red,
+        );
+      }
+    } catch (ex) {
+      // print(ex);
+      return showSnackBar(
+        title: 'Oops!',
+        msg: ex.toString(),
+        backgroundColor: Colors.red,
+      );
+    }
+  }
+
+  static Future<String> updateUserEmail(
+      {required String userId, required String newEmail}) async {
+    try {
+      final uri = Uri.parse('$_mybaseUrl$_update_email');
+
+      print('email $newEmail');
+      print('userId $userId');
+      var response = await http.post(uri, body: {
+        'email': newEmail.toString(),
+        'user_id': userId.toString(),
+      });
+      if (response.statusCode == 200) {
+        var body = response.body;
+
+        final j = json.decode(body) as Map<String, dynamic>;
+        String status = j['status'];
+        print('status $status');
+        if (status == 'success') {
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          String email = j['email'];
+          prefs.setString('email', email);
+          return 'true';
+        } else {
+          String msg = j['status_msg'];
+          return msg;
+        }
+      } else {
+        return showSnackBar(
+          title: 'Oops!',
+          msg: 'could not connect to server',
+          backgroundColor: Colors.red,
+        );
+      }
+    } catch (ex) {
+      // print(ex);
+      return showSnackBar(
+        title: 'Oops!',
+        msg: ex.toString(),
+        backgroundColor: Colors.red,
+      );
+    }
+  }
+
+  static Future<String> updateUserPassword({
+    required String userId,
+    required String currentPassword,
+    required String newPassword,
+  }) async {
+    try {
+      final uri = Uri.parse('$_mybaseUrl$_update_password');
+
+      var response = await http.post(uri, body: {
+        'current_password': currentPassword.toString(),
+        'new_password': newPassword.toString(),
         'user_id': userId.toString(),
       });
       if (response.statusCode == 200) {

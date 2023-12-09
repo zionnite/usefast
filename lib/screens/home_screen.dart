@@ -23,6 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final accountController = AccountController().getXID;
 
   String? user_id;
+  String? fullName;
   String? user_name;
   String? user_status;
   bool? admin_status;
@@ -37,6 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
     var admin_status1 = prefs.getBool('admin_status');
     var isUserLogin1 = prefs.getBool('isUserLogin');
     var image_name1 = prefs.getString('image_name');
+    var fullName1 = prefs.getString('full_name');
 
     if (mounted) {
       setState(() {
@@ -46,6 +48,7 @@ class _HomeScreenState extends State<HomeScreen> {
         admin_status = admin_status1;
         isUserLogin = isUserLogin1;
         image_name = image_name1;
+        fullName = fullName1;
       });
 
       await accountController.getWallet(user_id, admin_status);
@@ -75,9 +78,7 @@ class _HomeScreenState extends State<HomeScreen> {
             const SizedBox(height: 15),
             InkWell(
               onTap: () {
-                Get.to(() => const TradePage(
-                      transType: 'crypto',
-                    ));
+                Get.to(() => const TradePage(transType: 'crypto'));
               },
               child: Padding(
                 padding: const EdgeInsets.only(

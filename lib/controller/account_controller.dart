@@ -307,34 +307,65 @@ class AccountController extends GetxController {
     }
   }
 
-  Future<bool> updateUserBio({
+  Future updateUserBio({
     required String fullName,
-    required String email,
+    //required String email,
     required String phone,
     required String age,
-    required String address,
+    // required String address,
     required String sex,
     required String my_id,
   }) async {
-    print('Sex ${sex}');
     String? msg;
     String status = await ApiServices.updateUserBio(
       fullName: fullName,
-      email: email,
       phone: phone,
       age: age,
-      address: address,
       sex: sex,
       my_id: my_id,
     );
     if (status == 'true') {
-      msg = 'Update Successful...';
-      showSnackBar(title: 'Success', msg: msg, backgroundColor: Colors.blue);
+      //msg = 'Update Successful...';
+      //showSnackBar(title: 'Success', msg: msg, backgroundColor: Colors.blue);
       return true;
     } else {
-      msg = 'Could not update Profile';
-      showSnackBar(title: 'Oops', msg: msg, backgroundColor: Colors.blue);
-      return false;
+      //msg = 'Could not update Profile';
+      //showSnackBar(title: 'Oops', msg: msg, backgroundColor: Colors.blue);
+      return status;
+    }
+  }
+
+  Future updateUserEmail({
+    required String userId,
+    required String newEmail,
+  }) async {
+    String? msg;
+    String status = await ApiServices.updateUserEmail(
+      userId: userId,
+      newEmail: newEmail,
+    );
+    if (status == 'true') {
+      return true;
+    } else {
+      return status;
+    }
+  }
+
+  Future updateUserPassword({
+    required String userId,
+    required String currentPassword,
+    required String newPassword,
+  }) async {
+    String? msg;
+    String status = await ApiServices.updateUserPassword(
+      userId: userId,
+      currentPassword: currentPassword,
+      newPassword: newPassword,
+    );
+    if (status == 'true') {
+      return true;
+    } else {
+      return status;
     }
   }
 
@@ -342,6 +373,7 @@ class AccountController extends GetxController {
     required String accountName,
     required String accountNum,
     required String bankName,
+    required String bankCode,
     required String my_id,
   }) async {
     String? msg;
@@ -349,6 +381,7 @@ class AccountController extends GetxController {
       accountName: accountName,
       accountNum: accountNum,
       bankName: bankName,
+      bankCode: bankCode,
       my_id: my_id,
     );
     if (status == 'true') {

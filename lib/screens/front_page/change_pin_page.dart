@@ -27,7 +27,27 @@ class _ChangePinPageState extends State<ChangePinPage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const SizedBox(
-              height: 300,
+              height: 50,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 0.0),
+              child: Row(
+                children: [
+                  InkWell(
+                    onTap: () {
+                      Get.back();
+                    },
+                    child: const Icon(
+                      Icons.chevron_left_rounded,
+                      color: Colors.white,
+                      size: 42,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(
+              height: 250,
             ),
             Text(
               'Change your Pin',
@@ -72,7 +92,7 @@ class _ChangePinPageState extends State<ChangePinPage> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: propertyBtn(
-                elevation: 5,
+                elevation: 1,
                 borderRadius: 30,
                 card_margin: const EdgeInsets.only(top: 0, left: 0, right: 0),
                 onTap: () async {

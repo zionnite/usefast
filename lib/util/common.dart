@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:giffy_dialog/giffy_dialog.dart';
 
 Color backgroundColorPrimary = Colors.blue.shade900;
 Color backgroundColorLight = const Color(0xff7c43bd);
@@ -21,16 +22,6 @@ Color gradientColorEnd = const Color(0xff0184dc);
 Color senderColor = const Color(0xff2b343b);
 Color receiverColor = const Color(0xff1e2225);
 
-Gradient fabGradient = LinearGradient(
-  colors: [backgroundColorPrimary, backgroundColorAccent],
-  begin: Alignment.topLeft,
-  end: Alignment.bottomRight,
-);
-
-Gradient bgColorGradient = const LinearGradient(
-  colors: [Colors.purpleAccent, Colors.purple],
-);
-
 showSnackBar({
   required String title,
   required String msg,
@@ -45,6 +36,56 @@ showSnackBar({
     snackPosition: SnackPosition.BOTTOM,
     duration: duration,
     // duration:
+  );
+}
+
+displayBottomSheetFeedback({
+  required BuildContext context,
+  required String title,
+  required String desc,
+  required String image_name,
+  required VoidCallback onTap,
+  required VoidCallback onTapCancel,
+}) {
+  showModalBottomSheet(
+    context: context,
+    clipBehavior: Clip.antiAlias,
+    isScrollControlled: true,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(
+        top: Radius.circular(40),
+      ),
+    ),
+    builder: (BuildContext context) {
+      return GiffyBottomSheet.image(
+        Image.asset(
+          '$image_name',
+          height: 200,
+          // fit: BoxFit.cover,
+        ),
+        title: Text(
+          '$title',
+          textAlign: TextAlign.center,
+        ),
+        content: Container(
+          width: MediaQuery.of(context).size.width,
+          child: Text(
+            '$desc',
+            textAlign: TextAlign.center,
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: onTapCancel,
+            child: const Text('CANCEL'),
+          ),
+          TextButton(
+            onPressed: onTap,
+            child: const Text('OK'),
+          ),
+        ],
+      );
+    },
   );
 }
 

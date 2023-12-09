@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:usefast/constant.dart';
-import 'package:usefast/widgets/bottom_bar.dart';
+import 'package:usefast/controller/account_controller.dart';
+import 'package:usefast/screens/profile_page.dart';
 import 'package:usefast/widgets/property_btn.dart';
 
 class ChangePinVerifyPage extends StatefulWidget {
@@ -14,9 +16,37 @@ class ChangePinVerifyPage extends StatefulWidget {
 }
 
 class _ChangePinVerifyPageState extends State<ChangePinVerifyPage> {
+  final usersController = AccountController().getXID;
+
   String? transactionPin;
   bool isPinSet = false;
   bool pinError = false;
+  bool pinMatchError = false;
+
+  String? user_id;
+  initUserDetail() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var userId1 = prefs.getString('user_id');
+    var userName1 = prefs.getString('user_name');
+    var user_status1 = prefs.getString('user_status');
+    var admin_status1 = prefs.getBool('admin_status');
+    var isUserLogin1 = prefs.getBool('isUserLogin');
+    var image_name1 = prefs.getString('image_name');
+
+    if (mounted) {
+      setState(() {
+        user_id = userId1;
+      });
+    }
+  }
+
+  bool pageLoading = false;
+  @override
+  void initState() {
+    initUserDetail();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,7 +57,27 @@ class _ChangePinVerifyPageState extends State<ChangePinVerifyPage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const SizedBox(
-              height: 300,
+              height: 50,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 0.0),
+              child: Row(
+                children: [
+                  InkWell(
+                    onTap: () {
+                      Get.back();
+                    },
+                    child: const Icon(
+                      Icons.chevron_left_rounded,
+                      color: Colors.white,
+                      size: 42,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(
+              height: 250,
             ),
             Text(
               'Verify your new Pin',
@@ -66,6 +116,18 @@ class _ChangePinVerifyPageState extends State<ChangePinVerifyPage> {
                     ),
                   )
                 : Container(),
+            (pinMatchError)
+                ? const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 18.0),
+                    child: Text(
+                      'You Pin does not match, please go back and re-enter your 5 digit pin',
+                      style: TextStyle(
+                        color: Colors.red,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  )
+                : Container(),
             const SizedBox(
               height: 100,
             ),
@@ -84,10 +146,41 @@ class _ChangePinVerifyPageState extends State<ChangePinVerifyPage> {
                     setState(() {
                       pinError = false;
                     });
-                    Get.to(() => const BottomBar());
+
+                    //check if pin match
+                    print(widget.newPin);
+                    print(transactionPin);
+                    if (transactionPin == widget.newPin) {
+                      //insert into database
+
+                      setState(() {
+                        pinMatchError = false;
+                        isPinSet = true;
+                      });
+                      print('here');
+
+                      bool status = await usersController.updateTransactionPin(
+                        pin: transactionPin!,
+                        userId: user_id!,
+                      );
+
+                      Future.delayed(const Duration(seconds: 1), () {
+                        setState(() {
+                          isPinSet = false;
+                        });
+
+                        if (status) {
+                          Get.off(const ProfilePage());
+                        }
+                      });
+                    } else {
+                      setState(() {
+                        pinMatchError = true;
+                      });
+                    }
                   }
                 },
-                title: 'Continue',
+                title: 'Update',
                 bgColor: kSecondaryColor,
                 isLoading: isPinSet,
               ),
@@ -104,7 +197,7 @@ class _ChangePinVerifyPageState extends State<ChangePinVerifyPage> {
                 },
                 title: 'Go Back',
                 bgColor: kSecondaryColor,
-                isLoading: isPinSet,
+                isLoading: false,
               ),
             ),
             const SizedBox(height: 50),

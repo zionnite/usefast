@@ -1,9 +1,11 @@
 import 'package:animate_do/animate_do.dart';
+import 'package:circular_profile_avatar/circular_profile_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:usefast/controller/account_controller.dart';
 import 'package:usefast/controller/transaction_controller.dart';
+import 'package:usefast/screens/profile_page.dart';
 import 'package:usefast/util/currency_formatter.dart';
 
 import '../constant.dart';
@@ -20,6 +22,7 @@ class _HeaderState extends State<Header> {
   final accountController = AccountController().getXID;
 
   String? user_id;
+  String? fullName;
   String? user_name;
   String? user_status;
   bool? admin_status;
@@ -34,6 +37,7 @@ class _HeaderState extends State<Header> {
     var admin_status1 = prefs.getBool('admin_status');
     var isUserLogin1 = prefs.getBool('isUserLogin');
     var image_name1 = prefs.getString('image_name');
+    var fullName1 = prefs.getString('full_name');
 
     if (mounted) {
       setState(() {
@@ -43,6 +47,7 @@ class _HeaderState extends State<Header> {
         admin_status = admin_status1;
         isUserLogin = isUserLogin1;
         image_name = image_name1;
+        fullName = fullName1;
       });
 
       await accountController.getWallet(user_id, admin_status);
@@ -87,16 +92,33 @@ class _HeaderState extends State<Header> {
                       ),
                       const SizedBox(height: 5),
                       Text(
-                        'Nosakkhare Zionnite',
+                        '$fullName',
                         style: kName,
                         overflow: TextOverflow.ellipsis,
                       ),
                     ],
                   ),
                 ),
-                Image.asset(
-                  'assets/images/profile.png',
-                  scale: 4,
+                CircularProfileAvatar(
+                  '$image_name',
+                  radius: 20,
+                  backgroundColor: Colors.transparent,
+                  borderWidth: 2,
+                  initialsText: const Text(
+                    "AD",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  borderColor: Colors.white,
+                  elevation: 5.0,
+                  foregroundColor: Colors.brown.withOpacity(0.5),
+                  cacheImage: true,
+                  imageFit: BoxFit.cover,
+                  onTap: () {
+                    Get.to(
+                      () => const ProfilePage(),
+                    );
+                  },
+                  showInitialTextAbovePicture: false,
                 ),
               ],
             ),
@@ -109,7 +131,7 @@ class _HeaderState extends State<Header> {
               FadeInUp(
                 duration: const Duration(milliseconds: 700),
                 child: Text(
-                  'Your Current Worth',
+                  'Your Current Balance',
                   style: kSFUI16.copyWith(
                     color: Colors.white30,
                   ),

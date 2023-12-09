@@ -983,10 +983,18 @@ class _PurchaseBillCableState extends State<PurchaseBillCable> {
   }
 
   displayResult(String status) {
-    return showDialog(
+    return showModalBottomSheet(
       context: context,
+      clipBehavior: Clip.antiAlias,
+      isScrollControlled: true,
+      isDismissible: false,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(40),
+        ),
+      ),
       builder: (BuildContext context) {
-        return GiffyDialog.image(
+        return GiffyBottomSheet.image(
           Image.asset(
             "assets/images/fast_pay.png",
             height: 200,
