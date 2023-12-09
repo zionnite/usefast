@@ -24,6 +24,26 @@ class _LoginPageState extends State<LoginPage> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   bool isLoading = false;
+
+  bool? fingerprintAuth;
+
+  initUserDetail() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var fingerprintAuth1 = prefs.getBool('fingerprintAuth');
+
+    if (mounted) {
+      setState(() {
+        fingerprintAuth = fingerprintAuth1;
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    initUserDetail();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
@@ -149,6 +169,42 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
             ),
+            const SizedBox(height: 10),
+            (fingerprintAuth == true)
+                ? Align(
+                    alignment: Alignment.center,
+                    child: Column(
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                            color: kSecondaryColor,
+                            border: Border.all(
+                              color: Colors.white,
+                            ),
+                            borderRadius: const BorderRadius.all(
+                              Radius.circular(10),
+                            ),
+                          ),
+                          child: IconButton(
+                            onPressed: () {},
+                            icon: const Icon(
+                              Icons.fingerprint,
+                              color: Colors.white,
+                              size: 50,
+                            ),
+                          ),
+                        ),
+                        // const SizedBox(height: 5),
+                        // const Text(
+                        //   'use fingerprint',
+                        //   style: TextStyle(
+                        //     color: Colors.white,
+                        //   ),
+                        // ),
+                      ],
+                    ),
+                  )
+                : Container(),
             const SizedBox(height: 10),
             Padding(
               padding: const EdgeInsets.all(18.0),

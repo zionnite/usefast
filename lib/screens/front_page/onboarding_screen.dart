@@ -107,7 +107,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                   ? Container()
                   : AnimatedSmoothIndicator(
                       activeIndex: onboardingController.currentPage.value,
-                      count: 7,
+                      count: 3,
                       effect: const WormEffect(
                         activeDotColor: Colors.white,
                         dotHeight: 5.0,

@@ -66,6 +66,7 @@ class _PurchaseBillElectricityState extends State<PurchaseBillElectricity> {
   String country = 'NG';
 
   String? user_id;
+  bool? fingerprintAuth;
   initUserDetail() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var userId1 = prefs.getString('user_id');
@@ -74,11 +75,12 @@ class _PurchaseBillElectricityState extends State<PurchaseBillElectricity> {
     var admin_status1 = prefs.getBool('admin_status');
     var isUserLogin1 = prefs.getBool('isUserLogin');
     var image_name1 = prefs.getString('image_name');
+    var fingerprintAuth1 = prefs.getBool('fingerprintAuth');
 
     if (mounted) {
       setState(() {
         user_id = userId1;
-        // user_id = '1';
+        fingerprintAuth = fingerprintAuth1;
       });
 
       await billController.fetchBillElectricProvider();
@@ -799,7 +801,7 @@ class _PurchaseBillElectricityState extends State<PurchaseBillElectricity> {
               top: 20,
               bottom: 10,
             ),
-            height: 200,
+            height: 300,
             child: Column(
               children: [
                 Expanded(
@@ -824,52 +826,60 @@ class _PurchaseBillElectricityState extends State<PurchaseBillElectricity> {
                     ),
                   ),
                 ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      children: [
-                        Expanded(
-                          child: InkWell(
-                            onTap: () async {
-                              bool authenticate =
-                                  await LocalAuth.authenticate();
-                              if (authenticate) {
-                                completeBillTransaction(
-                                  amount: disAmount,
-                                  network: networkSelected!,
-                                  phoneNumber: phoneController.text,
-                                  billerCode: billerCode!,
-                                  billerName: billerName!,
-                                  itemCode: itemCode!,
-                                  isAirtime: false,
-                                  userId: user_id!,
-                                );
-                              }
+                (fingerprintAuth == true)
+                    ? Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            children: [
+                              Expanded(
+                                child: Container(
+                                  padding: const EdgeInsets.all(8),
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: kPrimaryColor,
+                                    ),
+                                    borderRadius: const BorderRadius.all(
+                                      Radius.circular(10),
+                                    ),
+                                  ),
+                                  child: InkWell(
+                                    onTap: () async {
+                                      bool authenticate =
+                                          await LocalAuth.authenticate();
+                                      if (authenticate) {
+                                        completeBillTransaction(
+                                          amount: disAmount,
+                                          network: networkSelected!,
+                                          phoneNumber: phoneController.text,
+                                          billerCode: billerCode!,
+                                          billerName: billerName!,
+                                          itemCode: itemCode!,
+                                          isAirtime: false,
+                                          userId: user_id!,
+                                        );
+                                      }
 
-                              Get.back();
-                              setState(() {});
-                            },
-                            child: const Icon(
-                              Icons.fingerprint,
-                              size: 45,
-                            ),
+                                      Get.back();
+                                      setState(() {});
+                                    },
+                                    child: const Icon(
+                                      Icons.fingerprint,
+                                      size: 45,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              const Expanded(
+                                child: Text(
+                                  'Complete Transaction with Face ID or Finger Print',
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                        const Expanded(
-                          child: SizedBox(
-                            height: 5,
-                          ),
-                        ),
-                        const Expanded(
-                          child: Text(
-                            'Complete Transaction with Face ID or Finger Print',
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+                      )
+                    : Container(),
               ],
             ),
           ),
@@ -996,19 +1006,22 @@ class _PurchaseBillElectricityState extends State<PurchaseBillElectricity> {
             'Feedback',
             textAlign: TextAlign.center,
           ),
-          content: Text(
-            (status == 'error_pin')
-                ? 'Pin entered it\'s inaccurate, please enter correct pin to continue'
-                : (status == 'error_wallet' || status == 'error_debit_1')
-                    ? 'Insufficient Balance in your wallet, please top up your account and try again'
-                    : (status == 'error_debit_2')
-                        ? 'having difficulties performing operation with your wallet'
-                        : (status == 'not_successful')
-                            ? 'Purchase not successful, please try again later!'
-                            : (status == 'successful')
-                                ? 'Congratulation, Purchase was successful'
-                                : status,
-            textAlign: TextAlign.center,
+          content: Container(
+            width: MediaQuery.of(context).size.width,
+            child: Text(
+              (status == 'error_pin')
+                  ? 'Pin entered it\'s inaccurate, please enter correct pin to continue'
+                  : (status == 'error_wallet' || status == 'error_debit_1')
+                      ? 'Insufficient Balance in your wallet, please top up your account and try again'
+                      : (status == 'error_debit_2')
+                          ? 'having difficulties performing operation with your wallet'
+                          : (status == 'not_successful')
+                              ? 'Purchase not successful, please try again later!'
+                              : (status == 'successful')
+                                  ? 'Congratulation, Purchase was successful'
+                                  : status,
+              textAlign: TextAlign.center,
+            ),
           ),
           actions: [
             TextButton(
