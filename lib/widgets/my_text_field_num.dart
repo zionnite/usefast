@@ -44,9 +44,9 @@ class _MyNumFieldState extends State<MyNumField> {
               color: Colors.white,
             ),
           ),
-          enabledBorder: const OutlineInputBorder(
+          enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(
-              color: Colors.white,
+              color: kSecondaryColor,
             ),
           ),
           labelText: widget.fieldName,

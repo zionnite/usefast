@@ -60,9 +60,11 @@ dependencies:
 
   circular_profile_avatar: ^2.0.5
   animated_custom_dropdown: ^2.0.0
+  searchable_listview: ^2.9.1
 
 dependency_overrides:
 #  flutter_svg: ^1.0.0
+
 
 
 dev_dependencies:

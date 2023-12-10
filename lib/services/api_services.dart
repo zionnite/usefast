@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:usefast/model/account_model.dart';
+import 'package:usefast/model/bank_list_model.dart' as bank;
 import 'package:usefast/model/flutterwave_bill_model.dart';
 import 'package:usefast/model/transaction_model.dart';
 import 'package:usefast/model/user_model.dart';
@@ -947,7 +948,7 @@ class ApiServices {
     }
   }
 
-  static Future<String> updateUserBio({
+  static Future<String?> updateUserBio({
     required String fullName,
     required String phone,
     required String age,
@@ -1024,7 +1025,7 @@ class ApiServices {
 
           return 'true';
         } else {
-          String msg = j['status_msg'];
+          String msg = j['status'];
           return msg;
         }
       } else {
@@ -1046,7 +1047,7 @@ class ApiServices {
     }
   }
 
-  static Future<String> updateUserBank({
+  static Future<String> updateUserBank1({
     required String accountName,
     required String accountNum,
     required String bankName,
@@ -1393,6 +1394,98 @@ class ApiServices {
         final j = json.decode(body) as Map<String, dynamic>;
         String status = j['status'];
         if (status == 'success') {
+          return 'true';
+        } else {
+          String msg = j['status_msg'];
+          return msg;
+        }
+      } else {
+        return showSnackBar(
+          title: 'Oops!',
+          msg: 'could not connect to server',
+          backgroundColor: Colors.red,
+        );
+      }
+    } catch (ex) {
+      // print(ex);
+      return showSnackBar(
+        title: 'Oops!',
+        msg: ex.toString(),
+        backgroundColor: Colors.red,
+      );
+    }
+  }
+
+  static Future fetchBankListProvider() async {
+    try {
+      Map<String, String> header = {};
+      header["Authorization"] = 'Bearer $privateKey';
+      header["Content-Type"] = 'application/json';
+      final uri = Uri.parse('https://api.flutterwave.com/v3/banks/NG');
+
+      var response = await http
+          .get(
+            uri,
+            headers: header,
+          )
+          .timeout(const Duration(minutes: 60));
+
+      if (response.statusCode == 200) {
+        var body = response.body;
+
+        final j = json.decode(body) as Map<String, dynamic>;
+        String status = j['status'];
+        if (status == 'success') {
+          var disData = j['data'] as List;
+
+          final data = disData
+              .map<bank.Datum>((json) => bank.Datum.fromJson(json))
+              .toList();
+          return data;
+        }
+      } else {
+        return showSnackBar(
+          title: 'Oops!',
+          msg: 'could not connect to server',
+          backgroundColor: Colors.red,
+        );
+      }
+    } catch (ex) {
+      // print(ex.toString());
+    }
+  }
+
+  static Future<String?> updateUserBank({
+    required String accountName,
+    required String accountNum,
+    required String bankName,
+    required String bankCode,
+    required String my_id,
+  }) async {
+    try {
+      final uri = Uri.parse('$_mybaseUrl$_update_bank_detail');
+
+      var response = await http.post(uri, body: {
+        'account_name': accountName.toString(),
+        'account_number': accountNum.toString(),
+        'bank_code': bankCode.toString(),
+        'bank_name': bankName.toString(),
+        'user_id': my_id.toString(),
+      });
+      if (response.statusCode == 200) {
+        var body = response.body;
+
+        final j = json.decode(body) as Map<String, dynamic>;
+        String status = j['status'];
+        print('status $status');
+        if (status == 'success') {
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+
+          prefs.setString('account_name', accountName);
+          prefs.setString('account_number', accountNum);
+          prefs.setString('bank_name', bankName);
+          prefs.setString('bank_code', bankCode);
+
           return 'true';
         } else {
           String msg = j['status_msg'];

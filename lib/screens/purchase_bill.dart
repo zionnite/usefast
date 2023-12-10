@@ -248,12 +248,12 @@ class _PurchaseUtilityBillState extends State<PurchaseUtilityBill> {
                                 networkSelected = data;
                                 isSelected = true;
                               });
-                              List<String> networkProvider = [
-                                "MTN",
-                                "AIRTEL",
-                                "GLO",
-                                "9MOBILE"
-                              ];
+                              // List<String> networkProvider = [
+                              //   "MTN",
+                              //   "AIRTEL",
+                              //   "GLO",
+                              //   "9MOBILE"
+                              // ];
                               if (networkSelected == 'MTN') {
                                 setState(() {
                                   billerCode = 'BIL099';

@@ -1,4 +1,3 @@
-import 'package:animated_custom_dropdown/custom_dropdown.dart';
 import 'package:datetime_picker_formfield_new/datetime_picker_formfield.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -252,24 +251,51 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       const SizedBox(
                         height: 15,
                       ),
-                      CustomDropdown<String>(
-                        closedSuffixIcon: const Icon(
-                          Icons.arrow_drop_down_outlined,
-                          color: Colors.white,
+                      Container(
+                        height: 100,
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: _gender.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            var data = _gender[index];
+                            return InkWell(
+                              onTap: () {
+                                setState(() {
+                                  selectedGender = data;
+                                });
+                              },
+                              child: Container(
+                                // width: 150,
+                                height: 100,
+                                decoration: BoxDecoration(
+                                  color: kSecondaryColor,
+                                  borderRadius: const BorderRadius.all(
+                                    Radius.circular(8),
+                                  ),
+                                  border: Border.all(
+                                    color: (selectedGender == data)
+                                        ? Colors.white
+                                        : Colors.white12,
+                                  ),
+                                ),
+                                padding: const EdgeInsets.all(20),
+                                margin: const EdgeInsets.only(
+                                  top: 10,
+                                  right: 10,
+                                  // bottom: 10,
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    data,
+                                    style: TextStyle(
+                                      color: textColorWhite,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
                         ),
-                        closedFillColor: kSecondaryColor,
-                        hintText: 'Select Gender',
-                        items: _gender,
-                        initialItem: (selectedGender == 'Male')
-                            ? _gender[0]
-                            : (selectedGender == 'Female')
-                                ? _gender[1]
-                                : null,
-                        onChanged: (value) {
-                          setState(() {
-                            selectedGender = value;
-                          });
-                        },
                       ),
                       (genderError)
                           ? const Text(
@@ -286,7 +312,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                         card_margin:
                             const EdgeInsets.only(top: 0, left: 0, right: 0),
                         onTap: () async {
-                          if (fullnameController.text != null &&
+                          if (fullnameController.text != '' &&
                               selectedGender != null &&
                               phoneController.text != '' &&
                               selectedDate != null) {

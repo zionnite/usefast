@@ -84,7 +84,6 @@ class _PurchaseBillCableState extends State<PurchaseBillCable> {
       });
 
       await billController.fetchBillCableProvider();
-      ();
     }
   }
 

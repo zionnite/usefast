@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:usefast/model/bank_list_model.dart' as bank;
 import 'package:usefast/model/flutterwave_bill_model.dart';
 import 'package:usefast/services/api_services.dart';
 import 'package:usefast/util/common.dart';
@@ -13,6 +14,8 @@ class FlutterWaveBillController extends GetxController {
   var isRequestProcessing = 'null'.obs;
   var isMoreDataAvailable = true.obs;
   var billCatList = <Datum>[].obs;
+  var bankList = <bank.Datum>[].obs;
+  var isBankProcessing = 'null'.obs;
 
   @override
   void onInit() async {
@@ -94,6 +97,16 @@ class FlutterWaveBillController extends GetxController {
       billCatList.value = seeker.cast<Datum>();
     } else {
       isRequestProcessing.value = 'no';
+    }
+  }
+
+  fetchBankList() async {
+    var seeker = await ApiServices.fetchBankListProvider();
+    if (seeker != null) {
+      isBankProcessing.value = 'yes';
+      bankList.value = seeker.cast<bank.Datum>();
+    } else {
+      isBankProcessing.value = 'no';
     }
   }
 }

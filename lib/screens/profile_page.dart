@@ -12,6 +12,7 @@ import 'front_page/change_pin_page.dart';
 import 'profile/edit_email_page.dart';
 import 'profile/edit_password.dart';
 import 'profile/edit_profile_page.dart';
+import 'profile/update_bank_detail.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -258,7 +259,6 @@ class _ProfilePageState extends State<ProfilePage> {
                     name: 'Change Email Address',
                     onTap: () {
                       Get.to(() => const EditEmailPage());
-                      print('change email address');
                     },
                   ),
                   const SizedBox(height: 10),
@@ -267,7 +267,6 @@ class _ProfilePageState extends State<ProfilePage> {
                     name: 'Change Password',
                     onTap: () {
                       Get.to(() => const EditPasswordPage());
-                      print('change email address');
                     },
                   ),
                   const SizedBox(height: 10),
@@ -276,7 +275,14 @@ class _ProfilePageState extends State<ProfilePage> {
                     name: 'Change Pin',
                     onTap: () {
                       Get.to(() => const ChangePinPage());
-                      print('change email address');
+                    },
+                  ),
+                  const SizedBox(height: 10),
+                  ProfileCardItem(
+                    iconData: Icons.manage_accounts_rounded,
+                    name: 'Update Bank Details',
+                    onTap: () {
+                      Get.to(() => const UpdateBankDetailPage());
                     },
                   ),
                   const SizedBox(height: 30),

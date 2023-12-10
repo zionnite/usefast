@@ -317,7 +317,7 @@ class AccountController extends GetxController {
     required String my_id,
   }) async {
     String? msg;
-    String status = await ApiServices.updateUserBio(
+    String? status = await ApiServices.updateUserBio(
       fullName: fullName,
       phone: phone,
       age: age,
@@ -369,7 +369,7 @@ class AccountController extends GetxController {
     }
   }
 
-  Future<bool> updateUserBank({
+  Future<bool> updateUserBank1({
     required String accountName,
     required String accountNum,
     required String bankName,
@@ -377,7 +377,7 @@ class AccountController extends GetxController {
     required String my_id,
   }) async {
     String? msg;
-    String status = await ApiServices.updateUserBank(
+    String? status = await ApiServices.updateUserBank(
       accountName: accountName,
       accountNum: accountNum,
       bankName: bankName,
@@ -512,6 +512,28 @@ class AccountController extends GetxController {
       msg = '';
       showSnackBar(title: 'Oops', msg: status, backgroundColor: Colors.blue);
       return false;
+    }
+  }
+
+  Future updateUserBank({
+    required String accountName,
+    required String accountNum,
+    required String bankName,
+    required String bankCode,
+    required String my_id,
+  }) async {
+    String? msg;
+    String? status = await ApiServices.updateUserBank(
+      accountNum: accountNum,
+      accountName: accountName,
+      bankName: bankName,
+      bankCode: bankCode,
+      my_id: my_id,
+    );
+    if (status == 'true') {
+      return true;
+    } else {
+      return status;
     }
   }
 }
