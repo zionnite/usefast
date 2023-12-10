@@ -1164,11 +1164,12 @@ class ApiServices {
         }
         return false;
       } else {
-        return showSnackBar(
-          title: 'Oops!',
-          msg: 'could not connect to server',
-          backgroundColor: Colors.red,
-        );
+        //  showSnackBar(
+        //   title: 'Oops!',
+        //   msg: 'could not connect to server',
+        //   backgroundColor: Colors.red,
+        // );
+        return false;
       }
     } catch (ex) {
       // print(ex.toString());
@@ -1177,6 +1178,7 @@ class ApiServices {
       //   msg: ex.toString(),
       //   backgroundColor: Colors.red,
       // );
+      return false;
     }
   }
 
@@ -1254,11 +1256,12 @@ class ApiServices {
 
         return status;
       } else {
-        return showSnackBar(
-          title: 'Oops!',
-          msg: 'could not connect to server',
-          backgroundColor: Colors.red,
-        );
+        // return showSnackBar(
+        //   title: 'Oops!',
+        //   msg: 'could not connect to server',
+        //   backgroundColor: Colors.red,
+        // );
+        return false;
       }
     } catch (ex) {
       // print(ex);
@@ -1267,6 +1270,7 @@ class ApiServices {
       //   msg: ex.toString(),
       //   backgroundColor: Colors.red,
       // );
+      return false;
     }
   }
 

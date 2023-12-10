@@ -401,14 +401,12 @@ class AccountController extends GetxController {
 
     String? msg;
 
-    if (status != false) {
+    if (status != true) {
       msg = 'Image Uploaded';
-      showSnackBar(title: 'Product', msg: msg, backgroundColor: Colors.blue);
+      //showSnackBar(title: 'Product', msg: msg, backgroundColor: Colors.blue);
 
       return status;
     } else {
-      msg = 'Database Busy, Could not perform operation, Pls Try Again Later!';
-      showSnackBar(title: 'Product', msg: msg, backgroundColor: Colors.blue);
       return false;
     }
   }
@@ -465,6 +463,7 @@ class AccountController extends GetxController {
     prefs.remove("isbank_verify");
     prefs.remove("login_status");
     prefs.remove("isGuestLogin");
+    prefs.remove("fingerprintAuth");
 
     Get.offAll(() => const LoginPage());
   }
@@ -485,7 +484,7 @@ class AccountController extends GetxController {
       String msg = 'We are sad to see you go';
       showSnackBar(
           title: 'Account Deleted', msg: msg, backgroundColor: Colors.red);
-      logoutUser();
+      //logoutUser();
       return true;
     } else {
       String msg = 'Could not perform operation, please try again later!';

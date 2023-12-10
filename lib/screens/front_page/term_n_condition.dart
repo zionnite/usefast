@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:usefast/util/common.dart';
+import 'package:usefast/constant.dart';
 
 class Terms_N_Conditions extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: backgroundColorPrimary,
+        backgroundColor: kPrimaryColor,
         title: const Text(
           'End-User License Agreement',
           style: TextStyle(
@@ -20,7 +20,7 @@ class Terms_N_Conditions extends StatelessWidget {
             Padding(
               padding: EdgeInsets.all(8.0),
               child: Text(
-                'End-User License Agreement (EULA) of Oga Bliss',
+                'End-User License Agreement (EULA) of Fast Pay',
                 style: TextStyle(fontSize: 30.0),
                 textAlign: TextAlign.center,
               ),
@@ -28,7 +28,7 @@ class Terms_N_Conditions extends StatelessWidget {
             Padding(
               padding: EdgeInsets.only(left: 10.0, right: 10),
               child: Text(
-                'This End-User License Agreement ("EULA") is a legal agreement between you and Oga Bliss',
+                'This End-User License Agreement ("EULA") is a legal agreement between you and Fast Pay',
                 style: TextStyle(fontSize: 18.0),
                 textAlign: TextAlign.left,
               ),
@@ -39,7 +39,7 @@ class Terms_N_Conditions extends StatelessWidget {
             Padding(
               padding: EdgeInsets.only(left: 10.0, right: 10),
               child: Text(
-                'This EULA agreement governs your acquisition and use of our Oga Bliss software ("Software") directly from Oga Bliss or indirectly through a Oga Bliss authorized reseller or distributor (a "Reseller").',
+                'This EULA agreement governs your acquisition and use of our Fast Pay software ("Software") directly from Fast Pay or indirectly through a Fast Pay authorized reseller or distributor (a "Reseller").',
                 style: TextStyle(fontSize: 18.0),
                 textAlign: TextAlign.left,
               ),
@@ -50,7 +50,7 @@ class Terms_N_Conditions extends StatelessWidget {
             Padding(
               padding: EdgeInsets.only(left: 10.0, right: 10),
               child: Text(
-                'Please read this EULA agreement carefully before completing the installation process and using the Oga Bliss software. It provides a license to use the Oga Bliss software and contains warranty information and liability disclaimers.',
+                'Please read this EULA agreement carefully before completing the installation process and using the Fast Pay software. It provides a license to use the Fast Pay software and contains warranty information and liability disclaimers.',
                 style: TextStyle(fontSize: 18.0),
                 textAlign: TextAlign.left,
               ),
@@ -61,7 +61,7 @@ class Terms_N_Conditions extends StatelessWidget {
             Padding(
               padding: EdgeInsets.only(left: 10.0, right: 10),
               child: Text(
-                'If you register for a free trial of the Oga Bliss software, this EULA agreement will also govern that trial. By clicking "accept" or installing and/or using the Oga Bliss software, you are confirming your acceptance of the Software and agreeing to become bound by the terms of this EULA agreement.',
+                'If you register for a free trial of the Fast Pay software, this EULA agreement will also govern that trial. By clicking "accept" or installing and/or using the Fast Pay software, you are confirming your acceptance of the Software and agreeing to become bound by the terms of this EULA agreement.',
                 style: TextStyle(fontSize: 18.0),
                 textAlign: TextAlign.left,
               ),
@@ -83,7 +83,7 @@ class Terms_N_Conditions extends StatelessWidget {
             Padding(
               padding: EdgeInsets.only(left: 10.0, right: 10),
               child: Text(
-                'This EULA agreement shall apply only to the Software supplied by Oga Bliss herewith regardless of whether other software is referred to or described herein. The terms also apply to any Oga Bliss updates, supplements, Internet-based services, and support services for the Software, unless other terms accompany those items on delivery. If so, those terms apply.',
+                'This EULA agreement shall apply only to the Software supplied by Fast Pay herewith regardless of whether other software is referred to or described herein. The terms also apply to any Fast Pay updates, supplements, Internet-based services, and support services for the Software, unless other terms accompany those items on delivery. If so, those terms apply.',
                 style: TextStyle(fontSize: 18.0),
                 textAlign: TextAlign.left,
               ),
@@ -105,7 +105,7 @@ class Terms_N_Conditions extends StatelessWidget {
             Padding(
               padding: EdgeInsets.only(left: 10.0, right: 10),
               child: Text(
-                'Oga Bliss hereby grants you a personal, non-transferable, non-exclusive licence to use the Oga Bliss software on your devices in accordance with the terms of this EULA agreement.',
+                'Fast Pay hereby grants you a personal, non-transferable, non-exclusive licence to use the Fast Pay software on your devices in accordance with the terms of this EULA agreement.',
                 style: TextStyle(
                   fontSize: 18.0,
                 ),
@@ -118,7 +118,7 @@ class Terms_N_Conditions extends StatelessWidget {
             Padding(
               padding: EdgeInsets.only(left: 10.0, right: 10),
               child: Text(
-                'You are permitted to load the Oga Bliss software (for example a PC, laptop, mobile or tablet) under your control. You are responsible for ensuring your device meets the minimum requirements of the Oga Bliss software.',
+                'You are permitted to load the Fast Pay software (for example a PC, laptop, mobile or tablet) under your control. You are responsible for ensuring your device meets the minimum requirements of the Fast Pay software.',
                 style: TextStyle(
                   fontSize: 18.0,
                 ),
@@ -200,7 +200,7 @@ class Terms_N_Conditions extends StatelessWidget {
             Padding(
               padding: EdgeInsets.only(left: 10.0, right: 10),
               child: Text(
-                '*use the Software for any purpose that Oga Bliss considers is a breach of this EULA agreement',
+                '*use the Software for any purpose that Fast Pay considers is a breach of this EULA agreement',
                 style: TextStyle(
                     fontSize: 18.0,
                     fontWeight: FontWeight.bold,
@@ -228,7 +228,7 @@ class Terms_N_Conditions extends StatelessWidget {
             Padding(
               padding: EdgeInsets.only(left: 10.0, right: 10),
               child: Text(
-                'Oga Bliss shall at all times retain ownership of the Software as originally downloaded by you and all subsequent downloads of the Software by you. The Software (and the copyright, and other intellectual property rights of whatever nature in the Software, including any modifications made thereto) are and shall remain the property of Oga Bliss.',
+                'Fast Pay shall at all times retain ownership of the Software as originally downloaded by you and all subsequent downloads of the Software by you. The Software (and the copyright, and other intellectual property rights of whatever nature in the Software, including any modifications made thereto) are and shall remain the property of Fast Pay.',
                 style: TextStyle(
                   fontSize: 18.0,
                 ),
@@ -241,7 +241,7 @@ class Terms_N_Conditions extends StatelessWidget {
             Padding(
               padding: EdgeInsets.only(left: 10.0, right: 10),
               child: Text(
-                'Oga Bliss reserves the right to grant licences to use the Software to third parties.',
+                'Fast Pay reserves the right to grant licences to use the Software to third parties.',
                 style: TextStyle(
                   fontSize: 18.0,
                 ),
@@ -268,7 +268,7 @@ class Terms_N_Conditions extends StatelessWidget {
             Padding(
               padding: EdgeInsets.only(left: 10.0, right: 10),
               child: Text(
-                'This EULA agreement is effective from the date you first use the Software and shall continue until terminated. You may terminate it at any time upon written notice to Oga Bliss.',
+                'This EULA agreement is effective from the date you first use the Software and shall continue until terminated. You may terminate it at any time upon written notice to Fast Pay.',
                 style: TextStyle(
                   fontSize: 18.0,
                 ),
@@ -285,7 +285,7 @@ class Terms_N_Conditions extends StatelessWidget {
                 'Upon such termination, the licenses granted by this EULA agreement will immediately terminate '
                 'and you agree to stop all access and use of the Software.'
                 ' The provisions that by their nature continue and survive will survive any termination of this EULA agreement. '
-                // 'This EULA was created by App EULA Template Generator  for Oga Bliss'
+                // 'This EULA was created by App EULA Template Generator  for Fast Pay'
                 ,
                 style: TextStyle(
                   fontSize: 18.0,

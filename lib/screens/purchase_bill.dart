@@ -363,7 +363,6 @@ class _PurchaseUtilityBillState extends State<PurchaseUtilityBill> {
                         card_margin:
                             const EdgeInsets.only(top: 0, left: 0, right: 0),
                         onTap: () async {
-                          print('disamount $disAmount');
                           if (networkSelected != null &&
                               disAmount != '0' &&
                               phoneController.text != '') {
