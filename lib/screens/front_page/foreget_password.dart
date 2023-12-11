@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:usefast/constant.dart';
 import 'package:usefast/controller/account_controller.dart';
-import 'package:usefast/widgets/bottom_bar.dart';
 import 'package:usefast/widgets/my_textfield_icon.dart';
 
 import 'login_page.dart';
@@ -98,7 +97,7 @@ class _ForetPasswordPageState extends State<ForgetPasswordPage> {
                               isLoading = false;
                             });
 
-                            Get.offAll(() => const BottomBar());
+                            Get.offAll(() => const LoginPage());
                           } else {
                             setState(() {
                               isLoading = false;
