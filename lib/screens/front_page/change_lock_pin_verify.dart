@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app_lock/flutter_app_lock.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -166,6 +167,7 @@ class _ChangeLockPinVerifyState extends State<ChangeLockPinVerify> {
                           isPinSet = false;
                         });
 
+                        AppLock.of(Get.context!)!.enable();
                         Get.off(() => const ProfilePage());
                       });
                     } else {

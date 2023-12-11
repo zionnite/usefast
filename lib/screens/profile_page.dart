@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:circular_profile_avatar/circular_profile_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_app_lock/flutter_app_lock.dart';
 import 'package:get/get.dart';
 import 'package:giffy_dialog/giffy_dialog.dart';
 import 'package:image_picker/image_picker.dart';
@@ -456,6 +457,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               onTap: () async {
                                 prefs.setBool('fingerprintAuth', true);
 
+                                AppLock.of(Get.context!)!.enable();
                                 Get.back();
                               },
                               onTapCancel: () {

@@ -142,12 +142,11 @@ class _LoginPageState extends State<LoginPage> {
                               var lockPin = prefs.getString('lockPin');
 
                               if (pin_set1 == 'yes') {
-                                Get.offAll(() => const BottomBar());
-                                // if (lockPin == null) {
-                                //   Get.offAll(() => const LockPinCreate());
-                                // } else {
-                                //   Get.offAll(() => const BottomBar());
-                                // }
+                                if (lockPin == null) {
+                                  Get.offAll(() => const LockPinCreate());
+                                } else {
+                                  Get.offAll(() => const BottomBar());
+                                }
                               } else {
                                 if (lockPin == null) {
                                   Get.offAll(() => const CreatePinPage());

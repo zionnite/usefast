@@ -59,14 +59,10 @@ class _HomeScreenState extends State<HomeScreen> {
       await accountController.getWallet(user_id, admin_status);
     }
 
-    if (fingerprintAuth != null || lockPin != null) {
-      lockPageEnable();
-    }
-  }
-
-  lockPageEnable() {
-    if (mounted) {
-      AppLock.of(context)?.enable();
+    if (fingerprintAuth != null) {
+      AppLock.of(Get.context!)!.enable();
+    } else if (lockPin != null) {
+      AppLock.of(Get.context!)!.enable();
     }
   }
 
