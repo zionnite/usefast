@@ -170,42 +170,6 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
             const SizedBox(height: 10),
-            (fingerprintAuth == true)
-                ? Align(
-                    alignment: Alignment.center,
-                    child: Column(
-                      children: [
-                        Container(
-                          decoration: BoxDecoration(
-                            color: kSecondaryColor,
-                            border: Border.all(
-                              color: Colors.white,
-                            ),
-                            borderRadius: const BorderRadius.all(
-                              Radius.circular(10),
-                            ),
-                          ),
-                          child: IconButton(
-                            onPressed: () {},
-                            icon: const Icon(
-                              Icons.fingerprint,
-                              color: Colors.white,
-                              size: 50,
-                            ),
-                          ),
-                        ),
-                        // const SizedBox(height: 5),
-                        // const Text(
-                        //   'use fingerprint',
-                        //   style: TextStyle(
-                        //     color: Colors.white,
-                        //   ),
-                        // ),
-                      ],
-                    ),
-                  )
-                : Container(),
-            const SizedBox(height: 10),
             Padding(
               padding: const EdgeInsets.all(18.0),
               child: TextButton(

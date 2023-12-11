@@ -1,10 +1,12 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app_lock/flutter_app_lock.dart';
 import 'package:get/get.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:usefast/constant.dart';
 import 'package:usefast/controller/account_controller.dart';
+import 'package:usefast/controller/lock_session.dart';
 import 'package:usefast/controller/transaction_controller.dart';
 import 'package:usefast/widgets/buttons.dart';
 import 'package:usefast/widgets/header.dart';
@@ -21,6 +23,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final transactionController = TransactionController().getXID;
   final accountController = AccountController().getXID;
+  final lockSession = LockSession().getXID;
 
   String? user_id;
   String? fullName;
@@ -52,6 +55,14 @@ class _HomeScreenState extends State<HomeScreen> {
       });
 
       await accountController.getWallet(user_id, admin_status);
+    }
+    // lockSession.startLockSession();
+    lockPageEnable();
+  }
+
+  lockPageEnable() {
+    if (mounted) {
+      AppLock.of(context)?.enable();
     }
   }
 

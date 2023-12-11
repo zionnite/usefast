@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:usefast/constant.dart';
-import 'package:usefast/widgets/bottom_bar.dart';
 
 import '../../controller/splash_controller.dart';
 
@@ -28,6 +27,7 @@ class _SplashPageState extends State<SplashPage> {
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
+    // splashController.startAnimation(context: context);
     splashController.startAnimation();
 
     return Scaffold(
@@ -58,9 +58,7 @@ class _SplashPageState extends State<SplashPage> {
                       Column(
                         children: [
                           InkWell(
-                            onTap: () {
-                              Get.to(() => const BottomBar());
-                            },
+                            onTap: () {},
                             child: const Text(
                               'FastPay',
                               style: TextStyle(

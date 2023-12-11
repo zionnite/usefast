@@ -10,8 +10,13 @@ import 'package:usefast/services/api_services.dart';
 import 'package:usefast/util/common.dart';
 import 'package:uuid/uuid.dart';
 
+import 'lock_session.dart';
+
 class AccountController extends GetxController {
   AccountController get getXID => Get.find<AccountController>();
+
+  // final lockSession = LockSession().getXID;
+  // final lockSession = Get.put(LockSession);
 
   var accountStatusCounter = <AccountModel>[].obs;
   var isDashboardProcessing = 'null'.obs;
@@ -41,6 +46,7 @@ class AccountController extends GetxController {
     required String txRef,
     required String transactionId,
   }) async {
+    LockSession().startLockSession();
     var seeker = await ApiServices.verifyAccountDeposit(
       userId: userId,
       txRef: txRef,

@@ -82,4 +82,9 @@ class _BottomBarState extends State<BottomBar> {
       ),
     );
   }
+
+  @override
+  void initState() {
+    super.initState();
+  }
 }

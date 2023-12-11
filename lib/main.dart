@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_app_lock/flutter_app_lock.dart';
 import 'package:get/get.dart';
+import 'package:usefast/screens/front_page/lock_page.dart';
 
 import 'constant.dart';
 import 'controller/account_controller.dart';
 import 'controller/flutterwave_bill_controller.dart';
+import 'controller/lock_session.dart';
 import 'controller/onboarding_controller.dart';
 import 'controller/splash_controller.dart';
 import 'controller/trade_controller.dart';
@@ -19,6 +22,7 @@ void main() {
   Get.put(FlutterWaveBillController());
   Get.put(SplashController());
   Get.put(OnboardingCongroller());
+  Get.put(LockSession());
 
   SystemChrome.setPreferredOrientations(
     [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown],
@@ -32,18 +36,32 @@ void main() {
     ),
   );
 
+  bool enabledLaunch = false;
+  Duration backgroundLockLatency = const Duration(seconds: 30);
+
+  final _navigatorKey = GlobalKey<NavigatorState>();
+  final GlobalKey<NavigatorState> _navKey = GlobalKey<NavigatorState>();
+
   runApp(
-    RestartWidget(
-      child: GetMaterialApp(
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          appBarTheme: const AppBarTheme(
-            iconTheme: IconThemeData(color: Colors.white),
-            titleTextStyle: TextStyle(color: Colors.white),
+    AppLock(
+      builder: (Object? arg) {
+        return GetMaterialApp(
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData(
+            appBarTheme: const AppBarTheme(
+              iconTheme: IconThemeData(color: Colors.white),
+              titleTextStyle: TextStyle(color: Colors.white),
+            ),
           ),
-        ),
-        home: const MyApp(),
-      ),
+          home: MyApp(),
+
+          // navigatorKey: Get.key,
+          navigatorKey: _navKey,
+        );
+      },
+      enabled: enabledLaunch,
+      backgroundLockLatency: backgroundLockLatency,
+      lockScreen: const LockPage(),
     ),
   );
 }
@@ -80,9 +98,8 @@ class _RestartWidgetState extends State<RestartWidget> {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -92,8 +109,6 @@ class MyApp extends StatelessWidget {
         fontFamily: 'SFUIDisplay',
         scaffoldBackgroundColor: kPrimaryColor,
       ),
-      // home: const BottomBar(),
-      // home: const CreatePinPage(),
       home: SplashPage(),
     );
   }

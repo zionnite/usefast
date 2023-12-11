@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:flutter/material.dart';
+import 'package:flutter_app_lock/flutter_app_lock.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:usefast/screens/front_page/login_page.dart';
@@ -11,6 +13,29 @@ class SplashController extends GetxController {
 
   RxBool animate = false.obs;
   late Timer timer1, timer2;
+
+  @override
+  void onInit() async {
+    super.onInit();
+  }
+
+  bool? isUserLogin;
+  bool? isGuestLogin;
+  bool? isFirstTime;
+  String? userId1;
+  bool? demoStatus;
+  startAnimationTimer() async {
+    await Future.delayed(const Duration(milliseconds: 500));
+    animate.value = true;
+    await Future.delayed(const Duration(milliseconds: 7000));
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    isUserLogin = prefs.getBool('isUserLogin');
+    isGuestLogin = prefs.getBool('isGuestLogin');
+    isFirstTime = prefs.getBool('isFirstTime');
+    userId1 = prefs.getString('user_id');
+    demoStatus = prefs.getBool("displayShowCase");
+  }
 
   Future startAnimation() async {
     if (!animate.value) {
@@ -31,6 +56,7 @@ class SplashController extends GetxController {
       }
 
       if (isUserLogin != null) {
+        showLockScreen();
         return Get.offAll(() => const BottomBar());
         // return Get.offAll(() => const BlissHome());
       } else {
@@ -43,5 +69,10 @@ class SplashController extends GetxController {
         }
       }
     }
+  }
+
+  showLockScreen() {
+    BuildContext context = Get.context!;
+    AppLock.of(context)!.showLockScreen();
   }
 }
