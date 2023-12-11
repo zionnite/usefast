@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:usefast/controller/account_controller.dart';
 import 'package:usefast/controller/transaction_controller.dart';
 import 'package:usefast/screens/bill_page.dart';
+import 'package:usefast/screens/fund_page.dart';
 import 'package:uuid/uuid.dart';
 
 import 'custom_button.dart';
@@ -34,8 +35,8 @@ class _ButtonsState extends State<Buttons> {
   var uuid = const Uuid();
 
   makePayment() {
-    accountController.verifyAccountDeposit(
-        userId: '1', txRef: 'txRef', transactionId: 'transactionId');
+    // accountController.verifyAccountDeposit(
+    //     userId: '1', txRef: 'txRef', transactionId: 'transactionId');
   }
 
   handlePaymentInitialization() async {
@@ -59,7 +60,7 @@ class _ButtonsState extends State<Buttons> {
     );
 
     final ChargeResponse response = await flutterwave.charge();
-    // print("${response.toJson()}");
+    print("${response.toJson()}");
     //to access address field
 
     bool success = response.success!;
@@ -68,8 +69,8 @@ class _ButtonsState extends State<Buttons> {
       String txRef = response.txRef!;
       String transactionId = response.transactionId!;
 
-      accountController.verifyAccountDeposit(
-          userId: '1', txRef: txRef, transactionId: transactionId);
+      // accountController.verifyAccountDeposit(
+      //     userId: '1', txRef: txRef, transactionId: transactionId);
     }
   }
 
@@ -85,7 +86,10 @@ class _ButtonsState extends State<Buttons> {
             CustomButton(
               title: 'Add Funds',
               svgPath: 'assets/icons/add.svg',
-              onTap: handlePaymentInitialization,
+              onTap: () {
+                Get.to(() => const FundPage());
+                // handlePaymentInitialization();
+              },
             ),
             CustomButton(
               title: 'Utility Bills',

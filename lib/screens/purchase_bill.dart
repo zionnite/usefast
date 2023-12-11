@@ -841,43 +841,6 @@ class _PurchaseUtilityBillState extends State<PurchaseUtilityBill> {
   }
 
   displayResult(String status) {
-    // showDialog(
-    //   context: context,
-    //   builder: (BuildContext context) {
-    //     return GiffyDialog.image(
-    //       Image.asset(
-    //         "assets/images/fast_pay.png",
-    //         height: 200,
-    //         fit: BoxFit.cover,
-    //       ),
-    //       title: const Text(
-    //         'Feedback',
-    //         textAlign: TextAlign.center,
-    //       ),
-    //       content: Text(
-    //         (status == 'error_pin')
-    //             ? 'Pin entered it\'s inaccurate, please enter correct pin to continue'
-    //             : (status == 'error_wallet' || status == 'error_debit_1')
-    //                 ? 'Insufficient Balance in your wallet, please top up your account and try again'
-    //                 : (status == 'error_debit_2')
-    //                     ? 'having difficulties performing operation with your wallet'
-    //                     : (status == 'not_successful')
-    //                         ? 'Purchase not successful, please try again later!'
-    //                         : (status == 'successful')
-    //                             ? 'Congratulation, Purchase was successful'
-    //                             : status,
-    //         textAlign: TextAlign.center,
-    //       ),
-    //       actions: [
-    //         TextButton(
-    //           onPressed: () => Navigator.pop(context, 'OK'),
-    //           child: const Text('OK'),
-    //         ),
-    //       ],
-    //     );
-    //   },
-    // );
-
     return showModalBottomSheet(
       context: context,
       clipBehavior: Clip.antiAlias,

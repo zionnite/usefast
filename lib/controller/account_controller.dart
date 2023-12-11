@@ -10,8 +10,6 @@ import 'package:usefast/services/api_services.dart';
 import 'package:usefast/util/common.dart';
 import 'package:uuid/uuid.dart';
 
-import 'lock_session.dart';
-
 class AccountController extends GetxController {
   AccountController get getXID => Get.find<AccountController>();
 
@@ -41,22 +39,38 @@ class AccountController extends GetxController {
     }
   }
 
-  verifyAccountDeposit({
+  depositUserFund({
+    required String userId,
+    required String amount,
+  }) async {
+    var seeker = await ApiServices.depositUserFund(
+      userId: userId,
+      amount: amount,
+    );
+    if (seeker != null) {
+      accountStatusCounter.value = seeker.cast<AccountModel>();
+      return 'Transaction successful';
+    } else {
+      return seeker;
+    }
+  }
+
+  verifyTransaction({
     required String userId,
     required String txRef,
     required String transactionId,
+    required String amount,
   }) async {
-    LockSession().startLockSession();
-    var seeker = await ApiServices.verifyAccountDeposit(
+    var seeker = await ApiServices.verifyTransaction(
       userId: userId,
       txRef: txRef,
       transactionId: transactionId,
     );
-    if (seeker != null) {
-      print('was successfull');
-      accountStatusCounter.value = seeker.cast<AccountModel>();
+    if (seeker == 'success') {
+      var data = depositUserFund(userId: userId, amount: amount);
+      return data;
     } else {
-      print('wrong');
+      return seeker;
     }
   }
 
@@ -540,5 +554,21 @@ class AccountController extends GetxController {
     } else {
       return status;
     }
+  }
+
+  verifyJustTransactionPin({
+    required String userId,
+    required String transactionPin,
+    required String amount,
+  }) async {
+    var ref = _uuid.v1();
+    //connect to server and verify pin
+    var seeker = await ApiServices.verifyPin(
+      userId: userId,
+      amount: amount,
+      pin: transactionPin,
+    );
+
+    return seeker;
   }
 }

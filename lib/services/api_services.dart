@@ -17,6 +17,8 @@ class ApiServices {
   static const String _mybaseUrl = baseUrl;
   static const String privateKey =
       'FLWSECK_TEST-e87034a1db84700165c21f6cd3c2ef54-X';
+  static const String publicKey =
+      'FLWPUBK_TEST-ff3a6c1dffa100835d97718e083470ff-X';
 
   /***
    * below relife start
@@ -39,6 +41,7 @@ class ApiServices {
   static const String _getAccountDetails = 'get_wallet_detail';
   static const String _verify_deposit = 'verify_deposit';
   static const String _verify_transaction_pin = 'verify_transaction';
+  static const String _verify_just_pin = 'verify_just_pin';
   static const String _debit_wallet = 'debit_wallet';
   static const String _add_transaction_history = 'add_transaction_history';
   static const String _refund_wallet = 'refund_wallet';
@@ -148,26 +151,20 @@ class ApiServices {
     }
   }
 
-  static Future verifyAccountDeposit({
+  static Future depositUserFund({
     required String userId,
-    required String txRef,
-    required String transactionId,
+    required String amount,
   }) async {
     try {
-      print('initializing connection');
-      final uri = Uri.parse('$_mybaseUrl$_verify_deposit/$userId/false');
+      final uri = Uri.parse('$_mybaseUrl$_verify_deposit/$userId');
 
       var response = await http.post(uri, body: {
-        'userId': userId.toString(),
-        'txRef': txRef.toString(),
-        'transactionId': transactionId.toString(),
+        'amount': amount.toString(),
       });
 
-      print('connecting....');
       if (response.statusCode == 200) {
         var body = response.body;
-
-        print('outpouting body $body');
+        print(body);
 
         final j = json.decode(body) as Map<String, dynamic>;
         bool status = j['status'];
@@ -176,16 +173,53 @@ class ApiServices {
 
           final data = accountModelFromJson(jsonEncode(disData).toString());
           return data;
+        } else {
+          //return status;
         }
       } else {
-        return showSnackBar(
-          title: 'Oops!',
-          msg: 'could not connect to server',
-          backgroundColor: Colors.red,
-        );
+        //return 'could not connect to server';
       }
     } catch (ex) {
-      print(ex.toString());
+      //return ex.toString();
+    }
+  }
+
+  static Future verifyTransaction({
+    required String userId,
+    required String txRef,
+    required String transactionId,
+  }) async {
+    try {
+      Map<String, String> header = {};
+      header["Authorization"] = 'Bearer $privateKey';
+      header["Content-Type"] = 'application/json';
+      final uri = Uri.parse(
+          'https://api.flutterwave.com/v3/transactions?tx_ref=$txRef');
+      var response = await http
+          .get(uri, headers: header)
+          .timeout(const Duration(minutes: 60));
+
+      var body = response.body;
+      final j = json.decode(body) as Map<String, dynamic>;
+      if (response.statusCode == 200) {
+        String status = j['status'];
+        String message = j['message'];
+        if (status == 'success') {
+          return status;
+        } else {
+          return message;
+        }
+      } else {
+        String status = j['status'];
+        String message = j['message'];
+        if (status == 'success') {
+          return status;
+        } else {
+          return message;
+        }
+      }
+    } catch (ex) {
+      return ex.toString();
     }
   }
 
@@ -270,7 +304,7 @@ class ApiServices {
     required String pin,
   }) async {
     try {
-      final uri = Uri.parse('$_mybaseUrl$_verify_transaction_pin/$userId');
+      final uri = Uri.parse('$_mybaseUrl$_verify_just_pin/$userId');
 
       var response = await http.post(uri, body: {
         'userId': userId.toString(),
@@ -290,7 +324,7 @@ class ApiServices {
           title: 'Oops!',
           msg: 'could not connect to server ',
           backgroundColor: Colors.red,
-          duration: Duration(seconds: 56),
+          duration: const Duration(seconds: 56),
         );
       }
     } catch (ex) {

@@ -12,6 +12,10 @@ class PropertyBtnIcon extends StatefulWidget {
     this.isSuffix = false,
     this.isLoading = false,
     this.elevation = 10,
+    this.card_margin,
+    this.container_margin,
+    this.borderRadius = 0,
+    this.textSize = 15,
   });
 
   final VoidCallback onTap;
@@ -24,6 +28,11 @@ class PropertyBtnIcon extends StatefulWidget {
   final bool isLoading;
   final double elevation;
 
+  final EdgeInsets? card_margin;
+  final EdgeInsets? container_margin;
+  final double borderRadius;
+  final double textSize;
+
   @override
   State<PropertyBtnIcon> createState() => _PropertyBtnIconState();
 }
@@ -34,22 +43,30 @@ class _PropertyBtnIconState extends State<PropertyBtnIcon> {
     return InkWell(
       onTap: widget.onTap,
       child: Card(
-        margin: const EdgeInsets.only(
-          left: 15,
-          right: 15,
-          bottom: 10,
-          top: 10,
+        clipBehavior: Clip.antiAlias,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(widget.borderRadius),
         ),
+        margin: (widget.card_margin == null)
+            ? const EdgeInsets.only(
+                left: 15,
+                right: 15,
+                bottom: 40,
+                top: 20,
+              )
+            : widget.card_margin,
         elevation: widget.elevation,
         child: Ink(
           color: widget.bgColor,
           child: Container(
-            margin: const EdgeInsets.only(
-              left: 20,
-              right: 20,
-              bottom: 10,
-              top: 10,
-            ),
+            margin: (widget.container_margin == null)
+                ? const EdgeInsets.only(
+                    left: 20,
+                    right: 20,
+                    bottom: 10,
+                    top: 10,
+                  )
+                : widget.container_margin,
             width: double.infinity,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
@@ -74,8 +91,8 @@ class _PropertyBtnIconState extends State<PropertyBtnIcon> {
                         Text(
                           widget.title,
                           textAlign: TextAlign.center,
-                          style: const TextStyle(
-                            fontSize: 20,
+                          style: TextStyle(
+                            fontSize: widget.textSize,
                             color: Colors.white,
                             fontFamily: 'Passion One',
                           ),
