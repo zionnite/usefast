@@ -69,7 +69,7 @@ class _VerifyCreatePinPageState extends State<VerifyCreatePinPage> {
               ),
             ),
             Text(
-              'Verify your Pin',
+              'Verify your Transaction Pin',
               style: TextStyle(
                 color: kTextColor,
                 fontSize: 20,

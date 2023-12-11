@@ -50,7 +50,7 @@ class _ChangePinPageState extends State<ChangePinPage> {
               height: 250,
             ),
             Text(
-              'Change your Pin',
+              'Change your Transaction Pin',
               style: TextStyle(
                 color: kTextColor,
                 fontSize: 20,

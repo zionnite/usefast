@@ -39,7 +39,7 @@ class _CreatePinPageState extends State<CreatePinPage> {
               ),
             ),
             Text(
-              'Create your Pin',
+              'Create your Transaction Pin',
               style: TextStyle(
                 color: kTextColor,
                 fontSize: 20,

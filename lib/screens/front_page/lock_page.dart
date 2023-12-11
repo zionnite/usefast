@@ -4,6 +4,7 @@ import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:usefast/constant.dart';
+import 'package:usefast/services/local_auth_services.dart';
 import 'package:usefast/widgets/bottom_bar.dart';
 import 'package:usefast/widgets/property_btn.dart';
 
@@ -161,7 +162,20 @@ class _LockPageState extends State<LockPage> {
                             ),
                           ),
                           child: IconButton(
-                            onPressed: () {},
+                            onPressed: () async {
+                              print('tap');
+                              bool authenticate =
+                                  await LocalAuth.authenticate();
+
+                              if (authenticate) {
+                                print('went');
+                                //authenticated = authenticate;
+                                // Get.back();
+                                goToHome();
+                              }
+
+                              setState(() {});
+                            },
                             icon: const Icon(
                               Icons.fingerprint,
                               color: Colors.white,
@@ -185,5 +199,10 @@ class _LockPageState extends State<LockPage> {
         ),
       ),
     );
+  }
+
+  goToHome() {
+    AppLock.of(context)!.didUnlock();
+    Get.to(() => const BottomBar());
   }
 }

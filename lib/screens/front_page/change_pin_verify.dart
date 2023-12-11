@@ -80,7 +80,7 @@ class _ChangePinVerifyPageState extends State<ChangePinVerifyPage> {
               height: 250,
             ),
             Text(
-              'Verify your new Pin',
+              'Verify your new Transaction Pin',
               style: TextStyle(
                 color: kTextColor,
                 fontSize: 20,

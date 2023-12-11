@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
 import 'package:flutter_app_lock/flutter_app_lock.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -71,8 +70,22 @@ class SplashController extends GetxController {
     }
   }
 
-  showLockScreen() {
-    BuildContext context = Get.context!;
-    AppLock.of(context)!.showLockScreen();
+  isAppLockPinNFingerPrint() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var fingerprintAuth = prefs.getBool('fingerprintAuth');
+    var lockPin = prefs.getString('lockPin');
+
+    if (fingerprintAuth != null || lockPin != null) {
+      return true;
+    }
+    return false;
+  }
+
+  showLockScreen() async {
+    //if user app lock its active or finger print
+    var checker = await isAppLockPinNFingerPrint();
+    if (checker) {
+      AppLock.of(Get.context!)!.showLockScreen();
+    }
   }
 }
