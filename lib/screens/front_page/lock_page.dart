@@ -19,6 +19,7 @@ class _LockPageState extends State<LockPage> {
   String? transactionPin;
   bool isPinSet = false;
   bool pinError = false;
+  bool pinNotMatched = false;
 
   bool? fingerprintAuth;
 
@@ -104,6 +105,14 @@ class _LockPageState extends State<LockPage> {
                     ),
                   )
                 : Container(),
+            (pinNotMatched)
+                ? const Text(
+                    'Wrong pin entered, please enter the correct Pin',
+                    style: TextStyle(
+                      color: Colors.red,
+                    ),
+                  )
+                : Container(),
             const SizedBox(
               height: 50,
             ),
@@ -121,23 +130,27 @@ class _LockPageState extends State<LockPage> {
                   } else {
                     setState(() {
                       pinError = false;
+                      pinNotMatched = false;
                       isPinSet = true;
                     });
-                    Future.delayed(const Duration(seconds: 1), () {
+                    SharedPreferences prefs =
+                        await SharedPreferences.getInstance();
+                    var lockPin = prefs.getString('lockPin');
+
+                    if (lockPin == transactionPin) {
+                      Future.delayed(const Duration(seconds: 1), () {
+                        setState(() {
+                          isPinSet = false;
+                        });
+
+                        goToHome();
+                      });
+                    } else {
                       setState(() {
                         isPinSet = false;
+                        pinNotMatched = true;
                       });
-                      AppLock.of(context)!.didUnlock();
-                      Get.to(() => const BottomBar());
-                      // Get.to(() => SplashPage());
-
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(
-                      //     builder: (context) => const BottomBar(),
-                      //   ),
-                      // );
-                    });
+                    }
                   }
                 },
                 title: 'Continue',
@@ -163,7 +176,6 @@ class _LockPageState extends State<LockPage> {
                           ),
                           child: IconButton(
                             onPressed: () async {
-                              print('tap');
                               bool authenticate =
                                   await LocalAuth.authenticate();
 
@@ -203,6 +215,6 @@ class _LockPageState extends State<LockPage> {
 
   goToHome() {
     AppLock.of(context)!.didUnlock();
-    Get.to(() => const BottomBar());
+    Get.offAll(() => const BottomBar());
   }
 }

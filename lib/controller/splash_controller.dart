@@ -75,16 +75,19 @@ class SplashController extends GetxController {
     var fingerprintAuth = prefs.getBool('fingerprintAuth');
     var lockPin = prefs.getString('lockPin');
 
-    if (fingerprintAuth != null || lockPin != null) {
-      return true;
+    print('auth $fingerprintAuth');
+    print('lock $lockPin');
+
+    if (fingerprintAuth == null || lockPin == null) {
+      return false;
     }
-    return false;
+    return true;
   }
 
   showLockScreen() async {
-    //if user app lock its active or finger print
     var checker = await isAppLockPinNFingerPrint();
-    if (checker) {
+    print('checker $checker');
+    if (checker == true) {
       AppLock.of(Get.context!)!.showLockScreen();
     }
   }

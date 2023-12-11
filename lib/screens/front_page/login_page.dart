@@ -10,6 +10,7 @@ import 'package:usefast/widgets/my_textfield_icon.dart';
 
 import 'create_pin_page.dart';
 import 'foreget_password.dart';
+import 'lock_pin_create.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -138,11 +139,21 @@ class _LoginPageState extends State<LoginPage> {
                               var userName1 = prefs.getString('user_name');
                               var pin1 = prefs.getString('pin');
                               var pin_set1 = prefs.getString('pin_set');
+                              var lockPin = prefs.getString('lockPin');
 
                               if (pin_set1 == 'yes') {
                                 Get.offAll(() => const BottomBar());
+                                // if (lockPin == null) {
+                                //   Get.offAll(() => const LockPinCreate());
+                                // } else {
+                                //   Get.offAll(() => const BottomBar());
+                                // }
                               } else {
-                                Get.offAll(() => const CreatePinPage());
+                                if (lockPin == null) {
+                                  Get.offAll(() => const CreatePinPage());
+                                } else {
+                                  Get.offAll(() => const LockPinCreate());
+                                }
                               }
                             } else {
                               setState(() {

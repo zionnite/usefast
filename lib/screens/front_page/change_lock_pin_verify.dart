@@ -7,15 +7,15 @@ import 'package:usefast/controller/account_controller.dart';
 import 'package:usefast/screens/profile_page.dart';
 import 'package:usefast/widgets/property_btn.dart';
 
-class ChangePinVerifyPage extends StatefulWidget {
-  const ChangePinVerifyPage({Key? key, required this.newPin}) : super(key: key);
+class ChangeLockPinVerify extends StatefulWidget {
+  const ChangeLockPinVerify({Key? key, required this.newPin}) : super(key: key);
   final String newPin;
 
   @override
-  State<ChangePinVerifyPage> createState() => _ChangePinVerifyPageState();
+  State<ChangeLockPinVerify> createState() => _ChangeLockPinVerifyState();
 }
 
-class _ChangePinVerifyPageState extends State<ChangePinVerifyPage> {
+class _ChangeLockPinVerifyState extends State<ChangeLockPinVerify> {
   final usersController = AccountController().getXID;
 
   String? transactionPin;
@@ -157,23 +157,19 @@ class _ChangePinVerifyPageState extends State<ChangePinVerifyPage> {
                         isPinSet = true;
                       });
 
-                      bool status = await usersController.updateTransactionPin(
-                        pin: transactionPin!,
-                        userId: user_id!,
-                      );
+                      SharedPreferences prefs =
+                          await SharedPreferences.getInstance();
+                      prefs.setString('lockPin', transactionPin!);
 
                       Future.delayed(const Duration(seconds: 1), () {
                         setState(() {
                           isPinSet = false;
                         });
 
-                        if (status) {
-                          Get.off(() => const ProfilePage());
-                        }
+                        Get.off(() => const ProfilePage());
                       });
                     } else {
                       setState(() {
-                        isPinSet = false;
                         pinMatchError = true;
                       });
                     }

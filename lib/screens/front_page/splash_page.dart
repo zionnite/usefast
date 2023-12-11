@@ -71,7 +71,7 @@ class _SplashPageState extends State<SplashPage> {
                           const Padding(
                             padding: EdgeInsets.symmetric(horizontal: 12.0),
                             child: Text(
-                              'Your Pay for basic matter',
+                              'Trade with ease, get paid fast',
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontSize: 18,

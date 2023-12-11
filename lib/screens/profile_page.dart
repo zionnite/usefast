@@ -15,6 +15,7 @@ import 'package:usefast/controller/transaction_controller.dart';
 import 'package:usefast/util/common.dart';
 import 'package:usefast/widgets/profile_card_item.dart';
 
+import 'front_page/change_lock_pin.dart';
 import 'front_page/change_pin_page.dart';
 import 'front_page/term_n_condition.dart';
 import 'profile/edit_email_page.dart';
@@ -222,7 +223,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                                     size: 20,
                                                   ),
                                                 )
-                                              : Text(''),
+                                              : const Text(''),
                                         ],
                                       ),
                                       Positioned(
@@ -399,7 +400,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       const SizedBox(height: 10),
                       ProfileCardItem(
                         iconData: Icons.key,
-                        name: 'Change Pin',
+                        name: 'Change Transaction Pin',
                         onTap: () {
                           Get.to(() => const ChangePinPage());
                         },
@@ -462,6 +463,14 @@ class _ProfilePageState extends State<ProfilePage> {
                               },
                             );
                           }
+                        },
+                      ),
+                      const SizedBox(height: 10),
+                      ProfileCardItem(
+                        iconData: Icons.key,
+                        name: 'Change Lock Pin',
+                        onTap: () {
+                          Get.to(() => const ChangeLockPin());
                         },
                       ),
                       const SizedBox(height: 10),

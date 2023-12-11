@@ -44,7 +44,7 @@ class OnboardingCongroller extends GetxController {
   ];
 
   onPageChanged(int activePageIndex) => currentPage.value = activePageIndex;
-  skip() => controller.jumpToPage(page: 6);
+  skip() => controller.jumpToPage(page: 2);
 
   animateToNextSlide() {
     int nextPage = controller.currentPage + 1;

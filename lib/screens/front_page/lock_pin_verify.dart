@@ -4,18 +4,18 @@ import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:usefast/constant.dart';
 import 'package:usefast/controller/account_controller.dart';
-import 'package:usefast/screens/profile_page.dart';
+import 'package:usefast/widgets/bottom_bar.dart';
 import 'package:usefast/widgets/property_btn.dart';
 
-class ChangePinVerifyPage extends StatefulWidget {
-  const ChangePinVerifyPage({Key? key, required this.newPin}) : super(key: key);
+class LockPinVerify extends StatefulWidget {
+  const LockPinVerify({Key? key, required this.newPin}) : super(key: key);
   final String newPin;
 
   @override
-  State<ChangePinVerifyPage> createState() => _ChangePinVerifyPageState();
+  State<LockPinVerify> createState() => _LockPinVerifyState();
 }
 
-class _ChangePinVerifyPageState extends State<ChangePinVerifyPage> {
+class _LockPinVerifyState extends State<LockPinVerify> {
   final usersController = AccountController().getXID;
 
   String? transactionPin;
@@ -49,6 +49,8 @@ class _ChangePinVerifyPageState extends State<ChangePinVerifyPage> {
 
   @override
   Widget build(BuildContext context) {
+    var height = MediaQuery.of(context).size.height;
+
     return Scaffold(
       backgroundColor: kPrimaryColor,
       body: SingleChildScrollView(
@@ -57,30 +59,17 @@ class _ChangePinVerifyPageState extends State<ChangePinVerifyPage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const SizedBox(
-              height: 50,
+              height: 20,
             ),
-            Padding(
-              padding: const EdgeInsets.only(left: 0.0),
-              child: Row(
-                children: [
-                  InkWell(
-                    onTap: () {
-                      Get.back();
-                    },
-                    child: const Icon(
-                      Icons.chevron_left_rounded,
-                      color: Colors.white,
-                      size: 42,
-                    ),
-                  ),
-                ],
+            Align(
+              alignment: Alignment.topLeft,
+              child: Image(
+                image: const AssetImage('assets/images/fast_pay.png'),
+                height: height * 0.3,
               ),
             ),
-            const SizedBox(
-              height: 250,
-            ),
             Text(
-              'Verify your new Transaction Pin',
+              'Verify your Lock Pin',
               style: TextStyle(
                 color: kTextColor,
                 fontSize: 20,
@@ -148,7 +137,6 @@ class _ChangePinVerifyPageState extends State<ChangePinVerifyPage> {
                     });
 
                     //check if pin match
-
                     if (transactionPin == widget.newPin) {
                       //insert into database
 
@@ -157,19 +145,16 @@ class _ChangePinVerifyPageState extends State<ChangePinVerifyPage> {
                         isPinSet = true;
                       });
 
-                      bool status = await usersController.updateTransactionPin(
-                        pin: transactionPin!,
-                        userId: user_id!,
-                      );
+                      SharedPreferences prefs =
+                          await SharedPreferences.getInstance();
+                      prefs.setString('lockPin', transactionPin!);
 
                       Future.delayed(const Duration(seconds: 1), () {
                         setState(() {
                           isPinSet = false;
                         });
 
-                        if (status) {
-                          Get.off(() => const ProfilePage());
-                        }
+                        Get.offAll(() => const BottomBar());
                       });
                     } else {
                       setState(() {
@@ -179,7 +164,7 @@ class _ChangePinVerifyPageState extends State<ChangePinVerifyPage> {
                     }
                   }
                 },
-                title: 'Update',
+                title: 'Continue',
                 bgColor: kSecondaryColor,
                 isLoading: isPinSet,
               ),

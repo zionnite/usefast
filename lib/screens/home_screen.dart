@@ -42,6 +42,8 @@ class _HomeScreenState extends State<HomeScreen> {
     var isUserLogin1 = prefs.getBool('isUserLogin');
     var image_name1 = prefs.getString('image_name');
     var fullName1 = prefs.getString('full_name');
+    var fingerprintAuth = prefs.getBool('fingerprintAuth');
+    var lockPin = prefs.getString('lockPin');
 
     if (mounted) {
       setState(() {
@@ -56,8 +58,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
       await accountController.getWallet(user_id, admin_status);
     }
-    // lockSession.startLockSession();
-    lockPageEnable();
+
+    if (fingerprintAuth != null || lockPin != null) {
+      lockPageEnable();
+    }
   }
 
   lockPageEnable() {

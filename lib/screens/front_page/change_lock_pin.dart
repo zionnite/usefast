@@ -1,52 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:usefast/constant.dart';
-import 'package:usefast/controller/account_controller.dart';
-import 'package:usefast/screens/profile_page.dart';
 import 'package:usefast/widgets/property_btn.dart';
 
-class ChangePinVerifyPage extends StatefulWidget {
-  const ChangePinVerifyPage({Key? key, required this.newPin}) : super(key: key);
-  final String newPin;
+import 'change_lock_pin_verify.dart';
+
+class ChangeLockPin extends StatefulWidget {
+  const ChangeLockPin({Key? key}) : super(key: key);
 
   @override
-  State<ChangePinVerifyPage> createState() => _ChangePinVerifyPageState();
+  State<ChangeLockPin> createState() => _ChangeLockPinState();
 }
 
-class _ChangePinVerifyPageState extends State<ChangePinVerifyPage> {
-  final usersController = AccountController().getXID;
-
+class _ChangeLockPinState extends State<ChangeLockPin> {
   String? transactionPin;
   bool isPinSet = false;
   bool pinError = false;
-  bool pinMatchError = false;
-
-  String? user_id;
-  initUserDetail() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    var userId1 = prefs.getString('user_id');
-    var userName1 = prefs.getString('user_name');
-    var user_status1 = prefs.getString('user_status');
-    var admin_status1 = prefs.getBool('admin_status');
-    var isUserLogin1 = prefs.getBool('isUserLogin');
-    var image_name1 = prefs.getString('image_name');
-
-    if (mounted) {
-      setState(() {
-        user_id = userId1;
-      });
-    }
-  }
-
-  bool pageLoading = false;
-  @override
-  void initState() {
-    initUserDetail();
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -80,7 +50,7 @@ class _ChangePinVerifyPageState extends State<ChangePinVerifyPage> {
               height: 250,
             ),
             Text(
-              'Verify your new Transaction Pin',
+              'Change your Lock Pin',
               style: TextStyle(
                 color: kTextColor,
                 fontSize: 20,
@@ -116,25 +86,13 @@ class _ChangePinVerifyPageState extends State<ChangePinVerifyPage> {
                     ),
                   )
                 : Container(),
-            (pinMatchError)
-                ? const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 18.0),
-                    child: Text(
-                      'You Pin does not match, please go back and re-enter your 5 digit pin',
-                      style: TextStyle(
-                        color: Colors.red,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                  )
-                : Container(),
             const SizedBox(
               height: 100,
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: propertyBtn(
-                elevation: 5,
+                elevation: 1,
                 borderRadius: 30,
                 card_margin: const EdgeInsets.only(top: 0, left: 0, right: 0),
                 onTap: () async {
@@ -146,57 +104,12 @@ class _ChangePinVerifyPageState extends State<ChangePinVerifyPage> {
                     setState(() {
                       pinError = false;
                     });
-
-                    //check if pin match
-
-                    if (transactionPin == widget.newPin) {
-                      //insert into database
-
-                      setState(() {
-                        pinMatchError = false;
-                        isPinSet = true;
-                      });
-
-                      bool status = await usersController.updateTransactionPin(
-                        pin: transactionPin!,
-                        userId: user_id!,
-                      );
-
-                      Future.delayed(const Duration(seconds: 1), () {
-                        setState(() {
-                          isPinSet = false;
-                        });
-
-                        if (status) {
-                          Get.off(() => const ProfilePage());
-                        }
-                      });
-                    } else {
-                      setState(() {
-                        isPinSet = false;
-                        pinMatchError = true;
-                      });
-                    }
+                    Get.to(() => ChangeLockPinVerify(newPin: transactionPin!));
                   }
                 },
-                title: 'Update',
+                title: 'Continue',
                 bgColor: kSecondaryColor,
                 isLoading: isPinSet,
-              ),
-            ),
-            const SizedBox(height: 5),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              child: propertyBtn(
-                elevation: 5,
-                borderRadius: 30,
-                card_margin: const EdgeInsets.only(top: 0, left: 0, right: 0),
-                onTap: () async {
-                  Get.back();
-                },
-                title: 'Go Back',
-                bgColor: kSecondaryColor,
-                isLoading: false,
               ),
             ),
             const SizedBox(height: 50),
