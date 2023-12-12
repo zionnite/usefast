@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
-import 'package:flutterwave_standard/flutterwave.dart';
 import 'package:get/get.dart';
 import 'package:giffy_dialog/giffy_dialog.dart';
 import 'package:intl/intl.dart';
@@ -11,7 +10,6 @@ import 'package:sliding_sheet2/sliding_sheet2.dart';
 import 'package:usefast/constant.dart';
 import 'package:usefast/controller/account_controller.dart';
 import 'package:usefast/controller/flutterwave_bill_controller.dart';
-import 'package:usefast/services/api_services.dart';
 import 'package:usefast/services/local_auth_services.dart';
 import 'package:usefast/util/common.dart';
 import 'package:usefast/util/currency_formatter.dart';
@@ -19,14 +17,14 @@ import 'package:usefast/widgets/my_money_field.dart';
 import 'package:usefast/widgets/property_btn.dart';
 import 'package:uuid/uuid.dart';
 
-class AddFunds extends StatefulWidget {
-  const AddFunds({Key? key}) : super(key: key);
+class RequestWithdraw extends StatefulWidget {
+  const RequestWithdraw({Key? key}) : super(key: key);
 
   @override
-  State<AddFunds> createState() => _AddFundsState();
+  State<RequestWithdraw> createState() => _RequestWithdrawState();
 }
 
-class _AddFundsState extends State<AddFunds> {
+class _RequestWithdrawState extends State<RequestWithdraw> {
   final accountController = AccountController().getXID;
   final billController = FlutterWaveBillController().getXID;
 
@@ -154,7 +152,7 @@ class _AddFundsState extends State<AddFunds> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Add Funds',
+                        'Request Fund',
                         style: TextStyle(
                           color: textColorWhite,
                           fontSize: 20,
@@ -287,7 +285,7 @@ class _AddFundsState extends State<AddFunds> {
         primary: false,
         children: [
           const Text(
-            'Confirm Amount Transaction',
+            'Confirm Requested Amount',
             style: TextStyle(
               color: Colors.black,
               fontSize: 18,
@@ -351,7 +349,7 @@ class _AddFundsState extends State<AddFunds> {
                   });
                 }
               },
-              title: 'Confirm Transaction',
+              title: 'Confirm Request',
               bgColor: kSecondaryColor,
               isLoading: isLoading,
             ),
@@ -474,8 +472,9 @@ class _AddFundsState extends State<AddFunds> {
                                       if (authenticate) {
                                         authenticated = authenticate;
                                         // Get.back();
-                                        handlePaymentInitialization(
-                                            amount: disAmount);
+                                        verifyBalanceWithdraw(
+                                          amount: disAmount,
+                                        );
                                       }
 
                                       Get.back();
@@ -533,55 +532,19 @@ class _AddFundsState extends State<AddFunds> {
     );
   }
 
-  handlePaymentInitialization({required String amount}) async {
-    print('clicked');
-    final Customer customer = Customer(
-      name: '$fullName',
-      phoneNumber: '$phoneNumber',
-      email: '$email',
-    );
-    final Flutterwave flutterwave = Flutterwave(
-      context: context,
-      publicKey: ApiServices.publicKey,
-      currency: "NGN",
-      redirectUrl: "https://facebook.com",
-      txRef: uuid.v1(),
-      amount: amount,
-      customer: customer,
-      paymentOptions: "ussd, card, barter, payattitude",
-      customization: Customization(title: "Add Funds"),
-      isTestMode: true,
-    );
-
+  verifyBalanceWithdraw({required String amount}) async {
     setState(() {
       pageLoading = true;
     });
-    final ChargeResponse response = await flutterwave.charge();
-    // print("${response.toJson()}");
-    //to access address field
 
-    bool success = response.success!;
-    String status = response.status!;
-    if (success == true && status == 'successful') {
-      String txRef = response.txRef!;
-      String transactionId = response.transactionId!;
-
-      var result = await accountController.verifyTransaction(
-        userId: '$user_id',
-        txRef: txRef,
-        transactionId: transactionId,
-        amount: amount,
-      );
-      setState(() {
-        pageLoading = false;
-      });
-      displayResult(result);
-    } else {
-      setState(() {
-        pageLoading = false;
-      });
-      displayResult('Transaction not successful, please try again later');
-    }
+    var result = await accountController.verifyBalanceWithdraw(
+      userId: '$user_id',
+      amount: amount,
+    );
+    setState(() {
+      pageLoading = false;
+    });
+    displayResult(result);
   }
 
   completeTransactionPin({
@@ -592,22 +555,17 @@ class _AddFundsState extends State<AddFunds> {
     setState(() {
       pageLoading = true;
     });
-    var status = await accountController.verifyJustTransactionPin(
+
+    var status = await accountController.verifyWithdraw(
       transactionPin: transactionPin!,
       userId: userId,
       amount: amount,
     );
-    if (status == 'ok') {
-      setState(() {
-        pageLoading = false;
-      });
-      await handlePaymentInitialization(amount: amount);
-    } else {
-      setState(() {
-        pageLoading = false;
-      });
-      displayResult(status);
-    }
+
+    setState(() {
+      pageLoading = false;
+    });
+    displayResult(status);
   }
 
   displayResult(String status) {

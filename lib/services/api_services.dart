@@ -42,6 +42,7 @@ class ApiServices {
   static const String _verify_deposit = 'verify_deposit';
   static const String _verify_transaction_pin = 'verify_transaction';
   static const String _verify_just_pin = 'verify_just_pin';
+  static const String _verify_withdraw = 'verify_withdraw';
   static const String _debit_wallet = 'debit_wallet';
   static const String _add_transaction_history = 'add_transaction_history';
   static const String _refund_wallet = 'refund_wallet';
@@ -164,7 +165,6 @@ class ApiServices {
 
       if (response.statusCode == 200) {
         var body = response.body;
-        print(body);
 
         final j = json.decode(body) as Map<String, dynamic>;
         bool status = j['status'];
@@ -320,6 +320,40 @@ class ApiServices {
         print(status);
         return status;
       } else {
+        return 'could not connect to server ';
+      }
+    } catch (ex) {
+      return ex.toString();
+    }
+  }
+
+  static Future verifyWithdraw({
+    required String userId,
+    required String amount,
+  }) async {
+    try {
+      final uri = Uri.parse('$_mybaseUrl$_verify_withdraw/$userId');
+
+      var response = await http.post(uri, body: {
+        'userId': userId.toString(),
+        'amount': amount.toString(),
+      });
+
+      if (response.statusCode == 200) {
+        var body = response.body;
+        print(body);
+
+        final j = json.decode(body) as Map<String, dynamic>;
+        bool status = j['status'];
+        if (status) {
+          var disData = j['wallet'];
+
+          final data = accountModelFromJson(jsonEncode(disData).toString());
+          return data;
+        } else {
+          //return status;
+        }
+      } else {
         showSnackBar(
           title: 'Oops!',
           msg: 'could not connect to server ',
@@ -377,7 +411,7 @@ class ApiServices {
         );
       }
     } catch (ex) {
-      print(ex.toString());
+      return ex.toString();
     }
   }
 
@@ -408,14 +442,10 @@ class ApiServices {
         print(status);
         return status;
       } else {
-        showSnackBar(
-          title: 'Oops!',
-          msg: 'could not connect to server',
-          backgroundColor: Colors.red,
-        );
+        return 'could not connect to server';
       }
     } catch (ex) {
-      print(ex.toString());
+      return ex.toString();
     }
   }
 

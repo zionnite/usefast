@@ -875,7 +875,7 @@ class _PurchaseUtilityBillState extends State<PurchaseUtilityBill> {
                               ? 'Purchase not successful, please try again later!'
                               : (status == 'successful')
                                   ? 'Congratulation, Purchase was successful'
-                                  : status,
+                                  : '$status',
               textAlign: TextAlign.center,
             ),
           ),

@@ -4,6 +4,7 @@ import 'package:usefast/constant.dart';
 import 'package:usefast/widgets/property_btn_icon.dart';
 
 import 'add_funds.dart';
+import 'request_withdraw.dart';
 
 class FundPage extends StatefulWidget {
   const FundPage({Key? key}) : super(key: key);
@@ -51,7 +52,9 @@ class _FundPageState extends State<FundPage> {
                 elevation: 1,
                 borderRadius: 40,
                 card_margin: const EdgeInsets.only(top: 0, left: 0, right: 0),
-                onTap: () async {},
+                onTap: () async {
+                  Get.to(() => const RequestWithdraw());
+                },
                 title: 'Request Withdraw',
                 bgColor: kSecondaryColor,
                 isLoading: false,

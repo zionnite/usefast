@@ -571,4 +571,39 @@ class AccountController extends GetxController {
 
     return seeker;
   }
+
+  verifyBalanceWithdraw({
+    required String userId,
+    required String amount,
+  }) async {
+    var seeker =
+        await ApiServices.verifyWithdraw(userId: userId, amount: amount);
+    if (seeker != null) {
+      accountStatusCounter.value = seeker.cast<AccountModel>();
+      return 'Fund Requested sent';
+    } else {
+      return 'unknown error encountered';
+    }
+  }
+
+  verifyWithdraw({
+    required String userId,
+    required String transactionPin,
+    required String amount,
+  }) async {
+    var ref = _uuid.v1();
+    //connect to server and verify pin
+    var seeker = await ApiServices.verifyPin(
+      userId: userId,
+      amount: amount,
+      pin: transactionPin,
+    );
+
+    if (seeker == 'ok') {
+      var action = await verifyBalanceWithdraw(userId: userId, amount: amount);
+      return action;
+    } else {
+      return seeker;
+    }
+  }
 }
