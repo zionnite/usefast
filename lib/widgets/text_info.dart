@@ -17,6 +17,7 @@ class TextInfo extends StatelessWidget {
           title,
           style: kInfo.copyWith(
             color: Colors.white30,
+            fontSize: 15,
           ),
         ),
       ),

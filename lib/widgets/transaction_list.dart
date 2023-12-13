@@ -113,104 +113,92 @@ class _TransactionListState extends State<TransactionList> {
                   : detail(),
             ),
           ),
-          // ListView.builder(
-          //   shrinkWrap: true,
-          //   itemCount: transaction.length,
-          //   physics: const NeverScrollableScrollPhysics(),
-          //   itemBuilder: (context, index) {
-          //     var item = transaction[index];
-          //     return TransactionItem(
-          //       logo: item['bitcoin_logo'],
-          //       type: item['transaction_type'],
-          //       percent: item['percent'],
-          //       value: item['transaction_value'],
-          //     );
-          //   },
-          // ),
         ],
       ),
     );
   }
 
   Widget detail() {
-    return (transactionController.transactionList.isEmpty)
-        ? Stack(children: [
-            const ShowNotFound(),
-            Positioned(
-              bottom: 10,
-              right: 10,
-              child: InkWell(
-                onTap: () {
-                  setState(() {
-                    transactionController.isTransactionProcessing.value =
-                        'null';
-                    transactionController.fetchTransaction(
-                        1, user_id, admin_status);
-                    transactionController.transactionList.refresh();
-                  });
-                },
-                child: Container(
-                  decoration: const BoxDecoration(
-                    color: Colors.blue,
-                    borderRadius: BorderRadius.all(Radius.circular(30)),
-                  ),
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 20,
-                    horizontal: 20,
-                  ),
-                  child: const Icon(
-                    Icons.refresh,
-                    color: Colors.white,
+    return Obx(
+      () => (transactionController.transactionList.isEmpty)
+          ? Stack(children: [
+              const ShowNotFound(),
+              Positioned(
+                bottom: 10,
+                right: 10,
+                child: InkWell(
+                  onTap: () {
+                    setState(() {
+                      transactionController.isTransactionProcessing.value =
+                          'null';
+                      transactionController.fetchTransaction(
+                          1, user_id, admin_status);
+                      transactionController.transactionList.refresh();
+                    });
+                  },
+                  child: Container(
+                    decoration: const BoxDecoration(
+                      color: Colors.blue,
+                      borderRadius: BorderRadius.all(Radius.circular(30)),
+                    ),
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 20,
+                      horizontal: 20,
+                    ),
+                    child: const Icon(
+                      Icons.refresh,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               ),
-            ),
-          ])
-        : Obx(
-            () => ListView.builder(
-              controller: _controller,
-              padding: const EdgeInsets.only(bottom: 120),
-              key: const PageStorageKey<String>('allTransaction'),
-              // physics: const ClampingScrollPhysics(),
-              physics: const NeverScrollableScrollPhysics(),
-              // itemExtent: 350,
-              scrollDirection: Axis.vertical,
-              shrinkWrap: true,
-              itemCount: transactionController.transactionList.length,
-              itemBuilder: (BuildContext context, int index) {
-                var trans = transactionController.transactionList[index];
-                if (transactionController.transactionList[index].id == null) {
-                  return Container();
-                }
+            ])
+          : Obx(
+              () => ListView.builder(
+                controller: _controller,
+                padding: const EdgeInsets.only(bottom: 120),
+                key: const PageStorageKey<String>('allTransaction'),
+                // physics: const ClampingScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
+                // itemExtent: 350,
+                scrollDirection: Axis.vertical,
+                shrinkWrap: true,
+                itemCount: transactionController.transactionList.length,
+                itemBuilder: (BuildContext context, int index) {
+                  var trans = transactionController.transactionList[index];
+                  if (transactionController.transactionList[index].id == null) {
+                    return Container();
+                  }
 
-                String startDate = DateFormat('EEEE, MMM d, yyyy')
-                    .format(DateTime.parse('${trans.dateCreated}'));
+                  String startDate = DateFormat('EEEE, MMM d, yyyy')
+                      .format(DateTime.parse('${trans.dateCreated}'));
 
-                String? newType;
-                if (trans.transType == 'gift') {
-                  newType = 'Gift Card';
-                } else if (trans.transType == 'crypto') {
-                  newType = 'Crypto';
-                } else if (trans.transType == 'bill') {
-                  newType = 'Bill';
-                } else if (trans.transType == 'account_top_up') {
-                  newType = 'Account Top up';
-                }
-                return InkWell(
-                  onTap: () {
-                    Get.to(() => TransactionDetail(transaction: trans));
-                  },
-                  child: TransactionItem(
-                    logo: '${trans.transType}',
-                    type: '$newType',
-                    method: '${trans.transMethod}',
-                    status: '${trans.transStatus}',
-                    amount: '${trans.disAmount}',
-                    time_ago: startDate,
-                  ),
-                );
-              },
+                  String? newType;
+                  if (trans.transType == 'gift') {
+                    newType = 'Gift Card';
+                  } else if (trans.transType == 'crypto') {
+                    newType = 'Crypto';
+                  } else if (trans.transType == 'bill') {
+                    newType = 'Bill';
+                  } else if (trans.transType == 'account_top_up') {
+                    newType = 'Account Top up';
+                  }
+                  return InkWell(
+                    onTap: () {
+                      Get.to(() => TransactionDetail(transaction: trans));
+                    },
+                    child: TransactionItem(
+                      logo: '${trans.transType}',
+                      type: '$newType',
+                      method: '${trans.transMethod}',
+                      status: '${trans.transStatus}',
+                      amount: '${trans.disAmount}',
+                      time_ago: startDate,
+                    ),
+                  );
+                },
+              ),
             ),
-          );
+    );
   }
 }

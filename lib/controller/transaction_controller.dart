@@ -25,12 +25,11 @@ class TransactionController extends GetxController {
   fetchTransaction(pageNum, user_id, admin_status) async {
     var seeker =
         await ApiServices.getTransaction(pageNum, user_id, admin_status);
+
     if (seeker != null) {
       isTransactionProcessing.value = 'yes';
       transactionList.value = seeker.cast<Transaction>();
-      print('came here ');
     } else {
-      print('came there');
       isTransactionProcessing.value = 'no';
     }
   }

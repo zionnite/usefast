@@ -73,7 +73,7 @@ class TransactionItem extends StatelessWidget {
                               : (logo == 'bill')
                                   ? const Icon(LineAwesome.network_wired_solid)
                                   : (logo == 'account_top_up')
-                                      ? const Icon(LineAwesome.phone_solid)
+                                      ? const Icon(LineAwesome.laptop_solid)
                                       : Container(),
                     ),
                   ),

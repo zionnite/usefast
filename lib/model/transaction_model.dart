@@ -44,7 +44,7 @@ class Transaction {
   String? transMethod;
   String? transStatus;
   String? transItem;
-  DateTime? dateCreated;
+  String? dateCreated;
   String? day;
   String? month;
   String? year;
@@ -75,9 +75,7 @@ class Transaction {
         transMethod: json["trans_method"],
         transStatus: json["trans_status"],
         transItem: json["transItem"],
-        dateCreated: json["date_created"] == null
-            ? null
-            : DateTime.parse(json["date_created"]),
+        dateCreated: json["date_created"],
         day: json["day"],
         month: json["month"],
         year: json["year"],
@@ -93,8 +91,7 @@ class Transaction {
         "trans_method": transMethod,
         "trans_status": transStatus,
         "transItem": transItem,
-        "date_created":
-            "${dateCreated!.year.toString().padLeft(4, '0')}-${dateCreated!.month.toString().padLeft(2, '0')}-${dateCreated!.day.toString().padLeft(2, '0')}",
+        "date_created": dateCreated,
         "day": day,
         "month": month,
         "year": year,
