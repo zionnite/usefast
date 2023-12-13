@@ -53,7 +53,7 @@ class AccountController extends GetxController {
       accountStatusCounter.value = seeker.cast<AccountModel>();
       return 'Transaction successful';
     } else {
-      return seeker;
+      return 'Transaction Successful, unable to credit account, check later or contact Admin for help';
     }
   }
 

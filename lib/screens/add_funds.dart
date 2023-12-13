@@ -544,14 +544,14 @@ class _AddFundsState extends State<AddFunds> {
       customer: customer,
       paymentOptions: "ussd, card, barter, payattitude",
       customization: Customization(title: "Add Funds"),
-      isTestMode: true,
+      isTestMode: false,
     );
 
     setState(() {
       pageLoading = true;
     });
     final ChargeResponse response = await flutterwave.charge();
-    // print("${response.toJson()}");
+    print("${response.toJson()}");
     //to access address field
 
     bool success = response.success!;

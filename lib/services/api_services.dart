@@ -16,9 +16,8 @@ class ApiServices {
   static var client = http.Client();
   static const String _mybaseUrl = baseUrl;
   static const String privateKey =
-      'FLWSECK_TEST-e87034a1db84700165c21f6cd3c2ef54-X';
-  static const String publicKey =
-      'FLWPUBK_TEST-ff3a6c1dffa100835d97718e083470ff-X';
+      'FLWSECK-d46162dc85e05336959b7df588eb67b2-18bf654ca5avt-X';
+  static const String publicKey = 'FLWPUBK-48817ec524c2b0f49e2c2ace12021684-X';
 
   /***
    * below relife start
@@ -167,6 +166,7 @@ class ApiServices {
       if (response.statusCode == 200) {
         var body = response.body;
 
+        // print('body $body');
         final j = json.decode(body) as Map<String, dynamic>;
         bool status = j['status'];
         if (status) {
@@ -178,10 +178,10 @@ class ApiServices {
           //return status;
         }
       } else {
-        //return 'could not connect to server';
+        print('could not connect to server');
       }
     } catch (ex) {
-      //return ex.toString();
+      print(ex.toString());
     }
   }
 
@@ -449,6 +449,7 @@ class ApiServices {
     required bool isAirtime,
     required String ref,
   }) async {
+    print('create bill purchase');
     try {
       Map<String, String> header = {};
       header["Authorization"] = 'Bearer $privateKey';
@@ -469,6 +470,7 @@ class ApiServices {
           .timeout(const Duration(minutes: 60));
 
       var body = response.body;
+      print('body $body');
       final j = json.decode(body) as Map<String, dynamic>;
       if (response.statusCode == 200) {
         String status = j['status'];

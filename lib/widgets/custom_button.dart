@@ -5,13 +5,13 @@ import '../constant.dart';
 
 class CustomButton extends StatelessWidget {
   final String title;
-  final String svgPath;
+  final Icon icon;
   final VoidCallback onTap;
 
   const CustomButton({
     Key? key,
     required this.title,
-    required this.svgPath,
+    required this.icon,
     required this.onTap,
   }) : super(key: key);
 
@@ -22,7 +22,7 @@ class CustomButton extends StatelessWidget {
       width: 160,
       child: TextButton.icon(
         label: Text(title),
-        icon: SvgPicture.asset(svgPath),
+        icon: icon,
         onPressed: onTap,
         style: TextButton.styleFrom(
           primary: kTextColor,

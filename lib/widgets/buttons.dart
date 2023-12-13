@@ -84,8 +84,11 @@ class _ButtonsState extends State<Buttons> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             CustomButton(
-              title: 'Add Funds',
-              svgPath: 'assets/icons/add.svg',
+              title: 'Account',
+              icon: const Icon(
+                Icons.wallet,
+                color: Colors.white,
+              ),
               onTap: () {
                 Get.to(() => const FundPage());
                 // handlePaymentInitialization();
@@ -93,7 +96,10 @@ class _ButtonsState extends State<Buttons> {
             ),
             CustomButton(
               title: 'Utility Bills',
-              svgPath: 'assets/icons/send.svg',
+              icon: const Icon(
+                Icons.send,
+                color: Colors.white,
+              ),
               onTap: () {
                 Get.to(() => const BillPage());
               },
