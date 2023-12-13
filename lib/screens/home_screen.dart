@@ -8,6 +8,7 @@ import 'package:usefast/constant.dart';
 import 'package:usefast/controller/account_controller.dart';
 import 'package:usefast/controller/lock_session.dart';
 import 'package:usefast/controller/transaction_controller.dart';
+import 'package:usefast/util/common.dart';
 import 'package:usefast/widgets/buttons.dart';
 import 'package:usefast/widgets/header.dart';
 
@@ -74,6 +75,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     initUserDetail();
     super.initState();
+    checkIfNewApp();
   }
 
   @override

@@ -114,9 +114,9 @@ class _HeaderState extends State<Header> {
                   cacheImage: true,
                   imageFit: BoxFit.cover,
                   onTap: () {
-                    Get.to(
-                      () => const ProfilePage(),
-                    );
+                    // Get.to(
+                    //   () => const ProfilePage(),
+                    // );
                   },
                   showInitialTextAbovePicture: false,
                 ),

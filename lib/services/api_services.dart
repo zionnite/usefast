@@ -100,14 +100,12 @@ class ApiServices {
     try {
       final uri = Uri.parse('$_mybaseUrl$_get_transaction/$pageNum/$userId');
 
-      print('$_mybaseUrl$_get_transaction/$pageNum/$userId');
       var response = await http.post(uri, body: {
         'admin_status': adminStatus.toString(),
       });
 
       if (response.statusCode == 200) {
         var body = response.body;
-        print(body);
 
         final j = json.decode(body) as Map<String, dynamic>;
         String status = j['status'];
@@ -126,9 +124,7 @@ class ApiServices {
           backgroundColor: Colors.red,
         );
       }
-    } catch (ex) {
-      print(ex.toString());
-    }
+    } catch (ex) {}
   }
 
   static Future getWalletDetail(var userId, var adminStatus) async {
@@ -147,7 +143,6 @@ class ApiServices {
         );
       }
     } catch (ex) {
-      // print(ex);
       // return showSnackBar(
       //   title: 'Oops!',
       //   msg: ex.toString(),
@@ -262,9 +257,7 @@ class ApiServices {
           backgroundColor: Colors.red,
         );
       }
-    } catch (ex) {
-      // print(ex.toString());
-    }
+    } catch (ex) {}
   }
 
   static Future fetchBillDisDataPlan({required String billerCode}) async {
@@ -299,9 +292,7 @@ class ApiServices {
           backgroundColor: Colors.red,
         );
       }
-    } catch (ex) {
-      // print(ex.toString());
-    }
+    } catch (ex) {}
   }
 
   static Future verifyPin({
@@ -323,7 +314,7 @@ class ApiServices {
 
         final j = json.decode(body) as Map<String, dynamic>;
         String status = j['status'];
-        print(status);
+
         return status;
       } else {
         return 'could not connect to server ';
@@ -347,7 +338,6 @@ class ApiServices {
 
       if (response.statusCode == 200) {
         var body = response.body;
-        print(body);
 
         final j = json.decode(body) as Map<String, dynamic>;
         bool status = j['status'];
@@ -367,9 +357,7 @@ class ApiServices {
           duration: const Duration(seconds: 56),
         );
       }
-    } catch (ex) {
-      print(ex.toString());
-    }
+    } catch (ex) {}
   }
 
   static Future validateInputDetails({
@@ -378,7 +366,6 @@ class ApiServices {
     required String billerName,
     required String itemCode,
   }) async {
-    print('started validating');
     try {
       Map<String, String> header = {};
       header["Authorization"] = 'Bearer $privateKey';
@@ -389,8 +376,6 @@ class ApiServices {
           .get(uri, headers: header)
           .timeout(const Duration(minutes: 60));
 
-      print('this response ${response.statusCode}');
-      print('this response body ${response.body}');
       var body = response.body;
       final j = json.decode(body) as Map<String, dynamic>;
       if (response.statusCode == 200) {
@@ -409,7 +394,7 @@ class ApiServices {
         } else {
           return message;
         }
-        print('error validating');
+
         showSnackBar(
           title: 'Oops!',
           msg: 'could not connect to server',
@@ -428,7 +413,6 @@ class ApiServices {
     required String billType,
     required String customer,
   }) async {
-    print('debbiting wallet');
     try {
       final uri = Uri.parse('$_mybaseUrl$_debit_wallet/$userId');
 
@@ -445,7 +429,7 @@ class ApiServices {
 
         final j = json.decode(body) as Map<String, dynamic>;
         String status = j['status'];
-        print(status);
+
         return status;
       } else {
         return 'could not connect to server';
@@ -465,7 +449,6 @@ class ApiServices {
     required bool isAirtime,
     required String ref,
   }) async {
-    print('creating bill');
     try {
       Map<String, String> header = {};
       header["Authorization"] = 'Bearer $privateKey';
@@ -485,8 +468,6 @@ class ApiServices {
           )
           .timeout(const Duration(minutes: 60));
 
-      print('response statuscode ${response.statusCode}');
-      print('response  ${response.body}');
       var body = response.body;
       final j = json.decode(body) as Map<String, dynamic>;
       if (response.statusCode == 200) {
@@ -504,9 +485,7 @@ class ApiServices {
         //   backgroundColor: Colors.red,
         // );
       }
-    } catch (ex) {
-      print(ex.toString());
-    }
+    } catch (ex) {}
   }
 
   static Future addToTransactionHistory({
@@ -516,7 +495,6 @@ class ApiServices {
     required String billType,
     required String customer,
   }) async {
-    print('add to transaction history');
     try {
       final uri = Uri.parse('$_mybaseUrl$_add_transaction_history/$userId');
 
@@ -548,9 +526,7 @@ class ApiServices {
           backgroundColor: Colors.red,
         );
       }
-    } catch (ex) {
-      print(ex.toString());
-    }
+    } catch (ex) {}
   }
 
   static Future refundWallet({
@@ -560,7 +536,6 @@ class ApiServices {
     required String billType,
     required String customer,
   }) async {
-    print('Refund wallet');
     try {
       final uri = Uri.parse('$_mybaseUrl$_refund_wallet/$userId');
 
@@ -592,9 +567,7 @@ class ApiServices {
           backgroundColor: Colors.red,
         );
       }
-    } catch (ex) {
-      print(ex.toString());
-    }
+    } catch (ex) {}
   }
 
   static Future fetchBillElectricProvider() async {
@@ -631,9 +604,7 @@ class ApiServices {
           backgroundColor: Colors.red,
         );
       }
-    } catch (ex) {
-      // print(ex.toString());
-    }
+    } catch (ex) {}
   }
 
   static Future fetchBillWifiProvider() async {
@@ -670,9 +641,7 @@ class ApiServices {
           backgroundColor: Colors.red,
         );
       }
-    } catch (ex) {
-      // print(ex.toString());
-    }
+    } catch (ex) {}
   }
 
   static Future fetchBillCableProvider() async {
@@ -709,9 +678,7 @@ class ApiServices {
           backgroundColor: Colors.red,
         );
       }
-    } catch (ex) {
-      // print(ex.toString());
-    }
+    } catch (ex) {}
   }
 
   static Future<String> signUp({
@@ -751,7 +718,6 @@ class ApiServices {
         return 'could not connect to server';
       }
     } catch (ex) {
-      // print(ex);
       showSnackBar(
         title: 'Oops!',
         msg: ex.toString(),
@@ -881,7 +847,6 @@ class ApiServices {
         return 'could not connect to server';
       }
     } catch (ex) {
-      // print(ex);
       showSnackBar(
         title: 'Oops!',
         msg: ex.toString(),
@@ -917,7 +882,6 @@ class ApiServices {
         );
       }
     } catch (ex) {
-      // print(ex.toString());
       // return showSnackBar(
       //   title: 'Oops!',
       //   msg: ex.toString(),
@@ -1012,9 +976,8 @@ class ApiServices {
         // );
       }
     } catch (ex) {
-      print(ex.toString());
       return ex.toString();
-      // print(ex);
+
       // return showSnackBar(
       //   title: 'Oops!',
       //   msg: ex.toString(),
@@ -1111,7 +1074,6 @@ class ApiServices {
         );
       }
     } catch (ex) {
-      print(ex);
       return ex.toString();
       // return
       // showSnackBar(
@@ -1201,7 +1163,6 @@ class ApiServices {
         );
       }
     } catch (ex) {
-      // print(ex);
       return showSnackBar(
         title: 'Oops!',
         msg: ex.toString(),
@@ -1247,7 +1208,6 @@ class ApiServices {
         return false;
       }
     } catch (ex) {
-      // print(ex.toString());
       // return showSnackBar(
       //   title: 'Oops!',
       //   msg: ex.toString(),
@@ -1262,9 +1222,6 @@ class ApiServices {
     required String bankCode,
     required String my_id,
   }) async {
-    // print(accountNum);
-    // print(bankCode);
-    // print(my_id);
     try {
       final uri = Uri.parse(
           '$_mybaseUrl$_verify_bank_account/$my_id/$bankCode/$accountNum');
@@ -1284,7 +1241,6 @@ class ApiServices {
         );
       }
     } catch (ex) {
-      // print(ex);
       return showSnackBar(
         title: 'Oops!',
         msg: ex.toString(),
@@ -1311,7 +1267,6 @@ class ApiServices {
         );
       }
     } catch (ex) {
-      // print(ex);
       // return showSnackBar(
       //   title: 'Oops!',
       //   msg: ex.toString(),
@@ -1339,7 +1294,6 @@ class ApiServices {
         return false;
       }
     } catch (ex) {
-      // print(ex);
       // return showSnackBar(
       //   title: 'Oops!',
       //   msg: ex.toString(),
@@ -1402,7 +1356,6 @@ class ApiServices {
         );
       }
     } catch (ex) {
-      // print(ex);
       return showSnackBar(
         title: 'Oops!',
         msg: ex.toString(),
@@ -1416,8 +1369,6 @@ class ApiServices {
     try {
       final uri = Uri.parse('$_mybaseUrl$_update_email');
 
-      print('email $newEmail');
-      print('userId $userId');
       var response = await http.post(uri, body: {
         'email': newEmail.toString(),
         'user_id': userId.toString(),
@@ -1427,7 +1378,7 @@ class ApiServices {
 
         final j = json.decode(body) as Map<String, dynamic>;
         String status = j['status'];
-        print('status $status');
+
         if (status == 'success') {
           SharedPreferences prefs = await SharedPreferences.getInstance();
           String email = j['email'];
@@ -1445,7 +1396,6 @@ class ApiServices {
         );
       }
     } catch (ex) {
-      // print(ex);
       return showSnackBar(
         title: 'Oops!',
         msg: ex.toString(),
@@ -1486,7 +1436,6 @@ class ApiServices {
         );
       }
     } catch (ex) {
-      // print(ex);
       return showSnackBar(
         title: 'Oops!',
         msg: ex.toString(),
@@ -1529,9 +1478,7 @@ class ApiServices {
           backgroundColor: Colors.red,
         );
       }
-    } catch (ex) {
-      // print(ex.toString());
-    }
+    } catch (ex) {}
   }
 
   static Future<String?> updateUserBank({
@@ -1556,7 +1503,7 @@ class ApiServices {
 
         final j = json.decode(body) as Map<String, dynamic>;
         String status = j['status'];
-        print('status $status');
+
         if (status == 'success') {
           SharedPreferences prefs = await SharedPreferences.getInstance();
 
@@ -1578,7 +1525,6 @@ class ApiServices {
         );
       }
     } catch (ex) {
-      // print(ex);
       return showSnackBar(
         title: 'Oops!',
         msg: ex.toString(),

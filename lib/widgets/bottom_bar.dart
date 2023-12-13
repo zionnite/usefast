@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:usefast/constant.dart';
 import 'package:usefast/screens/home_screen.dart';
+import 'package:usefast/screens/profile_page.dart';
 import 'package:usefast/screens/transaction_screen.dart';
 
 class BottomBar extends StatefulWidget {
@@ -15,6 +16,7 @@ class _BottomBarState extends State<BottomBar> {
   final List _page = [
     const HomeScreen(),
     const TransactionScreen(),
+    const ProfilePage(),
   ];
   int _selectedIndex = 0;
 
@@ -32,6 +34,8 @@ class _BottomBarState extends State<BottomBar> {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             IconButton(
+              color:
+                  (_selectedIndex == 0) ? Colors.white : Colors.grey.shade700,
               splashColor: Colors.transparent,
               highlightColor: Colors.transparent,
               enableFeedback: false,
@@ -40,31 +44,11 @@ class _BottomBarState extends State<BottomBar> {
                   _selectedIndex = 0;
                 });
               },
-              icon: SvgPicture.asset(
-                'assets/icons/home.svg',
-              ),
-            ),
-            SizedBox(
-              height: 50,
-              width: 133,
-              child: TextButton(
-                onPressed: () {
-                  print('hello');
-                },
-                style: TextButton.styleFrom(
-                  foregroundColor: kTextColor,
-                  backgroundColor: kSecondaryColor,
-                  textStyle: kSFUI16,
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(35),
-                    ),
-                  ),
-                ),
-                child: const Text('Chat'),
-              ),
+              icon: const Icon(Icons.home_filled),
             ),
             IconButton(
+              color:
+                  (_selectedIndex == 1) ? Colors.white : Colors.grey.shade700,
               splashColor: Colors.transparent,
               highlightColor: Colors.transparent,
               enableFeedback: false,
@@ -73,9 +57,20 @@ class _BottomBarState extends State<BottomBar> {
                   _selectedIndex = 1;
                 });
               },
-              icon: SvgPicture.asset(
-                'assets/icons/wallet.svg',
-              ),
+              icon: const Icon(Icons.bar_chart),
+            ),
+            IconButton(
+              color:
+                  (_selectedIndex == 2) ? Colors.white : Colors.grey.shade700,
+              splashColor: Colors.transparent,
+              highlightColor: Colors.transparent,
+              enableFeedback: false,
+              onPressed: () {
+                setState(() {
+                  _selectedIndex = 2;
+                });
+              },
+              icon: const Icon(Icons.person),
             ),
           ],
         ),

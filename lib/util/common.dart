@@ -1,6 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:giffy_dialog/giffy_dialog.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:usefast/services/api_services.dart';
 
 Color backgroundColorPrimary = Colors.blue.shade900;
 Color backgroundColorLight = const Color(0xff7c43bd);
@@ -89,10 +93,83 @@ displayBottomSheetFeedback({
   );
 }
 
-const int CURRENT_APP_VERSION = 4;
+const int CURRENT_APP_VERSION = 1;
 const String baseDomain = 'https://app.usefastpay.ng/';
 // const String baseDomain = 'http://localhost:8888/usefastpay/';
 const String baseUrl = '${baseDomain}Api/';
 
 // const String baseUrl  = 'http://localhost:8888/Api/';
 // const String baseUrlSec  = 'http://localhost:8888/ApiMlm/';
+
+checkIfNewApp() async {
+  final int UPDATEDAPPVERSION = await ApiServices.isAppHasNewUpdate();
+  var androidAppLink = await ApiServices.androidStoreLink();
+  var iosAppLink = await ApiServices.iosStoreLink();
+  if (UPDATEDAPPVERSION > CURRENT_APP_VERSION) {
+    showUpgrade(androidAppLink, iosAppLink);
+  }
+}
+
+showUpgrade(androidAppLink, iosAppLink) {
+  return showModalBottomSheet(
+    context: Get.context!,
+    clipBehavior: Clip.antiAlias,
+    isScrollControlled: true,
+    isDismissible: false,
+    shape: const RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(
+        top: Radius.circular(40),
+      ),
+    ),
+    builder: (BuildContext context) {
+      return GiffyBottomSheet.image(
+        Image.asset(
+          "assets/images/fast_pay.png",
+          height: 200,
+          fit: BoxFit.cover,
+        ),
+        title: const Text(
+          'New App Update!',
+          textAlign: TextAlign.center,
+        ),
+        content: const Text(
+          'New App Update is available on the Store, click on the Button to update to the new version',
+          textAlign: TextAlign.center,
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, 'CANCEL'),
+            child: const Text('CANCEL'),
+          ),
+          TextButton(
+            onPressed: () async {
+              if (Platform.isIOS) {
+                _launchUniversalLinkIos(iosAppLink);
+              }
+              if (Platform.isAndroid) {
+                _launchUniversalLinkIos(androidAppLink);
+              }
+              Get.back();
+            },
+            child: const Text('Update Now'),
+          ),
+        ],
+      );
+    },
+  );
+}
+
+Future<void> _launchUniversalLinkIos(String link) async {
+  if (await canLaunchUrl(Uri.parse(link))) {
+    final bool nativeAppLaunchSucceeded = await launchUrl(
+      Uri.parse(link),
+      mode: LaunchMode.externalNonBrowserApplication,
+    );
+    if (!nativeAppLaunchSucceeded) {
+      await launchUrl(
+        Uri.parse(link),
+        mode: LaunchMode.inAppWebView,
+      );
+    }
+  }
+}

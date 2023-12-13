@@ -10,9 +10,11 @@ import 'package:image_picker/image_picker.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:loading_overlay_pro/loading_overlay_pro.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:usefast/constant.dart';
 import 'package:usefast/controller/account_controller.dart';
 import 'package:usefast/controller/transaction_controller.dart';
+import 'package:usefast/services/api_services.dart';
 import 'package:usefast/util/common.dart';
 import 'package:usefast/widgets/profile_card_item.dart';
 
@@ -76,6 +78,8 @@ class _ProfilePageState extends State<ProfilePage> {
   void initState() {
     initUserDetail();
     super.initState();
+
+    checkIfNewApp();
   }
 
   File? _image;
@@ -124,18 +128,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   child: Padding(
                     padding: const EdgeInsets.only(left: 0.0, top: 50),
                     child: Row(
-                      children: [
-                        IconButton(
-                          color: Colors.white,
-                          onPressed: () {
-                            Get.back();
-                          },
-                          icon: const Icon(
-                            Icons.chevron_left,
-                            size: 40,
-                          ),
-                        )
-                      ],
+                      children: [Container()],
                     ),
                   ),
                 ),
