@@ -42,10 +42,12 @@ class AccountController extends GetxController {
   depositUserFund({
     required String userId,
     required String amount,
+    required String ref,
   }) async {
     var seeker = await ApiServices.depositUserFund(
       userId: userId,
       amount: amount,
+      ref: ref,
     );
     if (seeker != null) {
       accountStatusCounter.value = seeker.cast<AccountModel>();
@@ -67,7 +69,7 @@ class AccountController extends GetxController {
       transactionId: transactionId,
     );
     if (seeker == 'success') {
-      var data = depositUserFund(userId: userId, amount: amount);
+      var data = depositUserFund(userId: userId, amount: amount, ref: txRef);
       return data;
     } else {
       return seeker;

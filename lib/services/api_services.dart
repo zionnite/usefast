@@ -100,12 +100,14 @@ class ApiServices {
     try {
       final uri = Uri.parse('$_mybaseUrl$_get_transaction/$pageNum/$userId');
 
+      print('$_mybaseUrl$_get_transaction/$pageNum/$userId');
       var response = await http.post(uri, body: {
         'admin_status': adminStatus.toString(),
       });
 
       if (response.statusCode == 200) {
         var body = response.body;
+        print(body);
 
         final j = json.decode(body) as Map<String, dynamic>;
         String status = j['status'];
@@ -118,13 +120,15 @@ class ApiServices {
           return data;
         }
       } else {
-        return showSnackBar(
+        showSnackBar(
           title: 'Oops!',
           msg: 'could not connect to server',
           backgroundColor: Colors.red,
         );
       }
-    } catch (ex) {}
+    } catch (ex) {
+      print(ex.toString());
+    }
   }
 
   static Future getWalletDetail(var userId, var adminStatus) async {
@@ -155,12 +159,14 @@ class ApiServices {
   static Future depositUserFund({
     required String userId,
     required String amount,
+    required String ref,
   }) async {
     try {
       final uri = Uri.parse('$_mybaseUrl$_verify_deposit/$userId');
 
       var response = await http.post(uri, body: {
         'amount': amount.toString(),
+        'ref': ref.toString(),
       });
 
       if (response.statusCode == 200) {
@@ -737,19 +743,21 @@ class ApiServices {
           return msg;
         }
       } else {
-        return showSnackBar(
+        showSnackBar(
           title: 'Oops!',
           msg: 'could not connect to server',
           backgroundColor: Colors.red,
         );
+        return 'could not connect to server';
       }
     } catch (ex) {
       // print(ex);
-      return showSnackBar(
+      showSnackBar(
         title: 'Oops!',
         msg: ex.toString(),
         backgroundColor: Colors.red,
       );
+      return ex.toString();
     }
   }
 
@@ -829,19 +837,20 @@ class ApiServices {
           return msg;
         }
       } else {
-        return showSnackBar(
+        showSnackBar(
           title: 'Oops!',
           msg: 'could not connect to server',
           backgroundColor: Colors.red,
         );
+        return 'could not connect to server';
       }
     } catch (ex) {
-      // print(ex);
-      return showSnackBar(
+      showSnackBar(
         title: 'Oops!',
         msg: ex.toString(),
         backgroundColor: Colors.red,
       );
+      return ex.toString();
     }
   }
 
@@ -864,19 +873,21 @@ class ApiServices {
           return msg;
         }
       } else {
-        return showSnackBar(
+        showSnackBar(
           title: 'Oops!',
           msg: 'could not connect to server',
           backgroundColor: Colors.red,
         );
+        return 'could not connect to server';
       }
     } catch (ex) {
       // print(ex);
-      return showSnackBar(
+      showSnackBar(
         title: 'Oops!',
         msg: ex.toString(),
         backgroundColor: Colors.red,
       );
+      return ex.toString();
     }
   }
 

@@ -90,8 +90,8 @@ displayBottomSheetFeedback({
 }
 
 const int CURRENT_APP_VERSION = 4;
-// const String baseDomain = 'https://ogabliss.com/';
-const String baseDomain = 'http://localhost:8888/usefastpay/';
+const String baseDomain = 'https://app.usefastpay.ng/';
+// const String baseDomain = 'http://localhost:8888/usefastpay/';
 const String baseUrl = '${baseDomain}Api/';
 
 // const String baseUrl  = 'http://localhost:8888/Api/';

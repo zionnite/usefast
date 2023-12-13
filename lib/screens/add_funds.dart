@@ -105,12 +105,6 @@ class _AddFundsState extends State<AddFunds> {
     return WillPopScope(
       onWillPop: () async => !pageLoading,
       child: Scaffold(
-        // appBar: AppBar(
-        //   title: const Text('Add Fund'),
-        //   centerTitle: true,
-        //   backgroundColor: kPrimaryColor,
-        //   elevation: 0,
-        // ),
         backgroundColor: kPrimaryColor,
         body: LoadingOverlayPro(
           isLoading: pageLoading,
