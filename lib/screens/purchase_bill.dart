@@ -107,308 +107,311 @@ class _PurchaseUtilityBillState extends State<PurchaseUtilityBill> {
               size: 20,
             ),
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(
-                height: 40,
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 0.0),
-                child: Row(
-                  children: [
-                    InkWell(
-                      onTap: () {
-                        Get.back();
-                      },
-                      child: const Icon(
-                        Icons.chevron_left_rounded,
-                        color: Colors.white,
-                        size: 42,
-                      ),
-                    ),
-                  ],
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(
+                  height: 40,
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(
-                  left: 18.0,
-                  right: 8.0,
-                  top: 8,
-                  bottom: 8,
+                Padding(
+                  padding: const EdgeInsets.only(left: 0.0),
+                  child: Row(
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          Get.back();
+                        },
+                        child: const Icon(
+                          Icons.chevron_left_rounded,
+                          color: Colors.white,
+                          size: 42,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      (utilityType == 'airtime') ? 'Buy Airtime' : 'Buy Data',
-                      style: TextStyle(
-                        color: textColorWhite,
-                        fontSize: 25,
-                        fontWeight: FontWeight.w800,
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      'Enter receiver\'s phone number to buy $type instantly',
-                      style: TextStyle(
-                        color: textColorWhite,
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 18,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                          child: SizedBox(
-                            width: 200,
-                            child: MyNumField(
-                              myTextFormController: phoneController,
-                              fieldName: 'Phone Number',
-                              prefix: Icons.phone_android_sharp,
-                              onChange: (string) {},
-                            ),
-                          ),
+                Padding(
+                  padding: const EdgeInsets.only(
+                    left: 18.0,
+                    right: 8.0,
+                    top: 8,
+                    bottom: 8,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        (utilityType == 'airtime') ? 'Buy Airtime' : 'Buy Data',
+                        style: TextStyle(
+                          color: textColorWhite,
+                          fontSize: 25,
+                          fontWeight: FontWeight.w800,
                         ),
-                        const SizedBox(
-                          width: 10,
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        'Enter receiver\'s phone number to buy $type instantly',
+                        style: TextStyle(
+                          color: textColorWhite,
                         ),
-                        InkWell(
-                          onTap: () async {
-                            Contact? contact =
-                                await _contactPicker.selectContact();
-                            if (contact != null) {
-                              setState(() {
-                                _contact = contact;
-                                phoneController.text =
-                                    _contact.phoneNumbers![0];
-                              });
-                            }
-                          },
-                          child: Container(
-                            width: 80,
-                            decoration: BoxDecoration(
-                              color: kSecondaryColor,
-                              borderRadius: const BorderRadius.all(
-                                Radius.circular(8),
-                              ),
-                              border: Border.all(
-                                color: Colors.white,
-                              ),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                left: 5.0,
-                                right: 5.0,
-                                top: 15,
-                                bottom: 15,
-                              ),
-                              child: Icon(
-                                Icons.contacts,
-                                color: textColorWhite,
-                                size: 25,
+                      ),
+                      const SizedBox(
+                        height: 18,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: SizedBox(
+                              width: 200,
+                              child: MyNumField(
+                                myTextFormController: phoneController,
+                                fieldName: 'Phone Number',
+                                prefix: Icons.phone_android_sharp,
+                                onChange: (string) {},
                               ),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-
-                    (phoneError)
-                        ? const Text('Phone number is required!',
-                            style: TextStyle(
-                              color: Colors.red,
-                            ))
-                        : Container(),
-                    const SizedBox(
-                      height: 18,
-                    ),
-                    Text(
-                      'Select Network Provider',
-                      style: TextStyle(
-                        fontSize: 18,
-                        color: textColorWhite,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    Container(
-                      height: 100,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: networkProvider.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          var data = networkProvider[index];
-                          return InkWell(
-                            onTap: () {
-                              setState(() {
-                                networkSelected = data;
-                                isSelected = true;
-                              });
-                              // List<String> networkProvider = [
-                              //   "MTN",
-                              //   "AIRTEL",
-                              //   "GLO",
-                              //   "9MOBILE"
-                              // ];
-                              if (networkSelected == 'MTN') {
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          InkWell(
+                            onTap: () async {
+                              Contact? contact =
+                                  await _contactPicker.selectContact();
+                              if (contact != null) {
                                 setState(() {
-                                  billerCode = 'BIL099';
-                                  billerName = 'AIRTIME';
-                                  itemCode = 'AT099';
+                                  _contact = contact;
+                                  phoneController.text =
+                                      _contact.phoneNumbers![0];
                                 });
-                              } else if (networkSelected == 'AIRTEL') {
-                                setState(() {
-                                  billerCode = 'BIL100';
-                                  billerName = 'AIRTEL VTU';
-                                  itemCode = 'AT100';
-                                });
-                              } else if (networkSelected == 'GLO') {
-                                setState(() {
-                                  billerCode = 'BIL102';
-                                  billerName = 'GLO VTU';
-                                  itemCode = 'AT102';
-                                });
-                              } else if (networkSelected == '9MOBILE') {
-                                billerCode = 'BIL103';
-                                billerName = '9MOBILE VTU';
-                                itemCode = 'AT103';
                               }
                             },
                             child: Container(
-                              // width: 150,
-                              height: 100,
+                              width: 80,
                               decoration: BoxDecoration(
                                 color: kSecondaryColor,
                                 borderRadius: const BorderRadius.all(
                                   Radius.circular(8),
                                 ),
                                 border: Border.all(
-                                  color: (networkSelected == data)
-                                      ? Colors.white
-                                      : Colors.white12,
+                                  color: Colors.white,
                                 ),
                               ),
-                              padding: const EdgeInsets.all(20),
-                              margin: const EdgeInsets.only(
-                                top: 10,
-                                right: 10,
-                                // bottom: 10,
-                              ),
-                              child: Center(
-                                child: Text(
-                                  data,
-                                  style: TextStyle(
-                                    color: textColorWhite,
-                                  ),
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                  left: 5.0,
+                                  right: 5.0,
+                                  top: 15,
+                                  bottom: 15,
+                                ),
+                                child: Icon(
+                                  Icons.contacts,
+                                  color: textColorWhite,
+                                  size: 25,
                                 ),
                               ),
                             ),
-                          );
-                        },
+                          ),
+                        ],
                       ),
-                    ),
 
-                    (networkError)
-                        ? const Text('Network provider not selected!',
-                            style: TextStyle(
-                              color: Colors.red,
-                            ))
-                        : Container(),
+                      (phoneError)
+                          ? const Text('Phone number is required!',
+                              style: TextStyle(
+                                color: Colors.red,
+                              ))
+                          : Container(),
+                      const SizedBox(
+                        height: 18,
+                      ),
+                      Text(
+                        'Select Network Provider',
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: textColorWhite,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      Container(
+                        height: 100,
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: networkProvider.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            var data = networkProvider[index];
+                            return InkWell(
+                              onTap: () {
+                                setState(() {
+                                  networkSelected = data;
+                                  isSelected = true;
+                                });
+                                // List<String> networkProvider = [
+                                //   "MTN",
+                                //   "AIRTEL",
+                                //   "GLO",
+                                //   "9MOBILE"
+                                // ];
+                                if (networkSelected == 'MTN') {
+                                  setState(() {
+                                    billerCode = 'BIL099';
+                                    billerName = 'AIRTIME';
+                                    itemCode = 'AT099';
+                                  });
+                                } else if (networkSelected == 'AIRTEL') {
+                                  setState(() {
+                                    billerCode = 'BIL100';
+                                    billerName = 'AIRTEL VTU';
+                                    itemCode = 'AT100';
+                                  });
+                                } else if (networkSelected == 'GLO') {
+                                  setState(() {
+                                    billerCode = 'BIL102';
+                                    billerName = 'GLO VTU';
+                                    itemCode = 'AT102';
+                                  });
+                                } else if (networkSelected == '9MOBILE') {
+                                  billerCode = 'BIL103';
+                                  billerName = '9MOBILE VTU';
+                                  itemCode = 'AT103';
+                                }
+                              },
+                              child: Container(
+                                // width: 150,
+                                height: 100,
+                                decoration: BoxDecoration(
+                                  color: kSecondaryColor,
+                                  borderRadius: const BorderRadius.all(
+                                    Radius.circular(8),
+                                  ),
+                                  border: Border.all(
+                                    color: (networkSelected == data)
+                                        ? Colors.white
+                                        : Colors.white12,
+                                  ),
+                                ),
+                                padding: const EdgeInsets.all(20),
+                                margin: const EdgeInsets.only(
+                                  top: 10,
+                                  right: 10,
+                                  // bottom: 10,
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    data,
+                                    style: TextStyle(
+                                      color: textColorWhite,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
 
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    //
-                    MyMoneyField(
-                      myTextFormController: amountController,
-                      fieldName: 'Amount',
-                      prefix: Icons.attach_money,
-                      onChange: (string) {
-                        if (amountController.text.isNotEmpty) {
-                          string =
-                              '${_formatNumber(string.replaceAll(',', ''))}';
-                          amountController.value = TextEditingValue(
-                            text: string,
-                            selection:
-                                TextSelection.collapsed(offset: string.length),
-                          );
-                        } else {
-                          setState(() {
-                            string = '0';
-                          });
-                        }
-                        setState(() {
-                          disAmount = string;
-                          disAmount = disAmount!.replaceAll(",", "");
-                        });
-                      },
-                    ),
+                      (networkError)
+                          ? const Text('Network provider not selected!',
+                              style: TextStyle(
+                                color: Colors.red,
+                              ))
+                          : Container(),
 
-                    (amountError)
-                        ? const Text('Amount is required!',
-                            style: TextStyle(
-                              color: Colors.red,
-                            ))
-                        : Container(),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 0.0),
-                      child: propertyBtn(
-                        card_margin:
-                            const EdgeInsets.only(top: 0, left: 0, right: 0),
-                        onTap: () async {
-                          if (networkSelected != null &&
-                              disAmount != '0' &&
-                              phoneController.text != '') {
-                            setState(() {
-                              isLoading = true;
-                              // showError = false;
-                              phoneError = false;
-                              networkError = false;
-                              amountError = false;
-                            });
-
-                            Future.delayed(const Duration(seconds: 1), () {
-                              setState(() {
-                                amountController.text = '';
-                                isLoading = false;
-                              });
-                              verifySelectedAirtime();
-                            });
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      //
+                      MyMoneyField(
+                        myTextFormController: amountController,
+                        fieldName: 'Amount',
+                        prefix: Icons.attach_money,
+                        onChange: (string) {
+                          if (amountController.text.isNotEmpty) {
+                            string =
+                                '${_formatNumber(string.replaceAll(',', ''))}';
+                            amountController.value = TextEditingValue(
+                              text: string,
+                              selection: TextSelection.collapsed(
+                                  offset: string.length),
+                            );
                           } else {
                             setState(() {
-                              isLoading = false;
+                              string = '0';
                             });
-                            if (phoneController.text == '') {
-                              setState(() {
-                                phoneError = true;
-                              });
-                            } else if (disAmount == null || disAmount == '0') {
-                              setState(() {
-                                amountError = true;
-                              });
-                            } else if (networkSelected == null) {
-                              setState(() {
-                                networkError = true;
-                              });
-                            }
                           }
+                          setState(() {
+                            disAmount = string;
+                            disAmount = disAmount!.replaceAll(",", "");
+                          });
                         },
-                        title: 'Continue',
-                        bgColor: kSecondaryColor,
-                        isLoading: isLoading,
                       ),
-                    ),
-                  ],
+
+                      (amountError)
+                          ? const Text('Amount is required!',
+                              style: TextStyle(
+                                color: Colors.red,
+                              ))
+                          : Container(),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 0.0),
+                        child: propertyBtn(
+                          card_margin:
+                              const EdgeInsets.only(top: 0, left: 0, right: 0),
+                          onTap: () async {
+                            if (networkSelected != null &&
+                                disAmount != '0' &&
+                                phoneController.text != '') {
+                              setState(() {
+                                isLoading = true;
+                                // showError = false;
+                                phoneError = false;
+                                networkError = false;
+                                amountError = false;
+                              });
+
+                              Future.delayed(const Duration(seconds: 1), () {
+                                setState(() {
+                                  amountController.text = '';
+                                  isLoading = false;
+                                });
+                                verifySelectedAirtime();
+                              });
+                            } else {
+                              setState(() {
+                                isLoading = false;
+                              });
+                              if (phoneController.text == '') {
+                                setState(() {
+                                  phoneError = true;
+                                });
+                              } else if (disAmount == null ||
+                                  disAmount == '0') {
+                                setState(() {
+                                  amountError = true;
+                                });
+                              } else if (networkSelected == null) {
+                                setState(() {
+                                  networkError = true;
+                                });
+                              }
+                            }
+                          },
+                          title: 'Continue',
+                          bgColor: kSecondaryColor,
+                          isLoading: isLoading,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

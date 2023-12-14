@@ -118,235 +118,238 @@ class _PurchaseBillCableState extends State<PurchaseBillCable> {
               size: 20,
             ),
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(
-                height: 40,
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 0.0),
-                child: Row(
-                  children: [
-                    InkWell(
-                      onTap: () {
-                        Get.back();
-                      },
-                      child: const Icon(
-                        Icons.chevron_left_rounded,
-                        color: Colors.white,
-                        size: 42,
-                      ),
-                    ),
-                  ],
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(
+                  height: 40,
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(
-                  left: 18.0,
-                  right: 8.0,
-                  top: 8,
-                  bottom: 8,
+                Padding(
+                  padding: const EdgeInsets.only(left: 0.0),
+                  child: Row(
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          Get.back();
+                        },
+                        child: const Icon(
+                          Icons.chevron_left_rounded,
+                          color: Colors.white,
+                          size: 42,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      (utilityType == 'airtime')
-                          ? 'Buy Airtime'
-                          : (utilityType == 'data')
-                              ? 'Buy Data'
-                              : (utilityType == 'electricity')
-                                  ? 'Buy Electricity'
-                                  : (utilityType == 'internet')
-                                      ? 'Buy Wi-Fi Internet'
-                                      : 'Buy Tv Subscription',
-                      style: TextStyle(
-                        color: textColorWhite,
-                        fontSize: 25,
-                        fontWeight: FontWeight.w800,
+                Padding(
+                  padding: const EdgeInsets.only(
+                    left: 18.0,
+                    right: 8.0,
+                    top: 8,
+                    bottom: 8,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        (utilityType == 'airtime')
+                            ? 'Buy Airtime'
+                            : (utilityType == 'data')
+                                ? 'Buy Data'
+                                : (utilityType == 'electricity')
+                                    ? 'Buy Electricity'
+                                    : (utilityType == 'internet')
+                                        ? 'Buy Wi-Fi Internet'
+                                        : 'Buy Tv Subscription',
+                        style: TextStyle(
+                          color: textColorWhite,
+                          fontSize: 25,
+                          fontWeight: FontWeight.w800,
+                        ),
                       ),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      'Enter receiver\'s device number to buy $type instantly',
-                      style: TextStyle(
-                        color: textColorWhite,
+                      const SizedBox(
+                        height: 10,
                       ),
-                    ),
-                    const SizedBox(
-                      height: 18,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                          child: SizedBox(
-                            width: 200,
-                            child: MyNumField(
-                              myTextFormController: phoneController,
-                              fieldName: 'Device Number',
-                              prefix: Icons.electric_meter,
-                              onChange: (string) {},
+                      Text(
+                        'Enter receiver\'s device number to buy $type instantly',
+                        style: TextStyle(
+                          color: textColorWhite,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 18,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: SizedBox(
+                              width: 200,
+                              child: MyNumField(
+                                myTextFormController: phoneController,
+                                fieldName: 'Device Number',
+                                prefix: Icons.electric_meter,
+                                onChange: (string) {},
+                              ),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-
-                    (phoneError)
-                        ? const Text('Device number is required!',
-                            style: TextStyle(
-                              color: Colors.red,
-                            ))
-                        : Container(),
-                    const SizedBox(
-                      height: 18,
-                    ),
-
-                    Text(
-                      'Select Service Provider',
-                      style: TextStyle(
-                        fontSize: 18,
-                        color: textColorWhite,
-                        fontWeight: FontWeight.w500,
+                        ],
                       ),
-                    ),
-                    InkWell(
-                      onTap: () async {
-                        selectDataPlanBottomSheet();
-                      },
-                      child: Container(
-                        // width: 150,
-                        // height: 100,
-                        decoration: BoxDecoration(
-                          color: kSecondaryColor,
-                          borderRadius: const BorderRadius.all(
-                            Radius.circular(8),
-                          ),
-                          border: Border.all(
-                            color: Colors.white12,
-                          ),
-                        ),
-                        padding: const EdgeInsets.all(20),
-                        margin: const EdgeInsets.only(
-                          top: 10,
-                          right: 10,
-                          // bottom: 10,
-                        ),
-                        child: Center(
-                          child: Text(
-                            (networkSelected != null)
-                                ? billerName.toString()
-                                : 'Select provider',
-                            style: TextStyle(
-                              color: textColorWhite,
-                            ),
-                          ),
+
+                      (phoneError)
+                          ? const Text('Device number is required!',
+                              style: TextStyle(
+                                color: Colors.red,
+                              ))
+                          : Container(),
+                      const SizedBox(
+                        height: 18,
+                      ),
+
+                      Text(
+                        'Select Service Provider',
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: textColorWhite,
+                          fontWeight: FontWeight.w500,
                         ),
                       ),
-                    ),
-                    (networkError)
-                        ? const Text('select service provider!',
-                            style: TextStyle(
-                              color: Colors.red,
-                            ))
-                        : Container(),
-
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    //
-                    MyMoneyField(
-                      myTextFormController: amountController,
-                      fieldName: 'Amount',
-                      editable: false,
-                      prefix: Icons.attach_money,
-                      onChange: (string) {
-                        if (amountController.text.isNotEmpty) {
-                          string =
-                              '${_formatNumber(string.replaceAll(',', ''))}';
-                          amountController.value = TextEditingValue(
-                            text: string,
-                            selection:
-                                TextSelection.collapsed(offset: string.length),
-                          );
-                        } else {
-                          setState(() {
-                            string = '0';
-                          });
-                        }
-                        setState(() {
-                          disAmount = string;
-                          disAmount = disAmount!.replaceAll(",", "");
-                        });
-                      },
-                    ),
-
-                    (amountError)
-                        ? const Text('Amount is required!',
-                            style: TextStyle(
-                              color: Colors.red,
-                            ))
-                        : Container(),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 0.0),
-                      child: propertyBtn(
-                        card_margin:
-                            const EdgeInsets.only(top: 0, left: 0, right: 0),
+                      InkWell(
                         onTap: () async {
-                          print('disamount $disAmount');
-                          if (networkSelected != null &&
-                              disAmount != '0' &&
-                              phoneController.text != '') {
-                            setState(() {
-                              isLoading = true;
-                              // showError = false;
-                              phoneError = false;
-                              networkError = false;
-                              amountError = false;
-                            });
+                          selectDataPlanBottomSheet();
+                        },
+                        child: Container(
+                          // width: 150,
+                          // height: 100,
+                          decoration: BoxDecoration(
+                            color: kSecondaryColor,
+                            borderRadius: const BorderRadius.all(
+                              Radius.circular(8),
+                            ),
+                            border: Border.all(
+                              color: Colors.white12,
+                            ),
+                          ),
+                          padding: const EdgeInsets.all(20),
+                          margin: const EdgeInsets.only(
+                            top: 10,
+                            right: 10,
+                            // bottom: 10,
+                          ),
+                          child: Center(
+                            child: Text(
+                              (networkSelected != null)
+                                  ? billerName.toString()
+                                  : 'Select provider',
+                              style: TextStyle(
+                                color: textColorWhite,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      (networkError)
+                          ? const Text('select service provider!',
+                              style: TextStyle(
+                                color: Colors.red,
+                              ))
+                          : Container(),
 
-                            Future.delayed(const Duration(seconds: 1), () {
-                              setState(() {
-                                amountController.text = '';
-                                isLoading = false;
-                              });
-                              verifySelectedAirtime();
-                            });
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      //
+                      MyMoneyField(
+                        myTextFormController: amountController,
+                        fieldName: 'Amount',
+                        editable: false,
+                        prefix: Icons.attach_money,
+                        onChange: (string) {
+                          if (amountController.text.isNotEmpty) {
+                            string =
+                                '${_formatNumber(string.replaceAll(',', ''))}';
+                            amountController.value = TextEditingValue(
+                              text: string,
+                              selection: TextSelection.collapsed(
+                                  offset: string.length),
+                            );
                           } else {
                             setState(() {
-                              isLoading = false;
+                              string = '0';
                             });
-                            if (phoneController.text == '') {
-                              setState(() {
-                                phoneError = true;
-                              });
-                            } else if (disAmount == null || disAmount == '0') {
-                              setState(() {
-                                amountError = true;
-                              });
-                            } else if (networkSelected == null) {
-                              setState(() {
-                                networkError = true;
-                              });
-                            }
                           }
+                          setState(() {
+                            disAmount = string;
+                            disAmount = disAmount!.replaceAll(",", "");
+                          });
                         },
-                        title: 'Continue',
-                        bgColor: kSecondaryColor,
-                        isLoading: isLoading,
                       ),
-                    ),
-                  ],
+
+                      (amountError)
+                          ? const Text('Amount is required!',
+                              style: TextStyle(
+                                color: Colors.red,
+                              ))
+                          : Container(),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 0.0),
+                        child: propertyBtn(
+                          card_margin:
+                              const EdgeInsets.only(top: 0, left: 0, right: 0),
+                          onTap: () async {
+                            print('disamount $disAmount');
+                            if (networkSelected != null &&
+                                disAmount != '0' &&
+                                phoneController.text != '') {
+                              setState(() {
+                                isLoading = true;
+                                // showError = false;
+                                phoneError = false;
+                                networkError = false;
+                                amountError = false;
+                              });
+
+                              Future.delayed(const Duration(seconds: 1), () {
+                                setState(() {
+                                  amountController.text = '';
+                                  isLoading = false;
+                                });
+                                verifySelectedAirtime();
+                              });
+                            } else {
+                              setState(() {
+                                isLoading = false;
+                              });
+                              if (phoneController.text == '') {
+                                setState(() {
+                                  phoneError = true;
+                                });
+                              } else if (disAmount == null ||
+                                  disAmount == '0') {
+                                setState(() {
+                                  amountError = true;
+                                });
+                              } else if (networkSelected == null) {
+                                setState(() {
+                                  networkError = true;
+                                });
+                              }
+                            }
+                          },
+                          title: 'Continue',
+                          bgColor: kSecondaryColor,
+                          isLoading: isLoading,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
