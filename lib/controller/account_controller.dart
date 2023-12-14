@@ -486,6 +486,7 @@ class AccountController extends GetxController {
     prefs.remove("login_status");
     prefs.remove("isGuestLogin");
     prefs.remove("fingerprintAuth");
+    prefs.remove("lockPin");
 
     Get.offAll(() => const LoginPage());
   }

@@ -229,9 +229,11 @@ class _ProfilePageState extends State<ProfilePage> {
                                               ImageSource.gallery,
                                             );
 
-                                            setState(() {
-                                              isLoading = true;
-                                            });
+                                            if (_image != null) {
+                                              setState(() {
+                                                isLoading = true;
+                                              });
+                                            }
 
                                             var status = await accountController
                                                 .uploadImage(
