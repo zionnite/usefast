@@ -12,6 +12,13 @@ import 'package:usefast/util/common.dart';
 import 'package:usefast/widgets/buttons.dart';
 import 'package:usefast/widgets/header.dart';
 
+import 'add_funds.dart';
+import 'purchase_bill.dart';
+import 'purchase_bill_cable.dart';
+import 'purchase_bill_data.dart';
+import 'purchase_bill_electricity.dart';
+import 'purchase_bill_wifi.dart';
+import 'request_withdraw.dart';
 import 'trade_page.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -87,172 +94,459 @@ class _HomeScreenState extends State<HomeScreen> {
           physics: const BouncingScrollPhysics(),
           children: [
             const Header(),
-            const SizedBox(height: 20),
-            const SizedBox(height: 15),
-            InkWell(
-              onTap: () {
-                Get.to(() => const TradePage(transType: 'crypto'));
-              },
-              child: Padding(
-                padding: const EdgeInsets.only(
-                  top: 7,
-                  bottom: 7,
-                  left: 10,
-                  right: 10,
-                ),
-                child: FadeInUp(
-                  duration: const Duration(milliseconds: 900),
-                  child: Container(
-                    height: 69,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      color: kSecondaryColor,
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 18,
-                        vertical: 15,
+            const SizedBox(height: 10),
+            Padding(
+              padding: const EdgeInsets.only(
+                top: 7,
+                bottom: 7,
+                left: 10,
+                right: 10,
+              ),
+              child: FadeInUp(
+                duration: const Duration(milliseconds: 900),
+                child: Container(
+                  height: 100,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: kSecondaryColor,
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  child: Padding(
+                      padding: const EdgeInsets.only(
+                        left: 20,
+                        right: 20,
+                        top: 25,
+                        bottom: 15,
                       ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                      child: ListView(
+                        scrollDirection: Axis.horizontal,
+                        shrinkWrap: true,
                         children: [
-                          ClipOval(
-                            child: Container(
-                              height: 38,
-                              width: 38,
-                              decoration: const BoxDecoration(
-                                gradient: LinearGradient(
-                                  begin: Alignment.topCenter,
-                                  end: Alignment.bottomCenter,
-                                  colors: [Colors.white, Colors.grey],
-                                ),
-                              ),
-                              child: const Padding(
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: 1,
-                                  vertical: 1,
-                                ),
-                                child: Icon(LineAwesome.btc),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(width: 5),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(
-                                'Trade Crypto',
-                                style: kInfo.copyWith(
-                                  fontWeight: FontWeight.bold,
+                              const SizedBox(width: 5),
+                              InkWell(
+                                onTap: () {
+                                  Get.to(
+                                    () => const PurchaseUtilityBill(
+                                        utilityType: 'airtime'),
+                                  );
+                                },
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    ClipOval(
+                                      child: Container(
+                                        height: 38,
+                                        width: 38,
+                                        decoration: const BoxDecoration(
+                                          gradient: LinearGradient(
+                                            begin: Alignment.topCenter,
+                                            end: Alignment.bottomCenter,
+                                            colors: [Colors.white, Colors.grey],
+                                          ),
+                                        ),
+                                        child: const Padding(
+                                          padding: EdgeInsets.symmetric(
+                                            horizontal: 1,
+                                            vertical: 1,
+                                          ),
+                                          child: Icon(Icons.phone_android),
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(height: 5),
+                                    Text(
+                                      'Top-up',
+                                      style: kInfo.copyWith(
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
-                              const SizedBox(height: 2),
-                              Text(
-                                'sell now',
-                                style: kInfo.copyWith(
-                                  color: Colors.white30,
+                              const SizedBox(width: 40),
+                              InkWell(
+                                onTap: () {
+                                  Get.to(
+                                    () => const PurchaseBillData(
+                                        utilityType: 'data'),
+                                  );
+                                },
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    ClipOval(
+                                      child: Container(
+                                        height: 38,
+                                        width: 38,
+                                        decoration: const BoxDecoration(
+                                          gradient: LinearGradient(
+                                            begin: Alignment.topCenter,
+                                            end: Alignment.bottomCenter,
+                                            colors: [Colors.white, Colors.grey],
+                                          ),
+                                        ),
+                                        child: const Padding(
+                                          padding: EdgeInsets.symmetric(
+                                            horizontal: 5,
+                                            vertical: 1,
+                                          ),
+                                          child:
+                                              Icon(Icons.network_cell_outlined),
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(height: 5),
+                                    Text(
+                                      'Data',
+                                      style: kInfo.copyWith(
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(width: 40),
+                              InkWell(
+                                onTap: () {
+                                  Get.to(
+                                    () => const PurchaseBillElectricity(
+                                        utilityType: 'electricity'),
+                                  );
+                                },
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    ClipOval(
+                                      child: Container(
+                                        height: 38,
+                                        width: 38,
+                                        decoration: const BoxDecoration(
+                                          gradient: LinearGradient(
+                                            begin: Alignment.topCenter,
+                                            end: Alignment.bottomCenter,
+                                            colors: [Colors.white, Colors.grey],
+                                          ),
+                                        ),
+                                        child: const Padding(
+                                          padding: EdgeInsets.symmetric(
+                                            horizontal: 1,
+                                            vertical: 1,
+                                          ),
+                                          child: Icon(Icons.power),
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(height: 5),
+                                    Text(
+                                      'Power',
+                                      style: kInfo.copyWith(
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(width: 40),
+                              InkWell(
+                                onTap: () {
+                                  Get.to(
+                                    () => const PurchaseBillWifi(
+                                        utilityType: 'internet'),
+                                  );
+                                },
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    ClipOval(
+                                      child: Container(
+                                        height: 38,
+                                        width: 38,
+                                        decoration: const BoxDecoration(
+                                          gradient: LinearGradient(
+                                            begin: Alignment.topCenter,
+                                            end: Alignment.bottomCenter,
+                                            colors: [Colors.white, Colors.grey],
+                                          ),
+                                        ),
+                                        child: const Padding(
+                                          padding: EdgeInsets.symmetric(
+                                            horizontal: 1,
+                                            vertical: 1,
+                                          ),
+                                          child: Icon(Icons.wifi),
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(height: 5),
+                                    Text(
+                                      'Wifi',
+                                      style: kInfo.copyWith(
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(width: 40),
+                              InkWell(
+                                onTap: () {
+                                  Get.to(
+                                    () => const PurchaseBillCable(
+                                        utilityType: 'cable'),
+                                  );
+                                },
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    ClipOval(
+                                      child: Container(
+                                        height: 38,
+                                        width: 38,
+                                        decoration: const BoxDecoration(
+                                          gradient: LinearGradient(
+                                            begin: Alignment.topCenter,
+                                            end: Alignment.bottomCenter,
+                                            colors: [Colors.white, Colors.grey],
+                                          ),
+                                        ),
+                                        child: const Padding(
+                                          padding: EdgeInsets.symmetric(
+                                            horizontal: 1,
+                                            vertical: 1,
+                                          ),
+                                          child: Icon(Icons.tv),
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(height: 5),
+                                    Text(
+                                      'Cable',
+                                      style: kInfo.copyWith(
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ],
                           ),
                         ],
-                      ),
-                    ),
-                  ),
+                      )),
                 ),
               ),
             ),
-            InkWell(
-              onTap: () {
-                Get.to(() => const TradePage(
-                      transType: 'gift',
-                    ));
-              },
-              child: Padding(
-                padding: const EdgeInsets.only(
-                  top: 7,
-                  bottom: 7,
-                  left: 10,
-                  right: 10,
-                ),
-                child: FadeInUp(
-                  duration: const Duration(milliseconds: 900),
-                  child: Container(
-                    height: 69,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      color: kSecondaryColor,
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 18,
-                        vertical: 15,
+            Padding(
+              padding: const EdgeInsets.only(
+                top: 7,
+                bottom: 7,
+                left: 10,
+                right: 10,
+              ),
+              child: FadeInUp(
+                duration: const Duration(milliseconds: 900),
+                child: Container(
+                  height: 100,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: kSecondaryColor,
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  child: Padding(
+                      padding: const EdgeInsets.only(
+                        left: 20,
+                        right: 20,
+                        top: 25,
+                        bottom: 15,
                       ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                      child: Column(
                         children: [
-                          ClipOval(
-                            child: Container(
-                              height: 38,
-                              width: 38,
-                              decoration: const BoxDecoration(
-                                gradient: LinearGradient(
-                                  begin: Alignment.topCenter,
-                                  end: Alignment.bottomCenter,
-                                  colors: [Colors.white, Colors.grey],
+                          InkWell(
+                            onTap: () {
+                              Get.to(() => const AddFunds());
+                            },
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                ClipOval(
+                                  child: Container(
+                                    height: 38,
+                                    width: 38,
+                                    decoration: const BoxDecoration(
+                                      gradient: LinearGradient(
+                                        begin: Alignment.topCenter,
+                                        end: Alignment.bottomCenter,
+                                        colors: [Colors.white, Colors.grey],
+                                      ),
+                                    ),
+                                    child: const Padding(
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: 1,
+                                        vertical: 1,
+                                      ),
+                                      child: Icon(Icons.credit_card),
+                                    ),
+                                  ),
                                 ),
-                              ),
-                              child: const Padding(
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: 1,
-                                  vertical: 1,
+                                const SizedBox(height: 5),
+                                Text(
+                                  'Deposit',
+                                  style: kInfo.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
-                                child: Icon(LineAwesome.gift_solid),
-                              ),
+                              ],
                             ),
                           ),
-                          const SizedBox(width: 5),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Trade Gift Card',
-                                style: kInfo.copyWith(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              const SizedBox(height: 2),
-                              Text(
-                                'sell now',
-                                style: kInfo.copyWith(
-                                  color: Colors.white30,
-                                ),
-                              ),
-                            ],
-                          ),
                         ],
-                      ),
-                    ),
-                  ),
+                      )),
                 ),
               ),
             ),
-            const SizedBox(height: 15),
-            // const SectionTitle(title: 'My Cards'),
-            // const SizedBox(height: 15),
-            // const CardList(),
-            // const SizedBox(height: 40),
-            const Buttons(),
-            const SizedBox(height: 30),
-            // const SectionTitle(title: 'Activity'),
-            const SizedBox(height: 15),
-            // const Chart(),
+            Padding(
+              padding: const EdgeInsets.only(
+                top: 7,
+                bottom: 7,
+                left: 10,
+                right: 10,
+              ),
+              child: FadeInUp(
+                duration: const Duration(milliseconds: 900),
+                child: Container(
+                  height: 100,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: kSecondaryColor,
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  child: Padding(
+                      padding: const EdgeInsets.only(
+                        left: 20,
+                        right: 20,
+                        top: 25,
+                        bottom: 15,
+                      ),
+                      child: Column(
+                        children: [
+                          InkWell(
+                            onTap: () {
+                              Get.to(() => const RequestWithdraw());
+                            },
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                ClipOval(
+                                  child: Container(
+                                    height: 38,
+                                    width: 38,
+                                    decoration: const BoxDecoration(
+                                      gradient: LinearGradient(
+                                        begin: Alignment.topCenter,
+                                        end: Alignment.bottomCenter,
+                                        colors: [Colors.white, Colors.grey],
+                                      ),
+                                    ),
+                                    child: const Padding(
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: 1,
+                                        vertical: 1,
+                                      ),
+                                      child: Icon(Icons.water_drop_outlined),
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(height: 5),
+                                Text(
+                                  'Request Withdrawal',
+                                  style: kInfo.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      )),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(
+                top: 7,
+                bottom: 7,
+                left: 10,
+                right: 10,
+              ),
+              child: FadeInUp(
+                duration: const Duration(milliseconds: 900),
+                child: Container(
+                  height: 100,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: kSecondaryColor,
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  child: Padding(
+                      padding: const EdgeInsets.only(
+                        left: 20,
+                        right: 20,
+                        top: 25,
+                        bottom: 15,
+                      ),
+                      child: Column(
+                        children: [
+                          InkWell(
+                            onTap: () {
+                              Get.to(() => const TradePage());
+                            },
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                ClipOval(
+                                  child: Container(
+                                    height: 38,
+                                    width: 38,
+                                    decoration: const BoxDecoration(
+                                      gradient: LinearGradient(
+                                        begin: Alignment.topCenter,
+                                        end: Alignment.bottomCenter,
+                                        colors: [Colors.white, Colors.grey],
+                                      ),
+                                    ),
+                                    child: const Padding(
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: 1,
+                                        vertical: 1,
+                                      ),
+                                      child: Icon(Icons.business_center),
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(height: 5),
+                                Text(
+                                  'Trade Center',
+                                  style: kInfo.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      )),
+                ),
+              ),
+            ),
           ],
         ),
       ),

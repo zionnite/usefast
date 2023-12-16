@@ -11,6 +11,7 @@ class propertyBtn extends StatefulWidget {
     this.container_margin,
     this.borderRadius = 0,
     this.elevation = 10,
+    this.fontSize = 20,
   });
 
   final VoidCallback onTap;
@@ -21,6 +22,7 @@ class propertyBtn extends StatefulWidget {
   final EdgeInsets? container_margin;
   final double borderRadius;
   final double elevation;
+  final double fontSize;
 
   @override
   State<propertyBtn> createState() => _propertyBtnState();
@@ -71,8 +73,8 @@ class _propertyBtnState extends State<propertyBtn> {
                   : Text(
                       widget.title,
                       textAlign: TextAlign.center,
-                      style: const TextStyle(
-                        fontSize: 20,
+                      style: TextStyle(
+                        fontSize: widget.fontSize,
                         color: Colors.white,
                         fontFamily: 'Passion One',
                       ),

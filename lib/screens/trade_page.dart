@@ -4,12 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_awesome_bottom_sheet/flutter_awesome_bottom_sheet.dart';
 import 'package:get/get.dart';
 import 'package:usefast/constant.dart';
+import 'package:usefast/widgets/buttons.dart';
+import 'package:usefast/widgets/property_btn.dart';
 
 import 'submit_payment_prof.dart';
 
 class TradePage extends StatefulWidget {
-  const TradePage({Key? key, required this.transType}) : super(key: key);
-  final String transType;
+  const TradePage({Key? key}) : super(key: key);
 
   @override
   State<TradePage> createState() => _TradePageState();
@@ -33,81 +34,83 @@ class _TradePageState extends State<TradePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: kPrimaryColor,
-      appBar: AppBar(
-        title: const Text('Trade Center'),
-        backgroundColor: kPrimaryColor,
-        centerTitle: false,
-        elevation: 5,
-      ),
       body: SafeArea(
-        child: ListView(
-          children: [
-            FadeInUp(
-              duration: const Duration(milliseconds: 500),
-              child: Column(
-                children: [
-                  InkWell(
+        child: SingleChildScrollView(
+          child: FadeInUp(
+            duration: const Duration(milliseconds: 500),
+            child: Column(
+              children: [
+                const SizedBox(
+                  height: 10,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 0.0),
+                  child: Row(
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          Get.back();
+                        },
+                        child: const Icon(
+                          Icons.chevron_left_rounded,
+                          color: Colors.white,
+                          size: 50,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const Align(
+                  alignment: Alignment.topLeft,
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 32.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Trade ',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 25,
+                          ),
+                        ),
+                        Text(
+                          'Center ',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 15,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                  child: propertyBtn(
+                    borderRadius: 20,
+                    elevation: 0,
+                    fontSize: 15,
+                    card_margin:
+                        const EdgeInsets.only(top: 0, left: 10, right: 10),
                     onTap: () async {
-                      // Get.to(() => const ChatSupportPage());
                       await FlutterCrispChat.openCrispChat(
                         config: config,
                       );
                     },
-                    child: Card(
-                      margin: const EdgeInsets.only(
-                        left: 10,
-                        right: 10,
-                        top: 20,
-                      ),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: kSecondaryColor,
-                          borderRadius: BorderRadius.circular(0),
-                        ),
-                        width: double.infinity,
-                        child: const Padding(
-                          padding: EdgeInsets.all(12.0),
-                          child: Text(
-                            'Get Current Rating',
-                            style: TextStyle(color: Colors.white),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      ),
-                    ),
+                    title: 'Chat with our Agent',
+                    bgColor: kSecondaryColor,
+                    isLoading: false,
                   ),
-                  InkWell(
-                    onTap: () {
-                      Get.to(
-                          () => SubmitPaymentProf(transType: widget.transType));
-                    },
-                    child: Card(
-                      margin: const EdgeInsets.only(
-                        left: 10,
-                        right: 10,
-                        top: 10,
-                      ),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: kSecondaryColor,
-                          borderRadius: BorderRadius.circular(0),
-                        ),
-                        width: double.infinity,
-                        child: const Padding(
-                          padding: EdgeInsets.all(12.0),
-                          child: Text(
-                            'Upload Prof of Payment',
-                            style: TextStyle(color: Colors.white),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+                ),
+                const SizedBox(height: 30),
+                const Buttons(),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );

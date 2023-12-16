@@ -6,6 +6,7 @@ import 'package:usefast/controller/account_controller.dart';
 import 'package:usefast/controller/transaction_controller.dart';
 import 'package:usefast/screens/bill_page.dart';
 import 'package:usefast/screens/fund_page.dart';
+import 'package:usefast/screens/submit_payment_prof.dart';
 import 'package:uuid/uuid.dart';
 
 import 'custom_button.dart';
@@ -40,7 +41,7 @@ class _ButtonsState extends State<Buttons> {
   }
 
   handlePaymentInitialization() async {
-    print('clicked');
+    // print('clicked');
     final Customer customer = Customer(
       name: "Flutterwave Developer",
       phoneNumber: "1234566677777",
@@ -77,31 +78,31 @@ class _ButtonsState extends State<Buttons> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 30),
+      padding: const EdgeInsets.symmetric(horizontal: 20),
       child: FadeInUp(
         duration: const Duration(milliseconds: 1100),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             CustomButton(
-              title: 'Account',
+              title: 'Gift Card',
               icon: const Icon(
-                Icons.wallet,
+                Icons.wallet_giftcard,
                 color: Colors.white,
               ),
               onTap: () {
-                Get.to(() => const FundPage());
+                Get.to(() => const SubmitPaymentProf(transType: 'gift'));
                 // handlePaymentInitialization();
               },
             ),
             CustomButton(
-              title: 'Utility Bills',
+              title: 'Coin',
               icon: const Icon(
-                Icons.send,
+                Icons.water_drop,
                 color: Colors.white,
               ),
               onTap: () {
-                Get.to(() => const BillPage());
+                Get.to(() => const SubmitPaymentProf(transType: 'crypto'));
               },
             ),
           ],

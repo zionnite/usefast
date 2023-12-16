@@ -25,7 +25,7 @@ class CustomButton extends StatelessWidget {
         icon: icon,
         onPressed: onTap,
         style: TextButton.styleFrom(
-          primary: kTextColor,
+          foregroundColor: kTextColor,
           backgroundColor: kSecondaryColor,
           textStyle: kSFUI16,
           shape: const RoundedRectangleBorder(

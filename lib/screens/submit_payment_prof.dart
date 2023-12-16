@@ -121,19 +121,27 @@ class _SubmitPaymentProfState extends State<SubmitPaymentProf> {
                     },
                   ),
                   const SizedBox(
-                    height: 8,
+                    height: 0,
                   ),
                   InkWell(
                     onTap: () async {
                       await _pickImage(ImageSource.gallery);
                     },
                     child: Card(
+                      clipBehavior: Clip.antiAlias,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
                       child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          color: kSecondaryColor,
+                        ),
                         width: double.infinity,
                         child: const Padding(
                           padding: EdgeInsets.symmetric(
                             horizontal: 0.0,
-                            vertical: 15,
+                            vertical: 19,
                           ),
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -141,10 +149,14 @@ class _SubmitPaymentProfState extends State<SubmitPaymentProf> {
                             children: [
                               Icon(
                                 Icons.file_open,
-                                color: Colors.blue,
+                                color: Colors.white,
                               ),
+                              SizedBox(width: 5),
                               Text(
                                 'Select Document',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                ),
                                 textAlign: TextAlign.center,
                               ),
                             ],
@@ -175,7 +187,7 @@ class _SubmitPaymentProfState extends State<SubmitPaymentProf> {
                           ),
                   ),
                   const SizedBox(
-                    height: 15,
+                    height: 0,
                   ),
                 ],
               ),
@@ -191,9 +203,11 @@ class _SubmitPaymentProfState extends State<SubmitPaymentProf> {
                   )
                 : Container(),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 0.0),
+              padding: const EdgeInsets.symmetric(horizontal: 5.0),
               child: propertyBtn(
-                card_margin: EdgeInsets.only(top: 12, left: 8, right: 8),
+                borderRadius: 30,
+                elevation: 0,
+                card_margin: const EdgeInsets.only(top: 12, left: 8, right: 8),
                 onTap: () async {
                   if (_image != null && amountController.text != '') {
                     setState(() {
@@ -224,7 +238,8 @@ class _SubmitPaymentProfState extends State<SubmitPaymentProf> {
                     });
                   }
                 },
-                title: 'Submit',
+                title: 'submit',
+                fontSize: 15,
                 bgColor: kSecondaryColor,
                 isLoading: isLoading,
               ),
