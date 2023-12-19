@@ -7,11 +7,13 @@ import 'package:h3m_shimmer_card/h3m_shimmer_card.dart';
 import 'package:intl/intl.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:loading_overlay_pro/loading_overlay_pro.dart';
+import 'package:searchable_listview/searchable_listview.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sliding_sheet2/sliding_sheet2.dart';
 import 'package:usefast/constant.dart';
 import 'package:usefast/controller/account_controller.dart';
 import 'package:usefast/controller/flutterwave_bill_controller.dart';
+import 'package:usefast/model/flutterwave_bill_model.dart';
 import 'package:usefast/services/local_auth_services.dart';
 import 'package:usefast/util/common.dart';
 import 'package:usefast/util/currency_formatter.dart';
@@ -366,7 +368,7 @@ class _PurchaseBillWifiState extends State<PurchaseBillWifi> {
         cornerRadius: 16,
         snapSpec: const SnapSpec(
           snap: true,
-          snappings: [0.8, 1.0],
+          snappings: [1.0, 0.4, 0.8],
           positioning: SnapPositioning.relativeToAvailableSpace,
         ),
         builder: myCustomBuildSheetDataPlan,
@@ -460,10 +462,7 @@ class _PurchaseBillWifiState extends State<PurchaseBillWifi> {
                   ),
                 ],
               )
-            : ListView(
-                padding: const EdgeInsets.all(10),
-                shrinkWrap: true,
-                primary: false,
+            : Column(
                 children: [
                   const Text(
                     'Select Provider',
@@ -475,20 +474,13 @@ class _PurchaseBillWifiState extends State<PurchaseBillWifi> {
                     textAlign: TextAlign.center,
                   ),
                   Container(
-                    // color: kSecondaryColor,
-                    margin: const EdgeInsets.only(
-                      top: 20,
-                      bottom: 10,
-                    ),
-                    // height: 200,
-                    child: ListView.builder(
-                      padding: const EdgeInsets.all(0),
-                      shrinkWrap: true,
-                      scrollDirection: Axis.vertical,
-                      physics: const ClampingScrollPhysics(),
-                      itemCount: billController.billCatList.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        var dataPlans = billController.billCatList[index];
+                    height: 800,
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: SearchableList<Datum>(
+                      listViewPadding:
+                          const EdgeInsets.symmetric(horizontal: 0),
+                      initialList: billController.billCatList,
+                      builder: (list, index, dataPlans) {
                         return InkWell(
                           onTap: () {
                             setState(() {
@@ -545,6 +537,27 @@ class _PurchaseBillWifiState extends State<PurchaseBillWifi> {
                           ),
                         );
                       },
+                      filter: (value) {
+                        return billController.billCatList
+                            .where(
+                              (element) =>
+                                  element.name!.toLowerCase().contains(value),
+                            )
+                            .toList();
+                      },
+                      emptyWidget:
+                          const Text('Provider with that name does exist'),
+                      inputDecoration: InputDecoration(
+                        labelText: "Search Actor",
+                        fillColor: Colors.white,
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(
+                            color: Colors.blue,
+                            width: 1.0,
+                          ),
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                      ),
                     ),
                   ),
                 ],
