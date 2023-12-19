@@ -66,6 +66,8 @@ class _PurchaseBillCableState extends State<PurchaseBillCable> {
 
   String? user_id;
   bool? fingerprintAuth;
+  bool editable = true;
+  bool enable = false;
 
   initUserDetail() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -263,7 +265,8 @@ class _PurchaseBillCableState extends State<PurchaseBillCable> {
                       MyMoneyField(
                         myTextFormController: amountController,
                         fieldName: 'Amount',
-                        editable: false,
+                        editable: editable,
+                        enable: enable,
                         prefix: Icons.attach_money,
                         onChange: (string) {
                           if (amountController.text.isNotEmpty) {
@@ -400,7 +403,7 @@ class _PurchaseBillCableState extends State<PurchaseBillCable> {
   Widget myCustomBuildSheetDataPlan(context, state) {
     return Material(
       child: Obx(
-        () => (billController.billCatList.isEmpty)
+        () => (billController.billCatListCables.isEmpty)
             ? Column(
                 children: [
                   const Text(
@@ -484,9 +487,9 @@ class _PurchaseBillCableState extends State<PurchaseBillCable> {
                       shrinkWrap: true,
                       scrollDirection: Axis.vertical,
                       physics: const ClampingScrollPhysics(),
-                      itemCount: billController.billCatList.length,
+                      itemCount: billController.billCatListCables.length,
                       itemBuilder: (BuildContext context, int index) {
-                        var dataPlans = billController.billCatList[index];
+                        var dataPlans = billController.billCatListCables[index];
                         return InkWell(
                           onTap: () {
                             setState(() {
@@ -499,6 +502,18 @@ class _PurchaseBillCableState extends State<PurchaseBillCable> {
                               billerCode = dataPlans.billerCode;
                               billerName = dataPlans.billerName;
                             });
+
+                            if (disAmount == '0' ||
+                                disAmount == null ||
+                                disAmount == '0.0') {
+                              setState(() {
+                                editable = false;
+                                enable = true;
+                              });
+                            } else {
+                              editable = true;
+                              enable = false;
+                            }
 
                             Get.back();
                           },

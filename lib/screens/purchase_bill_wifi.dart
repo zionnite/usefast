@@ -66,6 +66,8 @@ class _PurchaseBillWifiState extends State<PurchaseBillWifi> {
 
   String? user_id;
   bool? fingerprintAuth;
+  bool editable = true;
+  bool enable = false;
   initUserDetail() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var userId1 = prefs.getString('user_id');
@@ -83,7 +85,6 @@ class _PurchaseBillWifiState extends State<PurchaseBillWifi> {
       });
 
       await billController.fetchBillWifiProvider();
-      ();
     }
   }
 
@@ -263,7 +264,8 @@ class _PurchaseBillWifiState extends State<PurchaseBillWifi> {
                       MyMoneyField(
                         myTextFormController: amountController,
                         fieldName: 'Amount',
-                        editable: false,
+                        editable: editable,
+                        enable: enable,
                         prefix: Icons.attach_money,
                         onChange: (string) {
                           if (amountController.text.isNotEmpty) {
@@ -499,6 +501,18 @@ class _PurchaseBillWifiState extends State<PurchaseBillWifi> {
                               billerCode = dataPlans.billerCode;
                               billerName = dataPlans.billerName;
                             });
+
+                            if (disAmount == '0' ||
+                                disAmount == null ||
+                                disAmount == '0.0') {
+                              setState(() {
+                                editable = false;
+                                enable = true;
+                              });
+                            } else {
+                              editable = true;
+                              enable = false;
+                            }
 
                             Get.back();
                           },

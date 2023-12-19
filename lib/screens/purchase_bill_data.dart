@@ -254,19 +254,19 @@ class _PurchaseBillDataState extends State<PurchaseBillData> {
 
                                 if (networkSelected == 'MTN') {
                                   setState(() {
-                                    billerCode = 'BIL104';
+                                    billerCode = 'BIL108';
                                   });
                                 } else if (networkSelected == 'AIRTEL') {
                                   setState(() {
-                                    billerCode = 'BIL106';
+                                    billerCode = 'BIL110';
                                   });
                                 } else if (networkSelected == 'GLO') {
                                   setState(() {
-                                    billerCode = 'BIL105';
+                                    billerCode = 'BIL109';
                                   });
                                 } else if (networkSelected == '9MOBILE') {
                                   setState(() {
-                                    billerCode = 'BIL107';
+                                    billerCode = 'BIL111';
                                   });
                                 }
 
@@ -931,6 +931,27 @@ class _PurchaseBillDataState extends State<PurchaseBillData> {
             height: 300,
             child: Column(
               children: [
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: OtpTextField(
+                      numberOfFields: 5,
+                      borderColor: const Color(0xFF512DA8),
+                      //set to true to show as box or false to show as dash
+                      showFieldAsBox: true,
+                      //runs when a code is typed in
+                      onCodeChanged: (String code) {
+                        //handle validation or checks here
+                      },
+                      //runs when every textfield is filled
+                      onSubmit: (String verificationCode) {
+                        setState(() {
+                          transactionPin = verificationCode;
+                        });
+                      }, // end onSubmit
+                    ),
+                  ),
+                ),
                 (fingerprintAuth == true)
                     ? Expanded(
                         child: Padding(

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:usefast/model/bank_list_model.dart' as bank;
 import 'package:usefast/model/flutterwave_bill_model.dart';
+import 'package:usefast/model/flutterwave_bill_model_cables.dart' as cables;
 import 'package:usefast/services/api_services.dart';
 import 'package:usefast/util/common.dart';
 
@@ -14,6 +15,7 @@ class FlutterWaveBillController extends GetxController {
   var isRequestProcessing = 'null'.obs;
   var isMoreDataAvailable = true.obs;
   var billCatList = <Datum>[].obs;
+  var billCatListCables = <cables.Datum>[].obs;
   var bankList = <bank.Datum>[].obs;
   var isBankProcessing = 'null'.obs;
 
@@ -71,6 +73,7 @@ class FlutterWaveBillController extends GetxController {
   }
 
   fetchBillElectricProvider() async {
+    billCatList.clear();
     var seeker = await ApiServices.fetchBillElectricProvider();
     if (seeker != null) {
       isRequestProcessing.value = 'yes';
@@ -81,6 +84,7 @@ class FlutterWaveBillController extends GetxController {
   }
 
   fetchBillWifiProvider() async {
+    billCatList.clear();
     var seeker = await ApiServices.fetchBillWifiProvider();
     if (seeker != null) {
       isRequestProcessing.value = 'yes';
@@ -94,7 +98,7 @@ class FlutterWaveBillController extends GetxController {
     var seeker = await ApiServices.fetchBillCableProvider();
     if (seeker != null) {
       isRequestProcessing.value = 'yes';
-      billCatList.value = seeker.cast<Datum>();
+      billCatListCables.value = seeker.cast<cables.Datum>();
     } else {
       isRequestProcessing.value = 'no';
     }

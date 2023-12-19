@@ -1,28 +1,28 @@
 // To parse this JSON data, do
 //
-//     final flutterWaveBillModel = flutterWaveBillModelFromJson(jsonString);
+//     final flutterWaveBillModelCables = flutterWaveBillModelCablesFromJson(jsonString);
 
 import 'dart:convert';
 
-FlutterWaveBillModel flutterWaveBillModelFromJson(String str) =>
-    FlutterWaveBillModel.fromJson(json.decode(str));
+FlutterWaveBillModelCables flutterWaveBillModelCablesFromJson(String str) =>
+    FlutterWaveBillModelCables.fromJson(json.decode(str));
 
-String flutterWaveBillModelToJson(FlutterWaveBillModel data) =>
+String flutterWaveBillModelCablesToJson(FlutterWaveBillModelCables data) =>
     json.encode(data.toJson());
 
-class FlutterWaveBillModel {
+class FlutterWaveBillModelCables {
   String? status;
   String? message;
   List<Datum>? data;
 
-  FlutterWaveBillModel({
+  FlutterWaveBillModelCables({
     this.status,
     this.message,
     this.data,
   });
 
-  factory FlutterWaveBillModel.fromJson(Map<String, dynamic> json) =>
-      FlutterWaveBillModel(
+  factory FlutterWaveBillModelCables.fromJson(Map<String, dynamic> json) =>
+      FlutterWaveBillModelCables(
         status: json["status"],
         message: json["message"],
         data: json["data"] == null
@@ -53,7 +53,7 @@ class Datum {
   int? fee;
   bool? commissionOnFee;
   LabelName? labelName;
-  dynamic? amount;
+  double? amount;
 
   Datum({
     this.id,
@@ -88,7 +88,7 @@ class Datum {
         fee: json["fee"],
         commissionOnFee: json["commission_on_fee"],
         labelName: labelNameValues.map[json["label_name"]]!,
-        amount: json["amount"],
+        amount: json["amount"]?.toDouble(),
       );
 
   Map<String, dynamic> toJson() => {
@@ -109,25 +109,28 @@ class Datum {
       };
 }
 
-enum Country { GH, KE, NG, ZM }
+enum Country { NG }
 
-final countryValues = EnumValues(
-    {"GH": Country.GH, "KE": Country.KE, "NG": Country.NG, "ZM": Country.ZM});
+final countryValues = EnumValues({"NG": Country.NG});
 
 enum LabelName {
   ACCOUNT_NUMBER,
+  LCC_NUMBER,
   METER_NUMBER,
   MOBILE_NUMBER,
   NUMBER,
+  SMARTCARD_NUMBER,
   SMART_CARD_NUMBER,
   TAX_IDENTIFICATION_NUMBER_TIN
 }
 
 final labelNameValues = EnumValues({
   "Account Number": LabelName.ACCOUNT_NUMBER,
+  "Lcc Number": LabelName.LCC_NUMBER,
   "Meter Number": LabelName.METER_NUMBER,
   "Mobile Number": LabelName.MOBILE_NUMBER,
   "Number": LabelName.NUMBER,
+  "Smartcard Number": LabelName.SMARTCARD_NUMBER,
   "SmartCard Number": LabelName.SMART_CARD_NUMBER,
   "Tax Identification Number (TIN)": LabelName.TAX_IDENTIFICATION_NUMBER_TIN
 });

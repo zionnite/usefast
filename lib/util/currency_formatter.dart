@@ -7,11 +7,11 @@ class CurrencyFormatter {
     if (amount.toString() == null ||
         amount.toString() == '' ||
         amount.toString() == 'false') {
-      return '$NGN' +
-          currencyFormat(int.parse('0'), locale: 'en_US', symbol: "");
+      return NGN + currencyFormat(int.parse('0'), locale: 'en_US', symbol: "");
     } else {
-      return '$NGN' +
-          currencyFormat(int.parse(amount), locale: 'en_US', symbol: "");
+      var disAmount = double.parse(amount);
+      var newAmount = disAmount.toInt().round();
+      return NGN + currencyFormat(disAmount, locale: 'en_US', symbol: "");
     }
   }
 }

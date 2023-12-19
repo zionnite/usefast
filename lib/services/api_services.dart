@@ -7,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:usefast/model/account_model.dart';
 import 'package:usefast/model/bank_list_model.dart' as bank;
 import 'package:usefast/model/flutterwave_bill_model.dart';
+import 'package:usefast/model/flutterwave_bill_model_cables.dart' as cables;
 import 'package:usefast/model/transaction_model.dart';
 import 'package:usefast/model/user_model.dart';
 
@@ -598,7 +599,7 @@ class ApiServices {
           return data;
         }
       } else {
-        return showSnackBar(
+        showSnackBar(
           title: 'Oops!',
           msg: 'could not connect to server',
           backgroundColor: Colors.red,
@@ -635,7 +636,7 @@ class ApiServices {
           return data;
         }
       } else {
-        return showSnackBar(
+        showSnackBar(
           title: 'Oops!',
           msg: 'could not connect to server',
           backgroundColor: Colors.red,
@@ -667,12 +668,13 @@ class ApiServices {
         if (status == 'success') {
           var disData = j['data'] as List;
 
-          final data =
-              disData.map<Datum>((json) => Datum.fromJson(json)).toList();
+          final data = disData
+              .map<cables.Datum>((json) => cables.Datum.fromJson(json))
+              .toList();
           return data;
         }
       } else {
-        return showSnackBar(
+        showSnackBar(
           title: 'Oops!',
           msg: 'could not connect to server',
           backgroundColor: Colors.red,

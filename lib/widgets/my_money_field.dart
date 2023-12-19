@@ -12,6 +12,7 @@ class MyMoneyField extends StatefulWidget {
     this.suffix,
     this.hintText,
     this.editable = false,
+    this.enable = true,
   });
 
   final TextEditingController myTextFormController;
@@ -21,6 +22,7 @@ class MyMoneyField extends StatefulWidget {
   final IconData? suffix;
   final String? hintText;
   final bool editable;
+  final bool enable;
 
   @override
   State<MyMoneyField> createState() => _MyMoneyFieldState();
@@ -42,7 +44,9 @@ class _MyMoneyFieldState extends State<MyMoneyField> {
         style: const TextStyle(
           color: Colors.white,
         ),
+        enableInteractiveSelection: widget.editable,
         readOnly: widget.editable,
+        enabled: widget.enable,
         keyboardType: TextInputType.number,
         onChanged: widget.onChange,
         controller: widget.myTextFormController,
