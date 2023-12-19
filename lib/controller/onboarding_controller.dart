@@ -13,19 +13,19 @@ class OnboardingCongroller extends GetxController {
   final pages = [
     onboardingWidget(
       model: OnboardingModel(
-        image_name: 'assets/images/gift.png',
-        title: 'Sell Your Gift Cards',
-        sub_title:
-            'we accept gift card of any type and FastPay is happy to purchase it from you',
+        image_name: 'assets/images/crypto.png',
+        title: 'Buy Airtime',
+        sub_title: 'with FastPay you can easily make purchase for your airtime',
         counter: '1/3',
         bgColor: kPrimaryColor,
       ),
     ),
     onboardingWidget(
       model: OnboardingModel(
-        image_name: 'assets/images/crypto.png',
-        title: 'Buy Airtime',
-        sub_title: 'with FastPay you can easily make purchase for your airtime',
+        image_name: 'assets/images/bill.png',
+        title: 'Buy Data',
+        sub_title:
+            'running low on Data, worry no more, FastPay got you covered',
         counter: '2/3',
         bgColor: kPrimaryColor,
       ),

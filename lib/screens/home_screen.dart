@@ -1,15 +1,14 @@
 import 'package:animate_do/animate_do.dart';
+import 'package:crisp_chat/crisp_chat.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_lock/flutter_app_lock.dart';
 import 'package:get/get.dart';
-import 'package:icons_plus/icons_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:usefast/constant.dart';
 import 'package:usefast/controller/account_controller.dart';
 import 'package:usefast/controller/lock_session.dart';
 import 'package:usefast/controller/transaction_controller.dart';
 import 'package:usefast/util/common.dart';
-import 'package:usefast/widgets/buttons.dart';
 import 'package:usefast/widgets/header.dart';
 
 import 'add_funds.dart';
@@ -19,7 +18,6 @@ import 'purchase_bill_data.dart';
 import 'purchase_bill_electricity.dart';
 import 'purchase_bill_wifi.dart';
 import 'request_withdraw.dart';
-import 'trade_page.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -78,11 +76,18 @@ class _HomeScreenState extends State<HomeScreen> {
   bool isLoading = false;
   bool widgetLoading = true;
 
+  final String websiteID = '0ba48f9a-3159-4a42-b1d1-24d49df5a3ec';
+  late CrispConfig config;
+
   @override
   void initState() {
     initUserDetail();
     super.initState();
     checkIfNewApp();
+
+    config = CrispConfig(
+      websiteID: websiteID,
+    );
   }
 
   @override
@@ -479,76 +484,18 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(
-                top: 7,
-                bottom: 7,
-                left: 10,
-                right: 10,
-              ),
-              child: FadeInUp(
-                duration: const Duration(milliseconds: 900),
-                child: Container(
-                  height: 100,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: kSecondaryColor,
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                  child: Padding(
-                      padding: const EdgeInsets.only(
-                        left: 20,
-                        right: 20,
-                        top: 25,
-                        bottom: 15,
-                      ),
-                      child: Column(
-                        children: [
-                          InkWell(
-                            onTap: () {
-                              Get.to(() => const TradePage());
-                            },
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                ClipOval(
-                                  child: Container(
-                                    height: 38,
-                                    width: 38,
-                                    decoration: const BoxDecoration(
-                                      gradient: LinearGradient(
-                                        begin: Alignment.topCenter,
-                                        end: Alignment.bottomCenter,
-                                        colors: [Colors.white, Colors.grey],
-                                      ),
-                                    ),
-                                    child: const Padding(
-                                      padding: EdgeInsets.symmetric(
-                                        horizontal: 1,
-                                        vertical: 1,
-                                      ),
-                                      child: Icon(Icons.business_center),
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(height: 5),
-                                Text(
-                                  'Trade Center',
-                                  style: kInfo.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      )),
-                ),
-              ),
-            ),
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.grey.shade700,
+        tooltip: 'Chat with support',
+        onPressed: () async {
+          await FlutterCrispChat.openCrispChat(
+            config: config,
+          );
+        },
+        child: const Icon(Icons.chat_bubble, color: Colors.white, size: 28),
       ),
     );
   }

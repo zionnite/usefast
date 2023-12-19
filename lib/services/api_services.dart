@@ -449,13 +449,6 @@ class ApiServices {
     required bool isAirtime,
     required String ref,
   }) async {
-    print('create bill purchase');
-    print('country $country');
-    print('customer $phoneNumber');
-    print('amount $amount');
-    print('isAirtime $isAirtime');
-    print('billerName $billerName');
-    print('ref $ref');
     try {
       Map<String, String> header = {};
       header["Authorization"] = 'Bearer $privateKey';
@@ -476,7 +469,6 @@ class ApiServices {
           .timeout(const Duration(minutes: 60));
 
       var body = response.body;
-      print('body $body');
       final j = json.decode(body) as Map<String, dynamic>;
       if (response.statusCode == 200) {
         String status = j['status'];
