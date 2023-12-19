@@ -956,78 +956,56 @@ class _PurchaseBillDataState extends State<PurchaseBillData> {
                     ? Expanded(
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: OtpTextField(
-                            numberOfFields: 5,
-                            borderColor: const Color(0xFF512DA8),
-                            //set to true to show as box or false to show as dash
-                            showFieldAsBox: true,
-                            //runs when a code is typed in
-                            onCodeChanged: (String code) {
-                              //handle validation or checks here
-                            },
-                            //runs when every textfield is filled
-                            onSubmit: (String verificationCode) {
-                              setState(() {
-                                transactionPin = verificationCode;
-                                authenticated = true;
-                              });
-                            }, // end onSubmit
+                          child: Column(
+                            children: [
+                              Expanded(
+                                child: Container(
+                                  padding: const EdgeInsets.all(8),
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: kPrimaryColor,
+                                    ),
+                                    borderRadius: const BorderRadius.all(
+                                      Radius.circular(10),
+                                    ),
+                                  ),
+                                  child: InkWell(
+                                    onTap: () async {
+                                      bool authenticate =
+                                          await LocalAuth.authenticate();
+                                      if (authenticate) {
+                                        completeBillTransaction(
+                                          amount: disAmount,
+                                          network: networkSelected!,
+                                          phoneNumber: phoneController.text,
+                                          billerCode: billerCode!,
+                                          billerName: billerName!,
+                                          itemCode: itemCode!,
+                                          isAirtime: false,
+                                          userId: user_id!,
+                                        );
+                                      }
+
+                                      Get.back();
+                                      setState(() {});
+                                    },
+                                    child: const Icon(
+                                      Icons.fingerprint,
+                                      size: 45,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              const Expanded(
+                                child: Text(
+                                  'Complete Transaction with Face ID or Finger Print',
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       )
                     : Container(),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      children: [
-                        Expanded(
-                          child: Container(
-                            padding: const EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                color: kPrimaryColor,
-                              ),
-                              borderRadius: const BorderRadius.all(
-                                Radius.circular(10),
-                              ),
-                            ),
-                            child: InkWell(
-                              onTap: () async {
-                                bool authenticate =
-                                    await LocalAuth.authenticate();
-                                if (authenticate) {
-                                  completeBillTransaction(
-                                    amount: disAmount,
-                                    network: networkSelected!,
-                                    phoneNumber: phoneController.text,
-                                    billerCode: billerCode!,
-                                    billerName: billerName!,
-                                    itemCode: itemCode!,
-                                    isAirtime: false,
-                                    userId: user_id!,
-                                  );
-                                }
-
-                                Get.back();
-                                setState(() {});
-                              },
-                              child: const Icon(
-                                Icons.fingerprint,
-                                size: 45,
-                              ),
-                            ),
-                          ),
-                        ),
-                        const Expanded(
-                          child: Text(
-                            'Complete Transaction with Face ID or Finger Print',
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
               ],
             ),
           ),
