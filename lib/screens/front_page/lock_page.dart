@@ -4,6 +4,7 @@ import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:usefast/constant.dart';
+import 'package:usefast/screens/front_page/login_page.dart';
 import 'package:usefast/services/local_auth_services.dart';
 import 'package:usefast/widgets/bottom_bar.dart';
 import 'package:usefast/widgets/property_btn.dart';
@@ -180,7 +181,6 @@ class _LockPageState extends State<LockPage> {
                                   await LocalAuth.authenticate();
 
                               if (authenticate) {
-                                print('went');
                                 //authenticated = authenticate;
                                 // Get.back();
                                 goToHome();
@@ -206,11 +206,43 @@ class _LockPageState extends State<LockPage> {
                     ),
                   )
                 : Container(),
-            const SizedBox(height: 50),
+            const SizedBox(height: 10),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text(
+                  'Not you?',
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: Colors.white,
+                  ),
+                ),
+                TextButton(
+                  onPressed: () {
+                    didUnlock();
+                    Get.to(() => const LoginPage());
+                  },
+                  child: const Text(
+                    'Switch Account',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white,
+                    ),
+                  ),
+                )
+              ],
+            ),
+            const SizedBox(height: 40),
           ],
         ),
       ),
     );
+  }
+
+  didUnlock() {
+    AppLock.of(context)!.didUnlock();
   }
 
   goToHome() {

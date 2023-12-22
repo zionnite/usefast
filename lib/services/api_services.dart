@@ -167,7 +167,7 @@ class ApiServices {
       if (response.statusCode == 200) {
         var body = response.body;
 
-        // print('body $body');
+        print('deposit body $body');
         final j = json.decode(body) as Map<String, dynamic>;
         bool status = j['status'];
         if (status) {

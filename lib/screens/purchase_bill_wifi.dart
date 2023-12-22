@@ -201,10 +201,12 @@ class _PurchaseBillWifiState extends State<PurchaseBillWifi> {
                       ),
 
                       (phoneError)
-                          ? const Text('Device number is required!',
+                          ? const Text(
+                              'Device number is required!',
                               style: TextStyle(
                                 color: Colors.red,
-                              ))
+                              ),
+                            )
                           : Container(),
                       const SizedBox(
                         height: 18,

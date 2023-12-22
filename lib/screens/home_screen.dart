@@ -8,6 +8,7 @@ import 'package:usefast/constant.dart';
 import 'package:usefast/controller/account_controller.dart';
 import 'package:usefast/controller/lock_session.dart';
 import 'package:usefast/controller/transaction_controller.dart';
+import 'package:usefast/screens/bill_page.dart';
 import 'package:usefast/util/common.dart';
 import 'package:usefast/widgets/header.dart';
 
@@ -100,253 +101,157 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             const Header(),
             const SizedBox(height: 10),
-            Padding(
-              padding: const EdgeInsets.only(
-                top: 7,
-                bottom: 7,
-                left: 10,
-                right: 10,
-              ),
-              child: FadeInUp(
-                duration: const Duration(milliseconds: 900),
-                child: Container(
-                  height: 100,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: kSecondaryColor,
-                    borderRadius: BorderRadius.circular(5),
-                  ),
+            Row(
+              children: [
+                Expanded(
                   child: Padding(
-                      padding: const EdgeInsets.only(
-                        left: 20,
-                        right: 20,
-                        top: 25,
-                        bottom: 15,
+                    padding: const EdgeInsets.only(
+                      top: 7,
+                      bottom: 7,
+                      left: 10,
+                    ),
+                    child: FadeInUp(
+                      duration: const Duration(milliseconds: 900),
+                      child: Container(
+                        height: 100,
+                        width: 200,
+                        decoration: BoxDecoration(
+                          color: kSecondaryColor,
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        child: Padding(
+                            padding: const EdgeInsets.only(
+                              left: 20,
+                              right: 20,
+                              top: 25,
+                              bottom: 15,
+                            ),
+                            child: Column(
+                              children: [
+                                InkWell(
+                                  onTap: () {
+                                    Get.to(() => const AddFunds());
+                                  },
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      ClipOval(
+                                        child: Container(
+                                          height: 38,
+                                          width: 38,
+                                          decoration: const BoxDecoration(
+                                            gradient: LinearGradient(
+                                              begin: Alignment.topCenter,
+                                              end: Alignment.bottomCenter,
+                                              colors: [
+                                                Colors.white,
+                                                Colors.grey
+                                              ],
+                                            ),
+                                          ),
+                                          child: const Padding(
+                                            padding: EdgeInsets.symmetric(
+                                              horizontal: 1,
+                                              vertical: 1,
+                                            ),
+                                            child: Icon(Icons.credit_card),
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(height: 5),
+                                      Text(
+                                        'Deposit',
+                                        style: kInfo.copyWith(
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            )),
                       ),
-                      child: ListView(
-                        scrollDirection: Axis.horizontal,
-                        shrinkWrap: true,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const SizedBox(width: 5),
-                              InkWell(
-                                onTap: () {
-                                  Get.to(
-                                    () => const PurchaseUtilityBill(
-                                        utilityType: 'airtime'),
-                                  );
-                                },
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    ClipOval(
-                                      child: Container(
-                                        height: 38,
-                                        width: 38,
-                                        decoration: const BoxDecoration(
-                                          gradient: LinearGradient(
-                                            begin: Alignment.topCenter,
-                                            end: Alignment.bottomCenter,
-                                            colors: [Colors.white, Colors.grey],
-                                          ),
-                                        ),
-                                        child: const Padding(
-                                          padding: EdgeInsets.symmetric(
-                                            horizontal: 1,
-                                            vertical: 1,
-                                          ),
-                                          child: Icon(Icons.phone_android),
-                                        ),
-                                      ),
-                                    ),
-                                    const SizedBox(height: 5),
-                                    Text(
-                                      'Top-up',
-                                      style: kInfo.copyWith(
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              const SizedBox(width: 40),
-                              InkWell(
-                                onTap: () {
-                                  Get.to(
-                                    () => const PurchaseBillData(
-                                        utilityType: 'data'),
-                                  );
-                                },
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    ClipOval(
-                                      child: Container(
-                                        height: 38,
-                                        width: 38,
-                                        decoration: const BoxDecoration(
-                                          gradient: LinearGradient(
-                                            begin: Alignment.topCenter,
-                                            end: Alignment.bottomCenter,
-                                            colors: [Colors.white, Colors.grey],
-                                          ),
-                                        ),
-                                        child: const Padding(
-                                          padding: EdgeInsets.symmetric(
-                                            horizontal: 5,
-                                            vertical: 1,
-                                          ),
-                                          child:
-                                              Icon(Icons.network_cell_outlined),
-                                        ),
-                                      ),
-                                    ),
-                                    const SizedBox(height: 5),
-                                    Text(
-                                      'Data',
-                                      style: kInfo.copyWith(
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              const SizedBox(width: 40),
-                              InkWell(
-                                onTap: () {
-                                  Get.to(
-                                    () => const PurchaseBillElectricity(
-                                        utilityType: 'electricity'),
-                                  );
-                                },
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    ClipOval(
-                                      child: Container(
-                                        height: 38,
-                                        width: 38,
-                                        decoration: const BoxDecoration(
-                                          gradient: LinearGradient(
-                                            begin: Alignment.topCenter,
-                                            end: Alignment.bottomCenter,
-                                            colors: [Colors.white, Colors.grey],
-                                          ),
-                                        ),
-                                        child: const Padding(
-                                          padding: EdgeInsets.symmetric(
-                                            horizontal: 1,
-                                            vertical: 1,
-                                          ),
-                                          child: Icon(Icons.power),
-                                        ),
-                                      ),
-                                    ),
-                                    const SizedBox(height: 5),
-                                    Text(
-                                      'Power',
-                                      style: kInfo.copyWith(
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              const SizedBox(width: 40),
-                              InkWell(
-                                onTap: () {
-                                  Get.to(
-                                    () => const PurchaseBillWifi(
-                                        utilityType: 'internet'),
-                                  );
-                                },
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    ClipOval(
-                                      child: Container(
-                                        height: 38,
-                                        width: 38,
-                                        decoration: const BoxDecoration(
-                                          gradient: LinearGradient(
-                                            begin: Alignment.topCenter,
-                                            end: Alignment.bottomCenter,
-                                            colors: [Colors.white, Colors.grey],
-                                          ),
-                                        ),
-                                        child: const Padding(
-                                          padding: EdgeInsets.symmetric(
-                                            horizontal: 1,
-                                            vertical: 1,
-                                          ),
-                                          child: Icon(Icons.wifi),
-                                        ),
-                                      ),
-                                    ),
-                                    const SizedBox(height: 5),
-                                    Text(
-                                      'Wifi',
-                                      style: kInfo.copyWith(
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              const SizedBox(width: 40),
-                              InkWell(
-                                onTap: () {
-                                  Get.to(
-                                    () => const PurchaseBillCable(
-                                        utilityType: 'cable'),
-                                  );
-                                },
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    ClipOval(
-                                      child: Container(
-                                        height: 38,
-                                        width: 38,
-                                        decoration: const BoxDecoration(
-                                          gradient: LinearGradient(
-                                            begin: Alignment.topCenter,
-                                            end: Alignment.bottomCenter,
-                                            colors: [Colors.white, Colors.grey],
-                                          ),
-                                        ),
-                                        child: const Padding(
-                                          padding: EdgeInsets.symmetric(
-                                            horizontal: 1,
-                                            vertical: 1,
-                                          ),
-                                          child: Icon(Icons.tv),
-                                        ),
-                                      ),
-                                    ),
-                                    const SizedBox(height: 5),
-                                    Text(
-                                      'Cable',
-                                      style: kInfo.copyWith(
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      )),
+                    ),
+                  ),
                 ),
-              ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                      top: 7,
+                      bottom: 7,
+                      right: 10,
+                    ),
+                    child: FadeInUp(
+                      duration: const Duration(milliseconds: 900),
+                      child: Container(
+                        height: 100,
+                        width: 200,
+                        decoration: BoxDecoration(
+                          color: kSecondaryColor,
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        child: Padding(
+                            padding: const EdgeInsets.only(
+                              left: 20,
+                              right: 20,
+                              top: 25,
+                              bottom: 15,
+                            ),
+                            child: Column(
+                              children: [
+                                InkWell(
+                                  onTap: () {
+                                    Get.to(() => const RequestWithdraw());
+                                  },
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      ClipOval(
+                                        child: Container(
+                                          height: 38,
+                                          width: 38,
+                                          decoration: const BoxDecoration(
+                                            gradient: LinearGradient(
+                                              begin: Alignment.topCenter,
+                                              end: Alignment.bottomCenter,
+                                              colors: [
+                                                Colors.white,
+                                                Colors.grey
+                                              ],
+                                            ),
+                                          ),
+                                          child: const Padding(
+                                            padding: EdgeInsets.symmetric(
+                                              horizontal: 1,
+                                              vertical: 1,
+                                            ),
+                                            child:
+                                                Icon(Icons.water_drop_outlined),
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(height: 5),
+                                      Text(
+                                        'Withdrawal',
+                                        style: kInfo.copyWith(
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            )),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
             Padding(
               padding: const EdgeInsets.only(
@@ -371,11 +276,15 @@ class _HomeScreenState extends State<HomeScreen> {
                         top: 25,
                         bottom: 15,
                       ),
-                      child: Column(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           InkWell(
                             onTap: () {
-                              Get.to(() => const AddFunds());
+                              Get.to(
+                                () => const PurchaseUtilityBill(
+                                    utilityType: 'airtime'),
+                              );
                             },
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.start,
@@ -397,13 +306,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                         horizontal: 1,
                                         vertical: 1,
                                       ),
-                                      child: Icon(Icons.credit_card),
+                                      child: Icon(Icons.phone_android),
                                     ),
                                   ),
                                 ),
                                 const SizedBox(height: 5),
                                 Text(
-                                  'Deposit',
+                                  'Top-up',
                                   style: kInfo.copyWith(
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -411,39 +320,53 @@ class _HomeScreenState extends State<HomeScreen> {
                               ],
                             ),
                           ),
-                        ],
-                      )),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(
-                top: 7,
-                bottom: 7,
-                left: 10,
-                right: 10,
-              ),
-              child: FadeInUp(
-                duration: const Duration(milliseconds: 900),
-                child: Container(
-                  height: 100,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: kSecondaryColor,
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                  child: Padding(
-                      padding: const EdgeInsets.only(
-                        left: 20,
-                        right: 20,
-                        top: 25,
-                        bottom: 15,
-                      ),
-                      child: Column(
-                        children: [
                           InkWell(
                             onTap: () {
-                              Get.to(() => const RequestWithdraw());
+                              Get.to(
+                                () =>
+                                    const PurchaseBillData(utilityType: 'data'),
+                              );
+                            },
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                ClipOval(
+                                  child: Container(
+                                    height: 38,
+                                    width: 38,
+                                    decoration: const BoxDecoration(
+                                      gradient: LinearGradient(
+                                        begin: Alignment.topCenter,
+                                        end: Alignment.bottomCenter,
+                                        colors: [Colors.white, Colors.grey],
+                                      ),
+                                    ),
+                                    child: const Padding(
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: 5,
+                                        vertical: 1,
+                                      ),
+                                      child: Icon(Icons.network_cell_outlined),
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(height: 5),
+                                Text(
+                                  'Data',
+                                  style: kInfo.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          InkWell(
+                            onTap: () {
+                              Get.to(
+                                () => const PurchaseBillElectricity(
+                                    utilityType: 'electricity'),
+                              );
                             },
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.start,
@@ -465,13 +388,51 @@ class _HomeScreenState extends State<HomeScreen> {
                                         horizontal: 1,
                                         vertical: 1,
                                       ),
-                                      child: Icon(Icons.water_drop_outlined),
+                                      child: Icon(Icons.power),
                                     ),
                                   ),
                                 ),
                                 const SizedBox(height: 5),
                                 Text(
-                                  'Request Withdrawal',
+                                  'Power',
+                                  style: kInfo.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          InkWell(
+                            onTap: () {
+                              Get.to(() => const BillPage());
+                            },
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                ClipOval(
+                                  child: Container(
+                                    height: 38,
+                                    width: 38,
+                                    decoration: const BoxDecoration(
+                                      gradient: LinearGradient(
+                                        begin: Alignment.topCenter,
+                                        end: Alignment.bottomCenter,
+                                        colors: [Colors.white, Colors.grey],
+                                      ),
+                                    ),
+                                    child: const Padding(
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: 1,
+                                        vertical: 1,
+                                      ),
+                                      child: Icon(Icons.more_horiz_rounded),
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(height: 5),
+                                Text(
+                                  'More',
                                   style: kInfo.copyWith(
                                     fontWeight: FontWeight.bold,
                                   ),

@@ -93,7 +93,11 @@ class _HeaderState extends State<Header> {
                       const SizedBox(height: 5),
                       Text(
                         '$fullName',
-                        style: kName,
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: kTextColor,
+                        ),
                         overflow: TextOverflow.ellipsis,
                       ),
                     ],

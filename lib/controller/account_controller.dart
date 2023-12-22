@@ -44,15 +44,18 @@ class AccountController extends GetxController {
     required String amount,
     required String ref,
   }) async {
+    print('deposit function called');
     var seeker = await ApiServices.depositUserFund(
       userId: userId,
       amount: amount,
       ref: ref,
     );
     if (seeker != null) {
+      print('deposited...');
       accountStatusCounter.value = seeker.cast<AccountModel>();
       return 'Transaction successful';
     } else {
+      print('unable to deposit');
       return 'Transaction Successful, unable to credit account, check later or contact Admin for help';
     }
   }
@@ -69,6 +72,7 @@ class AccountController extends GetxController {
       transactionId: transactionId,
     );
     if (seeker == 'success') {
+      print('depositing now');
       var data = depositUserFund(userId: userId, amount: amount, ref: txRef);
       return data;
     } else {
@@ -485,8 +489,8 @@ class AccountController extends GetxController {
     prefs.remove("isbank_verify");
     prefs.remove("login_status");
     prefs.remove("isGuestLogin");
-    prefs.remove("fingerprintAuth");
-    prefs.remove("lockPin");
+    // prefs.remove("fingerprintAuth");
+    // prefs.remove("lockPin");
 
     Get.offAll(() => const LoginPage());
   }

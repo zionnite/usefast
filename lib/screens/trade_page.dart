@@ -4,9 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_awesome_bottom_sheet/flutter_awesome_bottom_sheet.dart';
 import 'package:get/get.dart';
 import 'package:usefast/constant.dart';
+import 'package:usefast/screens/purchase_bill.dart';
+import 'package:usefast/util/common.dart';
 import 'package:usefast/widgets/buttons.dart';
 import 'package:usefast/widgets/property_btn.dart';
 
+import 'purchase_bill_data.dart';
 import 'submit_payment_prof.dart';
 
 class TradePage extends StatefulWidget {
@@ -41,24 +44,7 @@ class _TradePageState extends State<TradePage> {
             child: Column(
               children: [
                 const SizedBox(
-                  height: 10,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 0.0),
-                  child: Row(
-                    children: [
-                      InkWell(
-                        onTap: () {
-                          Get.back();
-                        },
-                        child: const Icon(
-                          Icons.chevron_left_rounded,
-                          color: Colors.white,
-                          size: 50,
-                        ),
-                      ),
-                    ],
-                  ),
+                  height: 30,
                 ),
                 const Align(
                   alignment: Alignment.topLeft,
@@ -108,6 +94,98 @@ class _TradePageState extends State<TradePage> {
                 ),
                 const SizedBox(height: 30),
                 const Buttons(),
+                // Padding(
+                //   padding: const EdgeInsets.only(
+                //     left: 18.0,
+                //     right: 18,
+                //     top: 8,
+                //   ),
+                //   child: Column(
+                //     children: [
+                //       InkWell(
+                //         onTap: () {
+                //           Get.to(
+                //             () => const SubmitPaymentProf(transType: 'gift'),
+                //           );
+                //         },
+                //         child: Padding(
+                //           padding: const EdgeInsets.symmetric(vertical: 8.0),
+                //           child: Row(
+                //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //             children: [
+                //               Row(
+                //                 mainAxisAlignment:
+                //                     MainAxisAlignment.spaceBetween,
+                //                 children: [
+                //                   Icon(
+                //                     Icons.wallet_giftcard,
+                //                     color: kTextColor,
+                //                   ),
+                //                   const SizedBox(
+                //                     width: 8,
+                //                   ),
+                //                   Text(
+                //                     'Gift Card',
+                //                     style: TextStyle(color: kTextColor),
+                //                   ),
+                //                 ],
+                //               ),
+                //               Icon(
+                //                 Icons.chevron_right_sharp,
+                //                 color: kTextColor,
+                //               ),
+                //             ],
+                //           ),
+                //         ),
+                //       ),
+                //       Padding(
+                //         padding: const EdgeInsets.symmetric(vertical: 8.0),
+                //         child: SizedBox(
+                //           height: 10,
+                //           child: Divider(
+                //             color: greyColor,
+                //           ),
+                //         ),
+                //       ),
+                //       InkWell(
+                //         onTap: () {
+                //           Get.to(
+                //             () => const SubmitPaymentProf(transType: 'crypto'),
+                //           );
+                //         },
+                //         child: Padding(
+                //           padding: const EdgeInsets.symmetric(vertical: 8.0),
+                //           child: Row(
+                //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //             children: [
+                //               Row(
+                //                 mainAxisAlignment:
+                //                     MainAxisAlignment.spaceBetween,
+                //                 children: [
+                //                   Icon(
+                //                     Icons.water_drop,
+                //                     color: kTextColor,
+                //                   ),
+                //                   const SizedBox(
+                //                     width: 8,
+                //                   ),
+                //                   Text(
+                //                     'Coin',
+                //                     style: TextStyle(color: kTextColor),
+                //                   ),
+                //                 ],
+                //               ),
+                //               Icon(
+                //                 Icons.chevron_right_sharp,
+                //                 color: kTextColor,
+                //               ),
+                //             ],
+                //           ),
+                //         ),
+                //       ),
+                //     ],
+                //   ),
+                // ),
               ],
             ),
           ),

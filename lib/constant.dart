@@ -17,7 +17,7 @@ TextStyle kSFUI16 = TextStyle(
 );
 
 TextStyle kName = TextStyle(
-  fontSize: 27,
+  fontSize: 180,
   fontWeight: FontWeight.bold,
   color: kTextColor,
 );
