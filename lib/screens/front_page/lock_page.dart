@@ -23,14 +23,17 @@ class _LockPageState extends State<LockPage> {
   bool pinNotMatched = false;
 
   bool? fingerprintAuth;
+  String? fullName;
 
   initUserDetail() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var fingerprintAuth1 = prefs.getBool('fingerprintAuth');
+    var fullName1 = prefs.getString('full_name');
 
     if (mounted) {
       setState(() {
         fingerprintAuth = fingerprintAuth1;
+        fullName = fullName1;
       });
     }
   }
@@ -55,12 +58,45 @@ class _LockPageState extends State<LockPage> {
             const SizedBox(
               height: 20,
             ),
-            Align(
-              alignment: Alignment.topLeft,
-              child: Image(
-                image: const AssetImage('assets/images/fast_pay.png'),
-                height: height * 0.3,
-              ),
+            Stack(
+              children: [
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: Image(
+                    image: const AssetImage('assets/images/fast_pay.png'),
+                    height: height * 0.25,
+                  ),
+                ),
+                Positioned(
+                  bottom: 30,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 33.0),
+                    child: Row(
+                      children: [
+                        const Text(
+                          'Welcome, ',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                          ),
+                        ),
+                        Text(
+                          '$fullName',
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w800,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+
+            const SizedBox(
+              height: 80,
             ),
             Text(
               'Enter Lock Pin',
@@ -191,7 +227,7 @@ class _LockPageState extends State<LockPage> {
                             icon: const Icon(
                               Icons.fingerprint,
                               color: Colors.white,
-                              size: 50,
+                              size: 30,
                             ),
                           ),
                         ),

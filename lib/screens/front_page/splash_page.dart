@@ -42,47 +42,27 @@ class _SplashPageState extends State<SplashPage> {
               left: splashController.animate.value ? 0 : 0,
               child: Column(
                 children: [
-                  InkWell(
-                    onTap: () {},
-                    child: Image(
-                      fit: BoxFit.contain,
-                      image: const AssetImage('assets/images/fast_pay.png'),
-                      height: height * 0.6,
-                      // width: 500,
-                      // color: Colors.blue.shade900.withOpacity(1),
-                      // colorBlendMode: BlendMode.color,
-                    ),
-                  ),
-                  Column(
+                  Stack(
                     children: [
-                      Column(
-                        children: [
-                          InkWell(
-                            onTap: () {},
-                            child: const Text(
-                              'FastPay',
-                              style: TextStyle(
-                                fontSize: 35,
-                                fontFamily: 'Passion One',
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                          const Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 12.0),
-                            child: Text(
-                              'Trade with ease, get paid fast',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 18,
-                                color: Colors.white,
-                              ),
-                            ),
-                          )
-                        ],
+                      Image(
+                        fit: BoxFit.contain,
+                        image: const AssetImage('assets/images/fast_pay.png'),
+                        height: height * 0.6,
                       ),
+                      const Positioned(
+                        top: 310,
+                        left: 170,
+                        child: Text(
+                          'Trade with ease, get paid fast',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 13.5,
+                            color: Colors.white,
+                          ),
+                        ),
+                      )
                     ],
-                  )
+                  ),
                 ],
               ),
             ),

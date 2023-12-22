@@ -16,7 +16,7 @@ class BottomBar extends StatefulWidget {
 class _BottomBarState extends State<BottomBar> {
   final List _page = [
     const HomeScreen(),
-    const TradePage(),
+    // const TradePage(),
     const TransactionScreen(),
     const ProfilePage(),
   ];
@@ -48,6 +48,19 @@ class _BottomBarState extends State<BottomBar> {
               },
               icon: const Icon(Icons.home_filled),
             ),
+            // IconButton(
+            //   color:
+            //       (_selectedIndex == 1) ? Colors.white : Colors.grey.shade700,
+            //   splashColor: Colors.transparent,
+            //   highlightColor: Colors.transparent,
+            //   enableFeedback: false,
+            //   onPressed: () {
+            //     setState(() {
+            //       _selectedIndex = 1;
+            //     });
+            //   },
+            //   icon: const Icon(Icons.trending_up_sharp),
+            // ),
             IconButton(
               color:
                   (_selectedIndex == 1) ? Colors.white : Colors.grey.shade700,
@@ -59,7 +72,7 @@ class _BottomBarState extends State<BottomBar> {
                   _selectedIndex = 1;
                 });
               },
-              icon: const Icon(Icons.trending_up_sharp),
+              icon: const Icon(Icons.bar_chart),
             ),
             IconButton(
               color:
@@ -70,19 +83,6 @@ class _BottomBarState extends State<BottomBar> {
               onPressed: () {
                 setState(() {
                   _selectedIndex = 2;
-                });
-              },
-              icon: const Icon(Icons.bar_chart),
-            ),
-            IconButton(
-              color:
-                  (_selectedIndex == 3) ? Colors.white : Colors.grey.shade700,
-              splashColor: Colors.transparent,
-              highlightColor: Colors.transparent,
-              enableFeedback: false,
-              onPressed: () {
-                setState(() {
-                  _selectedIndex = 3;
                 });
               },
               icon: const Icon(Icons.person),
