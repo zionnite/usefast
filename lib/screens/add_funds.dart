@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app_lock/flutter_app_lock.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:flutterwave_standard/flutterwave.dart';
 import 'package:get/get.dart';
@@ -645,7 +646,12 @@ class _AddFundsState extends State<AddFunds> {
           ),
           actions: [
             TextButton(
-              onPressed: () => Navigator.pop(context, 'OK'),
+              onPressed: () {
+                if (status == 'successful') {
+                  AppLock.of(context)!.enable();
+                }
+                Navigator.pop(context, 'OK');
+              },
               child: const Text('OK'),
             ),
           ],

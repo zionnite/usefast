@@ -1282,6 +1282,7 @@ class ApiServices {
       final result =
           await client.get(Uri.parse('$_mybaseUrl$_deleteAccount/$userId'));
 
+      print(result.body);
       if (result.statusCode == 200) {
         final j = json.decode(result.body) as Map<String, dynamic>;
         bool status = j['status'];

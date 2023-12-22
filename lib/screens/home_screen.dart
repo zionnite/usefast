@@ -130,6 +130,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               children: [
                                 InkWell(
                                   onTap: () {
+                                    AppLock.of(context)!.disable();
                                     Get.to(() => const AddFunds());
                                   },
                                   child: Column(

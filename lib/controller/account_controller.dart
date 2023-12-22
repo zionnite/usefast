@@ -508,9 +508,14 @@ class AccountController extends GetxController {
   deleteAccount(var userId) async {
     bool seeker = await ApiServices.deleteAccount(userId);
     if (seeker) {
-      String msg = 'We are sad to see you go';
+      String msg =
+          'Click the email sent to you to remove your account from our database';
       showSnackBar(
-          title: 'Account Deleted', msg: msg, backgroundColor: Colors.red);
+        title: 'We are sad to see you go',
+        msg: msg,
+        backgroundColor: Colors.red,
+        duration: const Duration(seconds: 30),
+      );
       //logoutUser();
       return true;
     } else {
