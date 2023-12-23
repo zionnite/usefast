@@ -80,12 +80,17 @@ class _LockPageState extends State<LockPage> {
                             fontSize: 18,
                           ),
                         ),
-                        Text(
-                          '$fullName',
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w800,
+                        SizedBox(
+                          width: 200,
+                          child: Text(
+                            '$fullName',
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w800,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                            softWrap: true,
                           ),
                         ),
                       ],

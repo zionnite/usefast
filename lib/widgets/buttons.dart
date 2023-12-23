@@ -95,6 +95,7 @@ class _ButtonsState extends State<Buttons> {
                 // handlePaymentInitialization();
               },
             ),
+            const SizedBox(width: 10),
             CustomButton(
               title: 'Coin',
               icon: const Icon(

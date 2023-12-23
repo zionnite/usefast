@@ -49,18 +49,18 @@ class _SplashPageState extends State<SplashPage> {
                         image: const AssetImage('assets/images/fast_pay.png'),
                         height: height * 0.6,
                       ),
-                      const Positioned(
-                        top: 310,
-                        left: 170,
-                        child: Text(
-                          'Trade with ease, get paid fast',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 13.5,
-                            color: Colors.white,
-                          ),
-                        ),
-                      )
+                      // const Positioned(
+                      //   top: 310,
+                      //   left: 170,
+                      //   child: Text(
+                      //     'Trade with ease, get paid fast',
+                      //     textAlign: TextAlign.center,
+                      //     style: TextStyle(
+                      //       fontSize: 13.5,
+                      //       color: Colors.white,
+                      //     ),
+                      //   ),
+                      // )
                     ],
                   ),
                 ],
