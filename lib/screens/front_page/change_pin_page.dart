@@ -63,7 +63,7 @@ class _ChangePinPageState extends State<ChangePinPage> {
               ),
               // filled: true,
               // fillColor: Colors.white,
-              numberOfFields: 5,
+              numberOfFields: 4,
               borderColor: const Color(0xFF512DA8),
               //set to true to show as box or false to show as dash
               showFieldAsBox: true,
