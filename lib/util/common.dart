@@ -64,7 +64,7 @@ displayBottomSheetFeedback({
       return GiffyBottomSheet.image(
         Image.asset(
           '$image_name',
-          height: 200,
+          height: 150,
           // fit: BoxFit.cover,
         ),
         title: Text(
@@ -93,7 +93,7 @@ displayBottomSheetFeedback({
   );
 }
 
-const int CURRENT_APP_VERSION = 1;
+const int CURRENT_APP_VERSION = 2;
 const String baseDomain = 'https://app.usefastpay.ng/';
 // const String baseDomain = 'http://localhost:8888/usefastpay/';
 const String baseUrl = '${baseDomain}Api/';

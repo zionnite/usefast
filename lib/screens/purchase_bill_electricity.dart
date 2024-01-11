@@ -1002,7 +1002,7 @@ class _PurchaseBillElectricityState extends State<PurchaseBillElectricity> {
         return GiffyBottomSheet.image(
           Image.asset(
             "assets/images/fast_pay.png",
-            height: 200,
+            height: 150,
             fit: BoxFit.cover,
           ),
           title: const Text(
