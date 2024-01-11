@@ -13,8 +13,12 @@ class FlutterWaveBillController extends GetxController {
 
   var page_num = 1;
   var isRequestProcessing = 'null'.obs;
+  var isAirtimeProcessing = 'null'.obs;
+  var isDataProcessing = 'null'.obs;
   var isMoreDataAvailable = true.obs;
   var billCatList = <Datum>[].obs;
+  var airtimeList = <Datum>[].obs;
+  var dataList = <Datum>[].obs;
   var billCatListCables = <cables.Datum>[].obs;
   var bankList = <bank.Datum>[].obs;
   var isBankProcessing = 'null'.obs;
@@ -33,6 +37,27 @@ class FlutterWaveBillController extends GetxController {
       isRequestProcessing.value = 'no';
     }
   }
+
+  fetchAirtimeBillCategories() async {
+    var seeker = await ApiServices.fetchAirtimeBillCategories();
+    if (seeker != null) {
+      isAirtimeProcessing.value = 'yes';
+      airtimeList.value = seeker.cast<Datum>();
+    } else {
+      isAirtimeProcessing.value = 'no';
+    }
+  }
+
+  fetchDataNetworkBillCategories() async {
+    var seeker = await ApiServices.fetchDataNetworkBillCategories();
+    if (seeker != null) {
+      isDataProcessing.value = 'yes';
+      dataList.value = seeker.cast<Datum>();
+    } else {
+      isDataProcessing.value = 'no';
+    }
+  }
+
 
   fetchBillDisDataPlan({required String billerCode}) async {
     billCatList.clear();

@@ -79,7 +79,7 @@ class _PurchaseUtilityBillState extends State<PurchaseUtilityBill> {
         fingerprintAuth = fingerprintAuth1;
       });
 
-      await billController.fetchBillCategories();
+      await billController.fetchAirtimeBillCategories();
     }
   }
 
@@ -238,79 +238,84 @@ class _PurchaseUtilityBillState extends State<PurchaseUtilityBill> {
                       ),
                       Container(
                         height: 100,
-                        child: ListView.builder(
+                        child: Obx(() => ListView.builder(
                           scrollDirection: Axis.horizontal,
-                          itemCount: networkProvider.length,
+                          // itemCount: networkProvider.length,
+                          itemCount: billController.airtimeList.length,
+                          reverse: true,
                           itemBuilder: (BuildContext context, int index) {
-                            var data = networkProvider[index];
-                            return InkWell(
-                              onTap: () {
-                                setState(() {
-                                  networkSelected = data;
-                                  isSelected = true;
-                                });
-                                // List<String> networkProvider = [
-                                //   "MTN",
-                                //   "AIRTEL",
-                                //   "GLO",
-                                //   "9MOBILE"
-                                // ];
-                                if (networkSelected == 'MTN') {
+                            // var data = networkProvider[index];
+                            var data = billController.airtimeList[index];
+                            if(data.name == 'MTN VTU' || data.name == 'GLO VTU' || data.name == 'AIRTEL VTU' || data.name == '9MOBILE VTU'){
+                              return InkWell(
+                                onTap: () {
                                   setState(() {
-                                    billerCode = 'BIL099';
-                                    billerName = 'AIRTIME';
-                                    itemCode = 'AT099';
+                                    networkSelected = data.name;
+                                    isSelected = true;
                                   });
-                                } else if (networkSelected == 'AIRTEL') {
+                                  // List<String> networkProvider = [
+                                  //   "MTN",
+                                  //   "AIRTEL",
+                                  //   "GLO",
+                                  //   "9MOBILE"
+                                  // ];
                                   setState(() {
-                                    billerCode = 'BIL100';
-                                    billerName = 'AIRTEL VTU';
-                                    itemCode = 'AT100';
+                                    billerCode = data.billerCode ;
+                                    billerName = data.billerName;
+                                    itemCode = data.itemCode;
                                   });
-                                } else if (networkSelected == 'GLO') {
-                                  setState(() {
-                                    billerCode = 'BIL102';
-                                    billerName = 'GLO VTU';
-                                    itemCode = 'AT102';
-                                  });
-                                } else if (networkSelected == '9MOBILE') {
-                                  billerCode = 'BIL103';
-                                  billerName = '9MOBILE VTU';
-                                  itemCode = 'AT103';
-                                }
-                              },
-                              child: Container(
-                                // width: 150,
-                                height: 100,
-                                decoration: BoxDecoration(
-                                  color: kSecondaryColor,
-                                  borderRadius: const BorderRadius.all(
-                                    Radius.circular(8),
+                                },
+                                child: Container(
+                                  // width: 150,
+                                  height: 100,
+                                  decoration: BoxDecoration(
+                                    color: kSecondaryColor,
+                                    borderRadius: const BorderRadius.all(
+                                      Radius.circular(8),
+                                    ),
+                                    border: Border.all(
+                                      color: (networkSelected == data.name)
+                                          ? Colors.white
+                                          : Colors.white12,
+                                    ),
                                   ),
-                                  border: Border.all(
-                                    color: (networkSelected == data)
-                                        ? Colors.white
-                                        : Colors.white12,
+                                  padding: const EdgeInsets.all(20),
+                                  margin: const EdgeInsets.only(
+                                    top: 10,
+                                    right: 10,
+                                    // bottom: 10,
                                   ),
-                                ),
-                                padding: const EdgeInsets.all(20),
-                                margin: const EdgeInsets.only(
-                                  top: 10,
-                                  right: 10,
-                                  // bottom: 10,
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    data,
-                                    style: TextStyle(
-                                      color: textColorWhite,
+                                  child: Center(
+                                    child:
+                                    (data.name == 'MTN VTU')?Text(
+                                      'MTN',
+                                      style: TextStyle(
+                                        color: textColorWhite,
+                                      ),
+                                    ):
+                                    (data.name == 'GLO VTU')? Text(
+                                      'GLO',
+                                      style: TextStyle(
+                                        color: textColorWhite,
+                                      ),
+                                    ) : (data.name == 'AIRTEL VTU')?  Text(
+                                      'AIRTEL',
+                                      style: TextStyle(
+                                        color: textColorWhite,
+                                      ),
+                                    ) :Text(
+                                      '9MOBILE',
+                                      style: TextStyle(
+                                        color: textColorWhite,
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                            );
+                              );
+                            }
+                            return Container();
                           },
-                        ),
+                        ),),
                       ),
 
                       (networkError)

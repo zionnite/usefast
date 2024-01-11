@@ -267,6 +267,78 @@ class ApiServices {
     } catch (ex) {}
   }
 
+  static Future fetchAirtimeBillCategories() async {
+    try {
+      Map<String, String> header = {};
+      header["Authorization"] = 'Bearer $privateKey';
+      header["Content-Type"] = 'application/json';
+      final uri = Uri.parse('https://api.flutterwave.com/v3/bill-categories?airtime=1&country=NG');
+
+      var response = await http
+          .get(
+            uri,
+            headers: header,
+          )
+          .timeout(const Duration(minutes: 60));
+
+      if (response.statusCode == 200) {
+        var body = response.body;
+
+        final j = json.decode(body) as Map<String, dynamic>;
+        String status = j['status'];
+        if (status == 'success') {
+          var disData = j['data'] as List;
+
+          final data =
+              disData.map<Datum>((json) => Datum.fromJson(json)).toList();
+          return data;
+        }
+      } else {
+        return showSnackBar(
+          title: 'Oops!',
+          msg: 'could not connect to server',
+          backgroundColor: Colors.red,
+        );
+      }
+    } catch (ex) {}
+  }
+
+  static Future fetchDataNetworkBillCategories() async {
+    try {
+      Map<String, String> header = {};
+      header["Authorization"] = 'Bearer $privateKey';
+      header["Content-Type"] = 'application/json';
+      final uri = Uri.parse('https://api.flutterwave.com/v3/bill-categories?airtime=1&country=NG');
+
+      var response = await http
+          .get(
+            uri,
+            headers: header,
+          )
+          .timeout(const Duration(minutes: 60));
+
+      if (response.statusCode == 200) {
+        var body = response.body;
+
+        final j = json.decode(body) as Map<String, dynamic>;
+        String status = j['status'];
+        if (status == 'success') {
+          var disData = j['data'] as List;
+
+          final data =
+              disData.map<Datum>((json) => Datum.fromJson(json)).toList();
+          return data;
+        }
+      } else {
+        return showSnackBar(
+          title: 'Oops!',
+          msg: 'could not connect to server',
+          backgroundColor: Colors.red,
+        );
+      }
+    } catch (ex) {}
+  }
+
   static Future fetchBillDisDataPlan({required String billerCode}) async {
     try {
       Map<String, String> header = {};
@@ -476,6 +548,7 @@ class ApiServices {
           .timeout(const Duration(minutes: 60));
 
       var body = response.body;
+      print('body $body');
       final j = json.decode(body) as Map<String, dynamic>;
       if (response.statusCode == 200) {
         String status = j['status'];
