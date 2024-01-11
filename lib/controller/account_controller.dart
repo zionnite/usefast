@@ -80,6 +80,24 @@ class AccountController extends GetxController {
     }
   }
 
+  createTransactionDeposit({
+    required String userId,
+    required String txRef,
+    required String amount,
+  }) async {
+    var seeker = await ApiServices.createTransactionDeposit(
+      userId: userId,
+      txRef: txRef,
+      amount: amount,
+    );
+    if (seeker == 'ok') {
+
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   verifyTransactionPin({
     required String userId,
     required String transactionPin,

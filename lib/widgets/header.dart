@@ -54,6 +54,10 @@ class _HeaderState extends State<Header> {
     }
   }
 
+  void refreshWallet() async {
+    await accountController.getWallet(user_id, admin_status);
+  }
+
   var current_page = 1;
   bool isLoading = false;
   bool widgetLoading = true;
@@ -134,11 +138,20 @@ class _HeaderState extends State<Header> {
             children: [
               FadeInUp(
                 duration: const Duration(milliseconds: 700),
-                child: Text(
-                  'Your Current Balance',
-                  style: kSFUI16.copyWith(
-                    color: Colors.white30,
-                  ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Your Current Balance',
+                      style: kSFUI16.copyWith(
+                        color: Colors.white30,
+                      ),
+                    ),
+                    SizedBox(width: 10),
+                    InkWell(
+                      onTap: refreshWallet,
+                        child: const Icon(Icons.refresh, color: Colors.white,)),
+                  ],
                 ),
               ),
               const SizedBox(height: 7),

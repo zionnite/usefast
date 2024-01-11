@@ -61,7 +61,7 @@ class _ButtonsState extends State<Buttons> {
     );
 
     final ChargeResponse response = await flutterwave.charge();
-    print("${response.toJson()}");
+    // print("${response.toJson()}");
     //to access address field
 
     bool success = response.success!;

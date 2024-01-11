@@ -19,6 +19,7 @@ import 'package:usefast/util/currency_formatter.dart';
 import 'package:usefast/widgets/my_money_field.dart';
 import 'package:usefast/widgets/property_btn.dart';
 import 'package:uuid/uuid.dart';
+import 'package:http/http.dart' as http;
 
 class AddFunds extends StatefulWidget {
   const AddFunds({Key? key}) : super(key: key);
@@ -530,52 +531,73 @@ class _AddFundsState extends State<AddFunds> {
 
   handlePaymentInitialization({required String amount}) async {
     print('clicked');
-    final Customer customer = Customer(
-      name: '$fullName',
-      phoneNumber: '$phoneNumber',
-      email: '$email',
-    );
-    final Flutterwave flutterwave = Flutterwave(
-      context: context,
-      publicKey: ApiServices.publicKey,
-      currency: "NGN",
-      redirectUrl: "https://facebook.com",
-      txRef: uuid.v1(),
-      amount: amount,
-      customer: customer,
-      paymentOptions: "ussd, card, barter, payattitude",
-      customization: Customization(title: "Add Funds"),
-      isTestMode: false,
+    const String _mybaseUrl = baseUrl;
+    String txRef = uuid.v1();
+
+    //create fund holding transaction - pending
+    var createTransaction = await accountController.createTransactionDeposit(
+      userId: '$user_id',
+      txRef: txRef,
+      amount:  amount
     );
 
-    setState(() {
-      pageLoading = true;
-    });
-    final ChargeResponse response = await flutterwave.charge();
-    print("${response.toJson()}");
-    //to access address field
-
-    bool success = response.success!;
-    String status = response.status!;
-    if (success == true && status == 'successful') {
-      String txRef = response.txRef!;
-      String transactionId = response.transactionId!;
-
-      var result = await accountController.verifyTransaction(
-        userId: '$user_id',
-        txRef: txRef,
-        transactionId: transactionId,
-        amount: amount,
+    if(createTransaction) {
+      final Customer customer = Customer(
+        name: '$fullName',
+        phoneNumber: '$phoneNumber',
+        email: '$email',
       );
+      final Flutterwave flutterwave = Flutterwave(
+        context: context,
+        publicKey: ApiServices.publicKey,
+        currency: "NGN",
+        redirectUrl: "$_mybaseUrl/verify_transaction/$user_id/$txRef",
+        txRef: txRef,
+        amount: amount,
+        customer: customer,
+        paymentOptions: "ussd, card, barter, payattitude",
+        customization: Customization(title: "Add Funds"),
+        isTestMode: false,
+        meta: {
+          "user_id": '$user_id',
+          "email": '$email',
+          "phone": '$phoneNumber',
+          "ref": txRef,
+        },
+      );
+
       setState(() {
-        pageLoading = false;
+        pageLoading = true;
       });
-      displayResult(result);
-    } else {
-      setState(() {
-        pageLoading = false;
-      });
-      displayResult('Transaction not successful, please try again later');
+      final ChargeResponse response = await flutterwave.charge();
+      print("${response.toJson()}");
+      //to access address field
+
+      bool success = response.success!;
+      String status = response.status!;
+      if (success == true && status == 'successful') {
+        String txRef = response.txRef!;
+        String transactionId = response.transactionId!;
+
+        var result = await accountController.verifyTransaction(
+          userId: '$user_id',
+          txRef: txRef,
+          transactionId: transactionId,
+          amount: amount,
+        );
+        setState(() {
+          pageLoading = false;
+        });
+        displayResult(result);
+      }
+      else {
+        setState(() {
+          pageLoading = false;
+        });
+        displayResult('Transaction not successful, please try again later');
+      }
+    }else{
+      displayResult('Server Busy, could not initiate Payment');
     }
   }
 

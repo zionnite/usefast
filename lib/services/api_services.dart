@@ -54,6 +54,7 @@ class ApiServices {
   static const String _update_transaction_pin = 'update_transaction_pin';
   static const String _update_email = 'update_email';
   static const String _update_password = 'update_password';
+  static const String _create_tran_deposit = 'createTransactionDeposit';
 
   static Future uploadProfOfPayment({
     required String userId,
@@ -164,8 +165,11 @@ class ApiServices {
         'ref': ref.toString(),
       });
 
+
       if (response.statusCode == 200) {
         var body = response.body;
+
+
 
         print('deposit body $body');
         final j = json.decode(body) as Map<String, dynamic>;
@@ -185,6 +189,7 @@ class ApiServices {
       print(ex.toString());
     }
   }
+
 
   static Future verifyTransaction({
     required String userId,
@@ -224,6 +229,7 @@ class ApiServices {
       return ex.toString();
     }
   }
+
 
   static Future fetchBillCategories() async {
     try {
@@ -1533,6 +1539,37 @@ class ApiServices {
         msg: ex.toString(),
         backgroundColor: Colors.red,
       );
+    }
+  }
+
+
+
+  static Future createTransactionDeposit({
+    required String userId,
+    required String txRef,
+    required String amount,
+  })  async {
+    try {
+      final uri = Uri.parse('$_mybaseUrl$_create_tran_deposit/$userId');
+
+      var response = await http.post(uri, body: {
+        'user_id': userId.toString(),
+        'amount': amount.toString(),
+        'ref':    txRef.toString(),
+      });
+
+      if (response.statusCode == 200) {
+        var body = response.body;
+
+        final j = json.decode(body) as Map<String, dynamic>;
+        String status = j['status'];
+
+        return status;
+      } else {
+        return 'could not connect to server ';
+      }
+    } catch (ex) {
+      return ex.toString();
     }
   }
 }
