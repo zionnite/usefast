@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:usefast/constant.dart';
 import 'package:usefast/controller/trade_controller.dart';
 import 'package:usefast/util/common.dart';
@@ -20,7 +21,6 @@ class SubmitPaymentProf extends StatefulWidget {
 }
 
 class _SubmitPaymentProfState extends State<SubmitPaymentProf> {
-  final String userId = '1';
   String? disAmount;
 
   final tradeController = TradeController().getXID;
@@ -33,6 +33,35 @@ class _SubmitPaymentProfState extends State<SubmitPaymentProf> {
   final format = DateFormat("yyyy-MM-dd");
   final timeFormat = DateFormat("HH:mm");
   var selectedDate, selectedTime;
+
+  String? user_id;
+
+  String? user_status;
+
+  bool? admin_status;
+
+  initUserDetail() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var userId1 = prefs.getString('user_id');
+    var user_status1 = prefs.getString('user_status');
+    var admin_status1 = prefs.getBool('admin_status');
+
+    if (mounted) {
+      setState(() {
+        user_id = userId1;
+        user_status = user_status1;
+        admin_status = admin_status1;
+      });
+
+    }
+  }
+
+
+  @override
+  void initState() {
+    initUserDetail();
+    super.initState();
+  }
 
   bool isLoading = false;
 
@@ -217,7 +246,7 @@ class _SubmitPaymentProfState extends State<SubmitPaymentProf> {
 
                     if (amountController.text != '' && _image != null) {
                       await tradeController.submitPayment(
-                        userId: userId,
+                        userId: user_id!,
                         image: _image,
                         amount: disAmount!,
                         transType: widget.transType,

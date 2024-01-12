@@ -74,7 +74,7 @@ class TransactionItem extends StatelessWidget {
                                   ? const Icon(LineAwesome.network_wired_solid)
                                   : (logo == 'account_top_up')
                                       ? const Icon(LineAwesome.laptop_solid)
-                                      : Container(),
+                                      : (logo == 'account_withdrawal')? const Icon(LineAwesome.laptop_solid):Container(),
                     ),
                   ),
                 ),

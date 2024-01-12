@@ -7,9 +7,10 @@ import 'package:usefast/model/transaction_model.dart';
 import 'package:usefast/util/currency_formatter.dart';
 
 class TransactionDetail extends StatefulWidget {
-  const TransactionDetail({Key? key, required this.transaction})
+  const TransactionDetail({Key? key, required this.transaction, required this.newType})
       : super(key: key);
   final Transaction transaction;
+  final String newType;
 
   @override
   State<TransactionDetail> createState() => _TransactionDetailState();
@@ -171,7 +172,7 @@ class _TransactionDetailState extends State<TransactionDetail> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Transaction Type: ${trans.transType!.toUpperCase()}',
+                      'Transaction Type: ${widget.newType!.toUpperCase()}',
                       style: const TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,

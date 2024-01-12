@@ -431,7 +431,7 @@ class _RequestWithdrawState extends State<RequestWithdraw> {
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: OtpTextField(
-                      numberOfFields: 5,
+                      numberOfFields: 4,
                       borderColor: const Color(0xFF512DA8),
                       //set to true to show as box or false to show as dash
                       showFieldAsBox: true,

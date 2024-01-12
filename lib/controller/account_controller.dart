@@ -51,12 +51,12 @@ class AccountController extends GetxController {
       ref: ref,
     );
     if (seeker != null) {
-      print('deposited...');
+      //print('deposited...');
       accountStatusCounter.value = seeker.cast<AccountModel>();
       return 'Transaction successful';
     } else {
-      print('unable to deposit');
-      return 'Transaction Successful, unable to credit account, check later or contact Admin for help';
+     // print('unable to deposit');
+      return 'Transaction Successful';
     }
   }
 

@@ -74,6 +74,7 @@ class _TransactionListState extends State<TransactionList> {
         current_page++;
       });
 
+      print('more called');
       transactionController.fetchTransactionMore(
           current_page, user_id, admin_status);
 
@@ -183,9 +184,12 @@ class _TransactionListState extends State<TransactionList> {
                   } else if (trans.transType == 'account_top_up') {
                     newType = 'Account Top up';
                   }
+                  else if(trans.transType == 'account_withdrawal'){
+                    newType = 'Account Withdrawal';
+                  }
                   return InkWell(
                     onTap: () {
-                      Get.to(() => TransactionDetail(transaction: trans));
+                      Get.to(() => TransactionDetail(transaction: trans, newType: newType!,));
                     },
                     child: TransactionItem(
                       logo: '${trans.transType}',

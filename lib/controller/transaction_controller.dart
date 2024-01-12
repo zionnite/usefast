@@ -35,6 +35,7 @@ class TransactionController extends GetxController {
   }
 
   fetchTransactionMore(pageNum, user_id, admin_status) async {
+    print('was here');
     var seeker =
         await ApiServices.getTransaction(pageNum, user_id, admin_status);
     if (seeker != null) {
