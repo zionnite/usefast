@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:usefast/controller/account_controller.dart';
 import 'package:usefast/controller/transaction_controller.dart';
-import 'package:usefast/screens/profile_page.dart';
 import 'package:usefast/util/currency_formatter.dart';
 
 import '../constant.dart';
@@ -147,10 +146,6 @@ class _HeaderState extends State<Header> {
                         color: Colors.white30,
                       ),
                     ),
-                    SizedBox(width: 10),
-                    InkWell(
-                      onTap: refreshWallet,
-                        child: const Icon(Icons.refresh, color: Colors.white,)),
                   ],
                 ),
               ),
@@ -166,11 +161,9 @@ class _HeaderState extends State<Header> {
                         padding: const EdgeInsets.all(0),
                         physics: const ClampingScrollPhysics(),
                         shrinkWrap: true,
-                        itemCount:
-                            accountController.accountStatusCounter.length,
+                        itemCount: accountController.accountStatusCounter.length,
                         itemBuilder: (BuildContext context, int index) {
-                          var data =
-                              accountController.accountStatusCounter[index];
+                          var data = accountController.accountStatusCounter[index];
 
                           var tWorth = data.totalWorth;
 
