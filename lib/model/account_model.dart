@@ -4,11 +4,9 @@
 
 import 'dart:convert';
 
-List<AccountModel> accountModelFromJson(String str) => List<AccountModel>.from(
-    json.decode(str).map((x) => AccountModel.fromJson(x)));
+List<AccountModel> accountModelFromJson(String str) => List<AccountModel>.from(json.decode(str).map((x) => AccountModel.fromJson(x)));
 
-String accountModelToJson(List<AccountModel> data) =>
-    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+String accountModelToJson(List<AccountModel> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class AccountModel {
   int? totalWorth;

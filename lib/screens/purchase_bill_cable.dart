@@ -22,8 +22,7 @@ import 'package:usefast/widgets/my_text_field_num.dart';
 import 'package:usefast/widgets/property_btn.dart';
 
 class PurchaseBillCable extends StatefulWidget {
-  const PurchaseBillCable({Key? key, required this.utilityType})
-      : super(key: key);
+  const PurchaseBillCable({Key? key, required this.utilityType}) : super(key: key);
   final String utilityType;
 
   @override
@@ -42,10 +41,8 @@ class _PurchaseBillCableState extends State<PurchaseBillCable> {
   late Contact _contact;
 
   static const _locale = 'en';
-  String _formatNumber(String s) =>
-      NumberFormat.decimalPattern(_locale).format(int.parse(s));
-  String get _currency =>
-      NumberFormat.compactSimpleCurrency(locale: _locale).currencySymbol;
+  String _formatNumber(String s) => NumberFormat.decimalPattern(_locale).format(int.parse(s));
+  String get _currency => NumberFormat.compactSimpleCurrency(locale: _locale).currencySymbol;
 
   String disAmount = '0';
   String? networkSelected;
@@ -243,9 +240,7 @@ class _PurchaseBillCableState extends State<PurchaseBillCable> {
                           ),
                           child: Center(
                             child: Text(
-                              (networkSelected != null)
-                                  ? billerName.toString()
-                                  : 'Select provider',
+                              (networkSelected != null) ? billerName.toString() : 'Select provider',
                               style: TextStyle(
                                 color: textColorWhite,
                               ),
@@ -272,12 +267,10 @@ class _PurchaseBillCableState extends State<PurchaseBillCable> {
                         prefix: Icons.attach_money,
                         onChange: (string) {
                           if (amountController.text.isNotEmpty) {
-                            string =
-                                '${_formatNumber(string.replaceAll(',', ''))}';
+                            string = '${_formatNumber(string.replaceAll(',', ''))}';
                             amountController.value = TextEditingValue(
                               text: string,
-                              selection: TextSelection.collapsed(
-                                  offset: string.length),
+                              selection: TextSelection.collapsed(offset: string.length),
                             );
                           } else {
                             setState(() {
@@ -303,13 +296,10 @@ class _PurchaseBillCableState extends State<PurchaseBillCable> {
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 0.0),
                         child: propertyBtn(
-                          card_margin:
-                              const EdgeInsets.only(top: 0, left: 0, right: 0),
+                          card_margin: const EdgeInsets.only(top: 0, left: 0, right: 0),
                           onTap: () async {
                             print('disamount $disAmount');
-                            if (networkSelected != null &&
-                                disAmount != '0' &&
-                                phoneController.text != '') {
+                            if (networkSelected != null && disAmount != '0' && phoneController.text != '') {
                               setState(() {
                                 isLoading = true;
                                 // showError = false;
@@ -333,8 +323,7 @@ class _PurchaseBillCableState extends State<PurchaseBillCable> {
                                 setState(() {
                                   phoneError = true;
                                 });
-                              } else if (disAmount == null ||
-                                  disAmount == '0') {
+                              } else if (disAmount == null || disAmount == '0') {
                                 setState(() {
                                   amountError = true;
                                 });
@@ -478,16 +467,14 @@ class _PurchaseBillCableState extends State<PurchaseBillCable> {
                     height: 800,
                     padding: const EdgeInsets.symmetric(horizontal: 10),
                     child: SearchableList<cables.Datum>(
-                      listViewPadding:
-                          const EdgeInsets.symmetric(horizontal: 0),
+                      listViewPadding: const EdgeInsets.symmetric(horizontal: 0),
                       initialList: billController.billCatListCables,
                       builder: (list, index, dataPlans) {
                         return InkWell(
                           onTap: () {
                             setState(() {
                               networkSelected = dataPlans.name;
-                              amountController.text =
-                                  dataPlans.amount.toString();
+                              amountController.text = dataPlans.amount.toString();
                               disAmount = dataPlans.amount.toString();
 
                               itemCode = dataPlans.itemCode;
@@ -495,9 +482,7 @@ class _PurchaseBillCableState extends State<PurchaseBillCable> {
                               billerName = dataPlans.billerName;
                             });
 
-                            if (disAmount == '0' ||
-                                disAmount == null ||
-                                disAmount == '0.0') {
+                            if (disAmount == '0' || disAmount == null || disAmount == '0.0') {
                               setState(() {
                                 editable = false;
                                 enable = true;
@@ -527,8 +512,7 @@ class _PurchaseBillCableState extends State<PurchaseBillCable> {
                                     height: 5,
                                   ),
                                   (dataPlans.amount! > 0)
-                                      ? Text(
-                                          '${CurrencyFormatter.getCurrencyFormatter(
+                                      ? Text('${CurrencyFormatter.getCurrencyFormatter(
                                           amount: dataPlans.amount.toString(),
                                         )}')
                                       : Container(),
@@ -541,13 +525,11 @@ class _PurchaseBillCableState extends State<PurchaseBillCable> {
                       filter: (value) {
                         return billController.billCatListCables
                             .where(
-                              (element) =>
-                                  element.name!.toLowerCase().contains(value),
+                              (element) => element.name!.toLowerCase().contains(value),
                             )
                             .toList();
                       },
-                      emptyWidget:
-                          const Text('Provider with that name does exist'),
+                      emptyWidget: const Text('Provider with that name does exist'),
                       inputDecoration: InputDecoration(
                         labelText: "Search Actor",
                         fillColor: Colors.white,
@@ -752,9 +734,7 @@ class _PurchaseBillCableState extends State<PurchaseBillCable> {
               card_margin: const EdgeInsets.only(top: 0, left: 0, right: 0),
               onTap: () async {
                 Get.back();
-                if (disAmount != null &&
-                    networkSelected != null &&
-                    phoneController.text != '') {
+                if (disAmount != null && networkSelected != null && phoneController.text != '') {
                   verifyTransactionPin();
 
                   Future.delayed(const Duration(seconds: 1), () {
@@ -884,8 +864,7 @@ class _PurchaseBillCableState extends State<PurchaseBillCable> {
                                   ),
                                   child: InkWell(
                                     onTap: () async {
-                                      bool authenticate =
-                                          await LocalAuth.authenticate();
+                                      bool authenticate = await LocalAuth.authenticate();
                                       if (authenticate) {
                                         completeBillTransaction(
                                           amount: disAmount,
@@ -928,9 +907,7 @@ class _PurchaseBillCableState extends State<PurchaseBillCable> {
               card_margin: const EdgeInsets.only(top: 0, left: 0, right: 0),
               onTap: () async {
                 Get.back();
-                if (disAmount != null &&
-                    networkSelected != null &&
-                    phoneController.text != '') {
+                if (disAmount != null && networkSelected != null && phoneController.text != '') {
                   completeTransactionPin(
                     transactionPin: transactionPin!,
                     amount: disAmount,
@@ -983,6 +960,7 @@ class _PurchaseBillCableState extends State<PurchaseBillCable> {
       itemCode: itemCode,
       isAirtime: isAirtime,
       userId: userId,
+      transCategory: 'Cable Tv',
     );
 
     setState(() {
@@ -1015,6 +993,7 @@ class _PurchaseBillCableState extends State<PurchaseBillCable> {
       itemCode: itemCode!,
       isAirtime: isAirtime,
       userId: userId,
+      transCategory: 'Cable Tv',
     );
 
     setState(() {

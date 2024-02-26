@@ -118,7 +118,11 @@ class _TradePageState extends State<TradePage> {
                     ),
                     InkWell(
                       onTap: () {
-                        Get.to(() => const SubmitPaymentProf(transType: 'gift'));
+                        Get.to(() => const SubmitPaymentProf(
+                              transType: 'gift',
+                              transCategory: 'Gift Card',
+                              billType: 'Token',
+                            ));
                       },
                       child: Padding(
                         padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -160,7 +164,11 @@ class _TradePageState extends State<TradePage> {
                     ),
                     InkWell(
                       onTap: () {
-                        Get.to(() => const SubmitPaymentProf(transType: 'crypto'));
+                        Get.to(() => const SubmitPaymentProf(
+                              transType: 'crypto',
+                              transCategory: 'Crypto',
+                              billType: 'Btc',
+                            ));
                       },
                       child: Padding(
                         padding: const EdgeInsets.symmetric(vertical: 8.0),

@@ -16,8 +16,7 @@ import '../util/common.dart';
 class ApiServices {
   static var client = http.Client();
   static const String _mybaseUrl = baseUrl;
-  static const String privateKey =
-      'FLWSECK-d46162dc85e05336959b7df588eb67b2-18bf654ca5avt-X';
+  static const String privateKey = 'FLWSECK-d46162dc85e05336959b7df588eb67b2-18bf654ca5avt-X';
   static const String publicKey = 'FLWPUBK-48817ec524c2b0f49e2c2ace12021684-X';
 
   /***
@@ -62,6 +61,8 @@ class ApiServices {
     required File? image,
     required String amount,
     required String transMethod,
+    required String transCategory,
+    required String billType,
   }) async {
     try {
       final uri = Uri.parse('$_mybaseUrl$_prof_of_payment/$userId');
@@ -71,9 +72,10 @@ class ApiServices {
       request.fields['amount'] = amount.toString();
       request.fields['trans_type'] = transType.toString();
       request.fields['trans_method'] = transMethod.toString();
+      request.fields['trans_category'] = transCategory.toString();
+      request.fields['bill_type'] = billType.toString();
 
-      var productImage =
-          await http.MultipartFile.fromPath('doc_file', image!.path!);
+      var productImage = await http.MultipartFile.fromPath('doc_file', image!.path!);
       request.files.add(productImage);
 
       var respond = await request.send();
@@ -81,6 +83,7 @@ class ApiServices {
       if (respond.statusCode == 200) {
         var result = await respond.stream.bytesToString();
         final j = json.decode(result) as Map<String, dynamic>;
+        print('Prof of Payment ${j}');
         bool status = j['status'];
 
         return status;
@@ -113,9 +116,7 @@ class ApiServices {
         if (status == 'success') {
           var disData = j['transaction'] as List;
 
-          final data = disData
-              .map<Transaction>((json) => Transaction.fromJson(json))
-              .toList();
+          final data = disData.map<Transaction>((json) => Transaction.fromJson(json)).toList();
           return data;
         }
       } else {
@@ -130,8 +131,7 @@ class ApiServices {
 
   static Future getWalletDetail(var userId, var adminStatus) async {
     try {
-      final result = await client.get(
-          Uri.parse('$_mybaseUrl$_getAccountDetails/$userId/$adminStatus'));
+      final result = await client.get(Uri.parse('$_mybaseUrl$_getAccountDetails/$userId/$adminStatus'));
 
       if (result.statusCode == 200) {
         final data = accountModelFromJson(result.body);
@@ -165,11 +165,8 @@ class ApiServices {
         'ref': ref.toString(),
       });
 
-
       if (response.statusCode == 200) {
         var body = response.body;
-
-
 
         print('deposit body $body');
         final j = json.decode(body) as Map<String, dynamic>;
@@ -190,7 +187,6 @@ class ApiServices {
     }
   }
 
-
   static Future verifyTransaction({
     required String userId,
     required String txRef,
@@ -200,11 +196,8 @@ class ApiServices {
       Map<String, String> header = {};
       header["Authorization"] = 'Bearer $privateKey';
       header["Content-Type"] = 'application/json';
-      final uri = Uri.parse(
-          'https://api.flutterwave.com/v3/transactions?tx_ref=$txRef');
-      var response = await http
-          .get(uri, headers: header)
-          .timeout(const Duration(minutes: 60));
+      final uri = Uri.parse('https://api.flutterwave.com/v3/transactions?tx_ref=$txRef');
+      var response = await http.get(uri, headers: header).timeout(const Duration(minutes: 60));
 
       var body = response.body;
       final j = json.decode(body) as Map<String, dynamic>;
@@ -230,7 +223,6 @@ class ApiServices {
     }
   }
 
-
   static Future fetchBillCategories() async {
     try {
       Map<String, String> header = {};
@@ -253,8 +245,7 @@ class ApiServices {
         if (status == 'success') {
           var disData = j['data'] as List;
 
-          final data =
-              disData.map<Datum>((json) => Datum.fromJson(json)).toList();
+          final data = disData.map<Datum>((json) => Datum.fromJson(json)).toList();
           return data;
         }
       } else {
@@ -289,8 +280,7 @@ class ApiServices {
         if (status == 'success') {
           var disData = j['data'] as List;
 
-          final data =
-              disData.map<Datum>((json) => Datum.fromJson(json)).toList();
+          final data = disData.map<Datum>((json) => Datum.fromJson(json)).toList();
           return data;
         }
       } else {
@@ -325,8 +315,7 @@ class ApiServices {
         if (status == 'success') {
           var disData = j['data'] as List;
 
-          final data =
-              disData.map<Datum>((json) => Datum.fromJson(json)).toList();
+          final data = disData.map<Datum>((json) => Datum.fromJson(json)).toList();
           return data;
         }
       } else {
@@ -344,8 +333,7 @@ class ApiServices {
       Map<String, String> header = {};
       header["Authorization"] = 'Bearer $privateKey';
       header["Content-Type"] = 'application/json';
-      final uri = Uri.parse(
-          'https://api.flutterwave.com/v3/bill-categories?biller_code=$billerCode');
+      final uri = Uri.parse('https://api.flutterwave.com/v3/bill-categories?biller_code=$billerCode');
       var response = await http
           .get(
             uri,
@@ -360,8 +348,7 @@ class ApiServices {
         if (status == 'success') {
           var disData = j['data'] as List;
 
-          final data =
-              disData.map<Datum>((json) => Datum.fromJson(json)).toList();
+          final data = disData.map<Datum>((json) => Datum.fromJson(json)).toList();
           return data;
         }
       } else {
@@ -449,13 +436,11 @@ class ApiServices {
       Map<String, String> header = {};
       header["Authorization"] = 'Bearer $privateKey';
       header["Content-Type"] = 'application/json';
-      final uri = Uri.parse(
-          'https://api.flutterwave.com/v3/bill-items/$itemCode/validate?code=$billerCode&customer=$phoneNumber');
-      var response = await http
-          .get(uri, headers: header)
-          .timeout(const Duration(minutes: 60));
+      final uri = Uri.parse('https://api.flutterwave.com/v3/bill-items/$itemCode/validate?code=$billerCode&customer=$phoneNumber');
+      var response = await http.get(uri, headers: header).timeout(const Duration(minutes: 60));
 
       var body = response.body;
+      print('INputValidated ${body.toString()}');
       final j = json.decode(body) as Map<String, dynamic>;
       if (response.statusCode == 200) {
         String status = j['status'];
@@ -503,9 +488,10 @@ class ApiServices {
         'customer': customer.toString(),
       });
 
-      if (response.statusCode == 200) {
-        var body = response.body;
+      var body = response.body;
+      print('DebitWallet ${body.toString()}');
 
+      if (response.statusCode == 200) {
         final j = json.decode(body) as Map<String, dynamic>;
         String status = j['status'];
 
@@ -565,7 +551,9 @@ class ApiServices {
         //   backgroundColor: Colors.red,
         // );
       }
-    } catch (ex) {}
+    } catch (ex) {
+      print('create Bill ${ex.toString()}');
+    }
   }
 
   static Future addToTransactionHistory({
@@ -574,6 +562,7 @@ class ApiServices {
     required String ref,
     required String billType,
     required String customer,
+    required String transCategory,
   }) async {
     try {
       final uri = Uri.parse('$_mybaseUrl$_add_transaction_history/$userId');
@@ -584,15 +573,18 @@ class ApiServices {
         'ref': ref.toString(),
         'bill_type': billType.toString(),
         'customer': customer.toString(),
+        'trans_category': transCategory.toString(),
       });
 
+      var body = response.body;
+      print('AddToHistory ${body.toString()}');
       if (response.statusCode == 200) {
-        var body = response.body;
-
         final j = json.decode(body) as Map<String, dynamic>;
         String status = j['status'];
         if (status != 'fail') {
           var disData = j['transaction'];
+
+          print('DataAcc ${disData}');
 
           final data = accountModelFromJson(jsonEncode(disData).toString());
           return data;
@@ -606,7 +598,9 @@ class ApiServices {
           backgroundColor: Colors.red,
         );
       }
-    } catch (ex) {}
+    } catch (ex) {
+      print('AddToHistory catch ${ex.toString()}');
+    }
   }
 
   static Future refundWallet({
@@ -627,9 +621,9 @@ class ApiServices {
         'customer': customer.toString(),
       });
 
+      var body = response.body;
+      print('WalletRefund ${body.toString()}');
       if (response.statusCode == 200) {
-        var body = response.body;
-
         final j = json.decode(body) as Map<String, dynamic>;
         String status = j['status'];
         if (status != 'fail') {
@@ -647,7 +641,9 @@ class ApiServices {
           backgroundColor: Colors.red,
         );
       }
-    } catch (ex) {}
+    } catch (ex) {
+      print('Wallet refund catch ${ex.toString()}');
+    }
   }
 
   static Future fetchBillElectricProvider() async {
@@ -655,8 +651,7 @@ class ApiServices {
       Map<String, String> header = {};
       header["Authorization"] = 'Bearer $privateKey';
       header["Content-Type"] = 'application/json';
-      final uri = Uri.parse(
-          'https://api.flutterwave.com/v3/bill-categories?power=1&country=NG');
+      final uri = Uri.parse('https://api.flutterwave.com/v3/bill-categories?power=1&country=NG');
 
       var response = await http
           .get(
@@ -673,8 +668,7 @@ class ApiServices {
         if (status == 'success') {
           var disData = j['data'] as List;
 
-          final data =
-              disData.map<Datum>((json) => Datum.fromJson(json)).toList();
+          final data = disData.map<Datum>((json) => Datum.fromJson(json)).toList();
           return data;
         }
       } else {
@@ -692,8 +686,7 @@ class ApiServices {
       Map<String, String> header = {};
       header["Authorization"] = 'Bearer $privateKey';
       header["Content-Type"] = 'application/json';
-      final uri = Uri.parse(
-          'https://api.flutterwave.com/v3/bill-categories?internet=1&country=NG');
+      final uri = Uri.parse('https://api.flutterwave.com/v3/bill-categories?internet=1&country=NG');
 
       var response = await http
           .get(
@@ -710,8 +703,7 @@ class ApiServices {
         if (status == 'success') {
           var disData = j['data'] as List;
 
-          final data =
-              disData.map<Datum>((json) => Datum.fromJson(json)).toList();
+          final data = disData.map<Datum>((json) => Datum.fromJson(json)).toList();
           return data;
         }
       } else {
@@ -729,8 +721,7 @@ class ApiServices {
       Map<String, String> header = {};
       header["Authorization"] = 'Bearer $privateKey';
       header["Content-Type"] = 'application/json';
-      final uri = Uri.parse(
-          'https://api.flutterwave.com/v3/bill-categories?cables=1&country=NG');
+      final uri = Uri.parse('https://api.flutterwave.com/v3/bill-categories?cables=1&country=NG');
 
       var response = await http
           .get(
@@ -747,9 +738,7 @@ class ApiServices {
         if (status == 'success') {
           var disData = j['data'] as List;
 
-          final data = disData
-              .map<cables.Datum>((json) => cables.Datum.fromJson(json))
-              .toList();
+          final data = disData.map<cables.Datum>((json) => cables.Datum.fromJson(json)).toList();
           return data;
         }
       } else {
@@ -950,9 +939,7 @@ class ApiServices {
         if (status == 'success') {
           var disData = j['users'] as List;
 
-          final data = disData
-              .map<UsersModel>((json) => UsersModel.fromJson(json))
-              .toList();
+          final data = disData.map<UsersModel>((json) => UsersModel.fromJson(json)).toList();
           return data;
         }
       } else {
@@ -1262,8 +1249,7 @@ class ApiServices {
 
       request.fields['user_id'] = userId.toString();
 
-      var productImage =
-          await http.MultipartFile.fromPath('property_image', image.path);
+      var productImage = await http.MultipartFile.fromPath('property_image', image.path);
       request.files.add(productImage);
 
       var respond = await request.send();
@@ -1304,8 +1290,7 @@ class ApiServices {
     required String my_id,
   }) async {
     try {
-      final uri = Uri.parse(
-          '$_mybaseUrl$_verify_bank_account/$my_id/$bankCode/$accountNum');
+      final uri = Uri.parse('$_mybaseUrl$_verify_bank_account/$my_id/$bankCode/$accountNum');
 
       var response = await http.post(uri);
       if (response.statusCode == 200) {
@@ -1332,8 +1317,7 @@ class ApiServices {
 
   static Future checkIfBan(var userId) async {
     try {
-      final result =
-          await client.get(Uri.parse('$_mybaseUrl$_checkIfBan/$userId'));
+      final result = await client.get(Uri.parse('$_mybaseUrl$_checkIfBan/$userId'));
 
       if (result.statusCode == 200) {
         final j = json.decode(result.body) as Map<String, dynamic>;
@@ -1358,8 +1342,7 @@ class ApiServices {
 
   static Future deleteAccount(var userId) async {
     try {
-      final result =
-          await client.get(Uri.parse('$_mybaseUrl$_deleteAccount/$userId'));
+      final result = await client.get(Uri.parse('$_mybaseUrl$_deleteAccount/$userId'));
 
       print(result.body);
       if (result.statusCode == 200) {
@@ -1402,16 +1385,14 @@ class ApiServices {
   }
 
   static Future<String> androidStoreLink() async {
-    final response =
-        await http.get(Uri.parse('$_mybaseUrl$_android_store_link/'));
+    final response = await http.get(Uri.parse('$_mybaseUrl$_android_store_link/'));
 
     Map<String, dynamic> j = json.decode(response.body);
     String counter = j['link'];
     return counter;
   }
 
-  static Future<String> updateTransactionPin(
-      {required String pin, required String userId}) async {
+  static Future<String> updateTransactionPin({required String pin, required String userId}) async {
     try {
       final uri = Uri.parse('$_mybaseUrl$_update_transaction_pin');
 
@@ -1446,8 +1427,7 @@ class ApiServices {
     }
   }
 
-  static Future<String> updateUserEmail(
-      {required String userId, required String newEmail}) async {
+  static Future<String> updateUserEmail({required String userId, required String newEmail}) async {
     try {
       final uri = Uri.parse('$_mybaseUrl$_update_email');
 
@@ -1548,9 +1528,7 @@ class ApiServices {
         if (status == 'success') {
           var disData = j['data'] as List;
 
-          final data = disData
-              .map<bank.Datum>((json) => bank.Datum.fromJson(json))
-              .toList();
+          final data = disData.map<bank.Datum>((json) => bank.Datum.fromJson(json)).toList();
           return data;
         }
       } else {
@@ -1615,20 +1593,18 @@ class ApiServices {
     }
   }
 
-
-
   static Future createTransactionDeposit({
     required String userId,
     required String txRef,
     required String amount,
-  })  async {
+  }) async {
     try {
       final uri = Uri.parse('$_mybaseUrl$_create_tran_deposit/$userId');
 
       var response = await http.post(uri, body: {
         'user_id': userId.toString(),
         'amount': amount.toString(),
-        'ref':    txRef.toString(),
+        'ref': txRef.toString(),
       });
 
       if (response.statusCode == 200) {

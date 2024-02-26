@@ -1,12 +1,8 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterwave_standard/flutterwave.dart';
-import 'package:get/get.dart';
 import 'package:usefast/controller/account_controller.dart';
 import 'package:usefast/controller/transaction_controller.dart';
-import 'package:usefast/screens/bill_page.dart';
-import 'package:usefast/screens/fund_page.dart';
-import 'package:usefast/screens/submit_payment_prof.dart';
 import 'package:uuid/uuid.dart';
 
 import 'custom_button.dart';
@@ -91,7 +87,7 @@ class _ButtonsState extends State<Buttons> {
                 color: Colors.white,
               ),
               onTap: () {
-                Get.to(() => const SubmitPaymentProf(transType: 'gift'));
+                //Get.to(() => const SubmitPaymentProf(transType: 'gift'));
                 // handlePaymentInitialization();
               },
             ),
@@ -103,7 +99,7 @@ class _ButtonsState extends State<Buttons> {
                 color: Colors.white,
               ),
               onTap: () {
-                Get.to(() => const SubmitPaymentProf(transType: 'crypto'));
+                //Get.to(() => const SubmitPaymentProf(transType: 'crypto'));
               },
             ),
           ],

@@ -4,11 +4,9 @@
 
 import 'dart:convert';
 
-TransactionModel transactionModelFromJson(String str) =>
-    TransactionModel.fromJson(json.decode(str));
+TransactionModel transactionModelFromJson(String str) => TransactionModel.fromJson(json.decode(str));
 
-String transactionModelToJson(TransactionModel data) =>
-    json.encode(data.toJson());
+String transactionModelToJson(TransactionModel data) => json.encode(data.toJson());
 
 class TransactionModel {
   String? status;
@@ -19,20 +17,14 @@ class TransactionModel {
     this.transaction,
   });
 
-  factory TransactionModel.fromJson(Map<String, dynamic> json) =>
-      TransactionModel(
+  factory TransactionModel.fromJson(Map<String, dynamic> json) => TransactionModel(
         status: json["status"],
-        transaction: json["transaction"] == null
-            ? []
-            : List<Transaction>.from(
-                json["transaction"]!.map((x) => Transaction.fromJson(x))),
+        transaction: json["transaction"] == null ? [] : List<Transaction>.from(json["transaction"]!.map((x) => Transaction.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
         "status": status,
-        "transaction": transaction == null
-            ? []
-            : List<dynamic>.from(transaction!.map((x) => x.toJson())),
+        "transaction": transaction == null ? [] : List<dynamic>.from(transaction!.map((x) => x.toJson())),
       };
 }
 
@@ -50,6 +42,10 @@ class Transaction {
   String? year;
   String? time;
   String? docName;
+  String? ref;
+  String? billType;
+  String? customer;
+  String? transCategory;
 
   Transaction({
     this.id,
@@ -65,6 +61,10 @@ class Transaction {
     this.year,
     this.time,
     this.docName,
+    this.ref,
+    this.billType,
+    this.customer,
+    this.transCategory,
   });
 
   factory Transaction.fromJson(Map<String, dynamic> json) => Transaction(
@@ -81,6 +81,10 @@ class Transaction {
         year: json["year"],
         time: json["time"],
         docName: json["doc_name"],
+        ref: json["ref"],
+        billType: json["bill_type"],
+        customer: json["customer"],
+        transCategory: json["trans_category"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -97,5 +101,9 @@ class Transaction {
         "year": year,
         "time": time,
         "doc_name": docName,
+        "ref": ref,
+        "bill_type": billType,
+        "customer": customer,
+        "trans_category": transCategory,
       };
 }

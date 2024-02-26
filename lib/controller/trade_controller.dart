@@ -47,14 +47,19 @@ class TradeController extends GetxController {
     required String transType,
     required String amount,
     required String transMethod,
+    required String transCategory,
+    required String billType,
     required File? image,
   }) async {
     bool status = await ApiServices.uploadProfOfPayment(
-        userId: userId,
-        transType: transType,
-        image: image,
-        amount: amount,
-        transMethod: transMethod);
+      userId: userId,
+      transType: transType,
+      image: image,
+      amount: amount,
+      transMethod: transMethod,
+      transCategory: transCategory,
+      billType: billType,
+    );
 
     String? msg;
 
@@ -62,7 +67,7 @@ class TradeController extends GetxController {
       msg = 'awaiting Admin approval';
       showSnackBar(title: 'Submitted', msg: msg, backgroundColor: Colors.blue);
     } else {
-      msg = 'Database busy, please try again later!';
+      msg = 'Database busy, please try again later!...';
       showSnackBar(title: 'Oops!', msg: msg, backgroundColor: Colors.blue);
     }
 

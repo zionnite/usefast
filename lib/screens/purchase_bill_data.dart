@@ -20,8 +20,7 @@ import 'package:usefast/widgets/my_text_field_num.dart';
 import 'package:usefast/widgets/property_btn.dart';
 
 class PurchaseBillData extends StatefulWidget {
-  const PurchaseBillData({Key? key, required this.utilityType})
-      : super(key: key);
+  const PurchaseBillData({Key? key, required this.utilityType}) : super(key: key);
   final String utilityType;
 
   @override
@@ -40,10 +39,8 @@ class _PurchaseBillDataState extends State<PurchaseBillData> {
   late Contact _contact;
 
   static const _locale = 'en';
-  String _formatNumber(String s) =>
-      NumberFormat.decimalPattern(_locale).format(int.parse(s));
-  String get _currency =>
-      NumberFormat.compactSimpleCurrency(locale: _locale).currencySymbol;
+  String _formatNumber(String s) => NumberFormat.decimalPattern(_locale).format(int.parse(s));
+  String get _currency => NumberFormat.compactSimpleCurrency(locale: _locale).currencySymbol;
 
   String disAmount = '0';
   String? networkSelected;
@@ -182,13 +179,11 @@ class _PurchaseBillDataState extends State<PurchaseBillData> {
                           ),
                           InkWell(
                             onTap: () async {
-                              Contact? contact =
-                                  await _contactPicker.selectContact();
+                              Contact? contact = await _contactPicker.selectContact();
                               if (contact != null) {
                                 setState(() {
                                   _contact = contact;
-                                  phoneController.text =
-                                      _contact.phoneNumbers![0];
+                                  phoneController.text = _contact.phoneNumbers![0];
                                 });
                               }
                             },
@@ -270,8 +265,7 @@ class _PurchaseBillDataState extends State<PurchaseBillData> {
                                   });
                                 }
 
-                                await billController.fetchBillDisDataPlan(
-                                    billerCode: billerCode!);
+                                await billController.fetchBillDisDataPlan(billerCode: billerCode!);
                               },
                               child: Container(
                                 // width: 150,
@@ -282,9 +276,7 @@ class _PurchaseBillDataState extends State<PurchaseBillData> {
                                     Radius.circular(8),
                                   ),
                                   border: Border.all(
-                                    color: (networkSelected == data)
-                                        ? Colors.white
-                                        : Colors.white12,
+                                    color: (networkSelected == data) ? Colors.white : Colors.white12,
                                   ),
                                 ),
                                 padding: const EdgeInsets.all(20),
@@ -386,12 +378,10 @@ class _PurchaseBillDataState extends State<PurchaseBillData> {
                         prefix: Icons.attach_money,
                         onChange: (string) {
                           if (amountController.text.isNotEmpty) {
-                            string =
-                                '${_formatNumber(string.replaceAll(',', ''))}';
+                            string = '${_formatNumber(string.replaceAll(',', ''))}';
                             amountController.value = TextEditingValue(
                               text: string,
-                              selection: TextSelection.collapsed(
-                                  offset: string.length),
+                              selection: TextSelection.collapsed(offset: string.length),
                             );
                           } else {
                             setState(() {
@@ -417,13 +407,10 @@ class _PurchaseBillDataState extends State<PurchaseBillData> {
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 0.0),
                         child: propertyBtn(
-                          card_margin:
-                              const EdgeInsets.only(top: 0, left: 0, right: 0),
+                          card_margin: const EdgeInsets.only(top: 0, left: 0, right: 0),
                           onTap: () async {
                             print('disamount $disAmount');
-                            if (networkSelected != null &&
-                                disAmount != '0' &&
-                                phoneController.text != '') {
+                            if (networkSelected != null && disAmount != '0' && phoneController.text != '') {
                               setState(() {
                                 isLoading = true;
                                 // showError = false;
@@ -447,8 +434,7 @@ class _PurchaseBillDataState extends State<PurchaseBillData> {
                                 setState(() {
                                   phoneError = true;
                                 });
-                              } else if (disAmount == null ||
-                                  disAmount == '0') {
+                              } else if (disAmount == null || disAmount == '0') {
                                 setState(() {
                                   amountError = true;
                                 });
@@ -609,8 +595,7 @@ class _PurchaseBillDataState extends State<PurchaseBillData> {
                         return InkWell(
                           onTap: () {
                             setState(() {
-                              amountController.text =
-                                  dataPlans.amount.toString();
+                              amountController.text = dataPlans.amount.toString();
                               disAmount = dataPlans.amount.toString();
 
                               itemCode = dataPlans.itemCode;
@@ -637,8 +622,7 @@ class _PurchaseBillDataState extends State<PurchaseBillData> {
                                   const SizedBox(
                                     height: 5,
                                   ),
-                                  Text(
-                                      '${CurrencyFormatter.getCurrencyFormatter(
+                                  Text('${CurrencyFormatter.getCurrencyFormatter(
                                     amount: dataPlans.amount.toString(),
                                   )}'),
                                 ],
@@ -840,9 +824,7 @@ class _PurchaseBillDataState extends State<PurchaseBillData> {
               card_margin: const EdgeInsets.only(top: 0, left: 0, right: 0),
               onTap: () async {
                 Get.back();
-                if (disAmount != null &&
-                    networkSelected != null &&
-                    phoneController.text != '') {
+                if (disAmount != null && networkSelected != null && phoneController.text != '') {
                   verifyTransactionPin();
 
                   Future.delayed(const Duration(seconds: 1), () {
@@ -971,8 +953,7 @@ class _PurchaseBillDataState extends State<PurchaseBillData> {
                                   ),
                                   child: InkWell(
                                     onTap: () async {
-                                      bool authenticate =
-                                          await LocalAuth.authenticate();
+                                      bool authenticate = await LocalAuth.authenticate();
                                       if (authenticate) {
                                         completeBillTransaction(
                                           amount: disAmount,
@@ -1015,9 +996,7 @@ class _PurchaseBillDataState extends State<PurchaseBillData> {
               card_margin: const EdgeInsets.only(top: 0, left: 0, right: 0),
               onTap: () async {
                 Get.back();
-                if (disAmount != null &&
-                    networkSelected != null &&
-                    phoneController.text != '') {
+                if (disAmount != null && networkSelected != null && phoneController.text != '') {
                   completeTransactionPin(
                     transactionPin: transactionPin!,
                     amount: disAmount,
@@ -1070,6 +1049,7 @@ class _PurchaseBillDataState extends State<PurchaseBillData> {
       itemCode: itemCode,
       isAirtime: isAirtime,
       userId: userId,
+      transCategory: 'Data',
     );
 
     setState(() {
@@ -1102,6 +1082,7 @@ class _PurchaseBillDataState extends State<PurchaseBillData> {
       itemCode: itemCode!,
       isAirtime: isAirtime,
       userId: userId,
+      transCategory: 'Data',
     );
 
     setState(() {

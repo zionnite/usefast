@@ -55,7 +55,7 @@ class AccountController extends GetxController {
       accountStatusCounter.value = seeker.cast<AccountModel>();
       return 'Transaction successful';
     } else {
-     // print('unable to deposit');
+      // print('unable to deposit');
       return 'Transaction Successful';
     }
   }
@@ -91,7 +91,6 @@ class AccountController extends GetxController {
       amount: amount,
     );
     if (seeker == 'ok') {
-
       return true;
     } else {
       return false;
@@ -108,6 +107,7 @@ class AccountController extends GetxController {
     required String billerName,
     required String itemCode,
     required bool isAirtime,
+    required String transCategory,
   }) async {
     var ref = _uuid.v1();
     //connect to server and verify pin
@@ -156,6 +156,7 @@ class AccountController extends GetxController {
               ref: ref,
               billType: billerName,
               customer: phoneNumber,
+              transCategory: transCategory,
             );
             if (transHistory != null) {
               accountStatusCounter.value = transHistory.cast<AccountModel>();
@@ -197,6 +198,7 @@ class AccountController extends GetxController {
     required String billerName,
     required String itemCode,
     required bool isAirtime,
+    required String transCategory,
   }) async {
     var ref = _uuid.v1();
     //validate inputed detils
@@ -238,6 +240,7 @@ class AccountController extends GetxController {
             ref: ref,
             billType: billerName,
             customer: phoneNumber,
+            transCategory: transCategory,
           );
           if (transHistory != null) {
             accountStatusCounter.value = transHistory.cast<AccountModel>();
@@ -288,13 +291,11 @@ class AccountController extends GetxController {
     );
     if (status == 'true') {
       msg = 'Account Creation was successful...';
-      showSnackBar(
-          title: 'Account Creation', msg: msg, backgroundColor: Colors.blue);
+      showSnackBar(title: 'Account Creation', msg: msg, backgroundColor: Colors.blue);
       return true;
     } else {
       msg = '';
-      showSnackBar(
-          title: 'Account Creation', msg: status, backgroundColor: Colors.blue);
+      showSnackBar(title: 'Account Creation', msg: status, backgroundColor: Colors.blue);
       return false;
     }
   }
@@ -327,10 +328,8 @@ class AccountController extends GetxController {
       email: email,
     );
     if (status == 'true') {
-      msg =
-          'An Email has been Sent to the provided email for further instruction!...';
-      showSnackBar(
-          title: 'Congratulation', msg: msg, backgroundColor: Colors.blue);
+      msg = 'An Email has been Sent to the provided email for further instruction!...';
+      showSnackBar(title: 'Congratulation', msg: msg, backgroundColor: Colors.blue);
       return true;
     } else {
       msg = '';
@@ -440,8 +439,7 @@ class AccountController extends GetxController {
   }
 
   uploadImage(var userId, File imageName) async {
-    var status =
-        await ApiServices.uploadUserImage(userId: userId, image: imageName);
+    var status = await ApiServices.uploadUserImage(userId: userId, image: imageName);
 
     String? msg;
 
@@ -476,8 +474,7 @@ class AccountController extends GetxController {
       showSnackBar(title: 'Oops', msg: msg, backgroundColor: Colors.blue);
       return false;
     } else {
-      msg =
-          'Could not verify bank account detail, pls try updating your bank details and come try again';
+      msg = 'Could not verify bank account detail, pls try updating your bank details and come try again';
       showSnackBar(title: 'Oops', msg: msg, backgroundColor: Colors.blue);
       return false;
     }
@@ -516,8 +513,7 @@ class AccountController extends GetxController {
   checkForUpdate(var userId) async {
     bool seeker = await ApiServices.checkIfBan(userId);
     if (seeker) {
-      String msg =
-          'Your account has violated what we stand for as a result, your account its now Ban. If you think this is a glitch, try writing us';
+      String msg = 'Your account has violated what we stand for as a result, your account its now Ban. If you think this is a glitch, try writing us';
       showSnackBar(title: 'Oops', msg: msg, backgroundColor: Colors.red);
       logoutUser();
     }
@@ -526,8 +522,7 @@ class AccountController extends GetxController {
   deleteAccount(var userId) async {
     bool seeker = await ApiServices.deleteAccount(userId);
     if (seeker) {
-      String msg =
-          'Click the email sent to you to remove your account from our database';
+      String msg = 'Click the email sent to you to remove your account from our database';
       showSnackBar(
         title: 'We are sad to see you go',
         msg: msg,
@@ -554,8 +549,7 @@ class AccountController extends GetxController {
     );
     if (status == 'true') {
       msg = 'Your Pin for Transaction has been updated...';
-      showSnackBar(
-          title: 'Congratulation', msg: msg, backgroundColor: Colors.blue);
+      showSnackBar(title: 'Congratulation', msg: msg, backgroundColor: Colors.blue);
       return true;
     } else {
       msg = '';
@@ -606,8 +600,7 @@ class AccountController extends GetxController {
     required String userId,
     required String amount,
   }) async {
-    var seeker =
-        await ApiServices.verifyWithdraw(userId: userId, amount: amount);
+    var seeker = await ApiServices.verifyWithdraw(userId: userId, amount: amount);
     if (seeker != null) {
       accountStatusCounter.value = seeker.cast<AccountModel>();
       return 'Fund Requested sent';

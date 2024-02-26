@@ -58,7 +58,6 @@ class FlutterWaveBillController extends GetxController {
     }
   }
 
-
   fetchBillDisDataPlan({required String billerCode}) async {
     billCatList.clear();
     var seeker = await ApiServices.fetchBillDisDataPlan(billerCode: billerCode);
@@ -78,11 +77,14 @@ class FlutterWaveBillController extends GetxController {
     required File? image,
   }) async {
     bool status = await ApiServices.uploadProfOfPayment(
-        userId: userId,
-        transType: transType,
-        image: image,
-        amount: amount,
-        transMethod: transMethod);
+      userId: userId,
+      transType: transType,
+      image: image,
+      amount: amount,
+      transMethod: transMethod,
+      transCategory: 'fwave',
+      billType: 'billType',
+    );
 
     String? msg;
 

@@ -19,8 +19,7 @@ import 'package:usefast/widgets/my_text_field_num.dart';
 import 'package:usefast/widgets/property_btn.dart';
 
 class PurchaseUtilityBill extends StatefulWidget {
-  const PurchaseUtilityBill({Key? key, required this.utilityType})
-      : super(key: key);
+  const PurchaseUtilityBill({Key? key, required this.utilityType}) : super(key: key);
   final String utilityType;
 
   @override
@@ -39,10 +38,8 @@ class _PurchaseUtilityBillState extends State<PurchaseUtilityBill> {
   late Contact _contact;
 
   static const _locale = 'en';
-  String _formatNumber(String s) =>
-      NumberFormat.decimalPattern(_locale).format(int.parse(s));
-  String get _currency =>
-      NumberFormat.compactSimpleCurrency(locale: _locale).currencySymbol;
+  String _formatNumber(String s) => NumberFormat.decimalPattern(_locale).format(int.parse(s));
+  String get _currency => NumberFormat.compactSimpleCurrency(locale: _locale).currencySymbol;
 
   String disAmount = '0';
   String? networkSelected;
@@ -180,13 +177,11 @@ class _PurchaseUtilityBillState extends State<PurchaseUtilityBill> {
                           ),
                           InkWell(
                             onTap: () async {
-                              Contact? contact =
-                                  await _contactPicker.selectContact();
+                              Contact? contact = await _contactPicker.selectContact();
                               if (contact != null) {
                                 setState(() {
                                   _contact = contact;
-                                  phoneController.text =
-                                      _contact.phoneNumbers![0];
+                                  phoneController.text = _contact.phoneNumbers![0];
                                 });
                               }
                             },
@@ -238,84 +233,88 @@ class _PurchaseUtilityBillState extends State<PurchaseUtilityBill> {
                       ),
                       Container(
                         height: 100,
-                        child: Obx(() => ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          // itemCount: networkProvider.length,
-                          itemCount: billController.airtimeList.length,
-                          reverse: true,
-                          itemBuilder: (BuildContext context, int index) {
-                            // var data = networkProvider[index];
-                            var data = billController.airtimeList[index];
-                            if(data.name == 'MTN VTU' || data.name == 'GLO VTU' || data.name == 'AIRTEL VTU' || data.name == '9MOBILE VTU'){
-                              return InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    networkSelected = data.name;
-                                    isSelected = true;
-                                  });
-                                  // List<String> networkProvider = [
-                                  //   "MTN",
-                                  //   "AIRTEL",
-                                  //   "GLO",
-                                  //   "9MOBILE"
-                                  // ];
-                                  setState(() {
-                                    billerCode = data.billerCode ;
-                                    billerName = data.billerName;
-                                    itemCode = data.itemCode;
-                                  });
-                                },
-                                child: Container(
-                                  // width: 150,
-                                  height: 100,
-                                  decoration: BoxDecoration(
-                                    color: kSecondaryColor,
-                                    borderRadius: const BorderRadius.all(
-                                      Radius.circular(8),
-                                    ),
-                                    border: Border.all(
-                                      color: (networkSelected == data.name)
-                                          ? Colors.white
-                                          : Colors.white12,
-                                    ),
-                                  ),
-                                  padding: const EdgeInsets.all(20),
-                                  margin: const EdgeInsets.only(
-                                    top: 10,
-                                    right: 10,
-                                    // bottom: 10,
-                                  ),
-                                  child: Center(
-                                    child:
-                                    (data.name == 'MTN VTU')?Text(
-                                      'MTN',
-                                      style: TextStyle(
-                                        color: textColorWhite,
+                        child: Obx(
+                          () => ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            // itemCount: networkProvider.length,
+                            itemCount: billController.airtimeList.length,
+                            reverse: true,
+                            itemBuilder: (BuildContext context, int index) {
+                              // var data = networkProvider[index];
+                              var data = billController.airtimeList[index];
+                              if (data.name == 'MTN VTU' || data.name == 'GLO VTU' || data.name == 'AIRTEL VTU' || data.name == '9MOBILE VTU') {
+                                return InkWell(
+                                  onTap: () {
+                                    setState(() {
+                                      networkSelected = data.name;
+                                      isSelected = true;
+                                    });
+                                    // List<String> networkProvider = [
+                                    //   "MTN",
+                                    //   "AIRTEL",
+                                    //   "GLO",
+                                    //   "9MOBILE"
+                                    // ];
+                                    setState(() {
+                                      billerCode = data.billerCode;
+                                      billerName = data.billerName;
+                                      itemCode = data.itemCode;
+                                    });
+                                  },
+                                  child: Container(
+                                    // width: 150,
+                                    height: 100,
+                                    decoration: BoxDecoration(
+                                      color: kSecondaryColor,
+                                      borderRadius: const BorderRadius.all(
+                                        Radius.circular(8),
                                       ),
-                                    ):
-                                    (data.name == 'GLO VTU')? Text(
-                                      'GLO',
-                                      style: TextStyle(
-                                        color: textColorWhite,
-                                      ),
-                                    ) : (data.name == 'AIRTEL VTU')?  Text(
-                                      'AIRTEL',
-                                      style: TextStyle(
-                                        color: textColorWhite,
-                                      ),
-                                    ) :Text(
-                                      '9MOBILE',
-                                      style: TextStyle(
-                                        color: textColorWhite,
+                                      border: Border.all(
+                                        color: (networkSelected == data.name) ? Colors.white : Colors.white12,
                                       ),
                                     ),
+                                    padding: const EdgeInsets.all(20),
+                                    margin: const EdgeInsets.only(
+                                      top: 10,
+                                      right: 10,
+                                      // bottom: 10,
+                                    ),
+                                    child: Center(
+                                      child: (data.name == 'MTN VTU')
+                                          ? Text(
+                                              'MTN',
+                                              style: TextStyle(
+                                                color: textColorWhite,
+                                              ),
+                                            )
+                                          : (data.name == 'GLO VTU')
+                                              ? Text(
+                                                  'GLO',
+                                                  style: TextStyle(
+                                                    color: textColorWhite,
+                                                  ),
+                                                )
+                                              : (data.name == 'AIRTEL VTU')
+                                                  ? Text(
+                                                      'AIRTEL',
+                                                      style: TextStyle(
+                                                        color: textColorWhite,
+                                                      ),
+                                                    )
+                                                  : Text(
+                                                      '9MOBILE',
+                                                      style: TextStyle(
+                                                        color: textColorWhite,
+                                                      ),
+                                                    ),
+                                    ),
                                   ),
-                                ),
-                              );
-                            }
-                            return Container();
-                          },
-                        ),),
+                                );
+                              }
+                              return Container();
+                            },
+                          ),
+                        ),
                       ),
 
                       (networkError)
@@ -335,12 +334,10 @@ class _PurchaseUtilityBillState extends State<PurchaseUtilityBill> {
                         prefix: Icons.attach_money,
                         onChange: (string) {
                           if (amountController.text.isNotEmpty) {
-                            string =
-                                '${_formatNumber(string.replaceAll(',', ''))}';
+                            string = '${_formatNumber(string.replaceAll(',', ''))}';
                             amountController.value = TextEditingValue(
                               text: string,
-                              selection: TextSelection.collapsed(
-                                  offset: string.length),
+                              selection: TextSelection.collapsed(offset: string.length),
                             );
                           } else {
                             setState(() {
@@ -366,12 +363,9 @@ class _PurchaseUtilityBillState extends State<PurchaseUtilityBill> {
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 0.0),
                         child: propertyBtn(
-                          card_margin:
-                              const EdgeInsets.only(top: 0, left: 0, right: 0),
+                          card_margin: const EdgeInsets.only(top: 0, left: 0, right: 0),
                           onTap: () async {
-                            if (networkSelected != null &&
-                                disAmount != '0' &&
-                                phoneController.text != '') {
+                            if (networkSelected != null && disAmount != '0' && phoneController.text != '') {
                               setState(() {
                                 isLoading = true;
                                 // showError = false;
@@ -395,8 +389,7 @@ class _PurchaseUtilityBillState extends State<PurchaseUtilityBill> {
                                 setState(() {
                                   phoneError = true;
                                 });
-                              } else if (disAmount == null ||
-                                  disAmount == '0') {
+                              } else if (disAmount == null || disAmount == '0') {
                                 setState(() {
                                   amountError = true;
                                 });
@@ -575,9 +568,7 @@ class _PurchaseUtilityBillState extends State<PurchaseUtilityBill> {
               card_margin: const EdgeInsets.only(top: 0, left: 0, right: 0),
               onTap: () async {
                 Get.back();
-                if (disAmount != null &&
-                    networkSelected != null &&
-                    phoneController.text != '') {
+                if (disAmount != null && networkSelected != null && phoneController.text != '') {
                   verifyTransactionPin();
 
                   Future.delayed(const Duration(seconds: 1), () {
@@ -706,8 +697,7 @@ class _PurchaseUtilityBillState extends State<PurchaseUtilityBill> {
                                   ),
                                   child: InkWell(
                                     onTap: () async {
-                                      bool authenticate =
-                                          await LocalAuth.authenticate();
+                                      bool authenticate = await LocalAuth.authenticate();
                                       if (authenticate) {
                                         authenticated = authenticate;
                                         // Get.back();
@@ -752,9 +742,7 @@ class _PurchaseUtilityBillState extends State<PurchaseUtilityBill> {
               card_margin: const EdgeInsets.only(top: 0, left: 0, right: 0),
               onTap: () async {
                 Get.back();
-                if (disAmount != null &&
-                    networkSelected != null &&
-                    phoneController.text != '') {
+                if (disAmount != null && networkSelected != null && phoneController.text != '') {
                   completeTransactionPin(
                     transactionPin: transactionPin!,
                     amount: disAmount,
@@ -808,6 +796,7 @@ class _PurchaseUtilityBillState extends State<PurchaseUtilityBill> {
       itemCode: itemCode,
       isAirtime: isAirtime,
       userId: userId,
+      transCategory: 'Top-up',
     );
 
     setState(() {
@@ -840,6 +829,7 @@ class _PurchaseUtilityBillState extends State<PurchaseUtilityBill> {
       itemCode: itemCode!,
       isAirtime: isAirtime,
       userId: userId,
+      transCategory: 'Top-up',
     );
 
     setState(() {

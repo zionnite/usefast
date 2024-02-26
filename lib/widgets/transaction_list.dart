@@ -75,8 +75,7 @@ class _TransactionListState extends State<TransactionList> {
       });
 
       print('more called');
-      transactionController.fetchTransactionMore(
-          current_page, user_id, admin_status);
+      transactionController.fetchTransactionMore(current_page, user_id, admin_status);
 
       Future.delayed(const Duration(seconds: 1), () {
         setState(() {
@@ -130,10 +129,8 @@ class _TransactionListState extends State<TransactionList> {
                 child: InkWell(
                   onTap: () {
                     setState(() {
-                      transactionController.isTransactionProcessing.value =
-                          'null';
-                      transactionController.fetchTransaction(
-                          1, user_id, admin_status);
+                      transactionController.isTransactionProcessing.value = 'null';
+                      transactionController.fetchTransaction(1, user_id, admin_status);
                       transactionController.transactionList.refresh();
                     });
                   },
@@ -171,8 +168,7 @@ class _TransactionListState extends State<TransactionList> {
                     return Container();
                   }
 
-                  String startDate = DateFormat('EEEE, MMM d, yyyy')
-                      .format(DateTime.parse('${trans.dateCreated}'));
+                  String startDate = DateFormat('EEEE, MMM d, yyyy').format(DateTime.parse('${trans.dateCreated}'));
 
                   String? newType;
                   if (trans.transType == 'gift') {
@@ -183,21 +179,25 @@ class _TransactionListState extends State<TransactionList> {
                     newType = 'Bill';
                   } else if (trans.transType == 'account_top_up') {
                     newType = 'Account Top up';
-                  }
-                  else if(trans.transType == 'account_withdrawal'){
+                  } else if (trans.transType == 'account_withdrawal') {
                     newType = 'Account Withdrawal';
                   }
                   return InkWell(
                     onTap: () {
-                      Get.to(() => TransactionDetail(transaction: trans, newType: newType!,));
+                      Get.to(() => TransactionDetail(
+                            transaction: trans,
+                            newType: newType!,
+                          ));
                     },
                     child: TransactionItem(
                       logo: '${trans.transType}',
-                      type: '$newType',
+                      // type: '$newType',
+                      type: '${trans.transCategory}',
                       method: '${trans.transMethod}',
                       status: '${trans.transStatus}',
                       amount: '${trans.disAmount}',
                       time_ago: startDate,
+                      bill_type: '${trans.billType}',
                     ),
                   );
                 },

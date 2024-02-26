@@ -75,8 +75,7 @@ class _ListAllTransactionState extends State<ListAllTransaction> {
       });
 
       print('more called');
-      transactionController.fetchTransactionMore(
-          current_page, user_id, admin_status);
+      transactionController.fetchTransactionMore(current_page, user_id, admin_status);
 
       Future.delayed(const Duration(seconds: 1), () {
         setState(() {
@@ -176,10 +175,8 @@ class _ListAllTransactionState extends State<ListAllTransaction> {
               child: InkWell(
                 onTap: () {
                   setState(() {
-                    transactionController.isTransactionProcessing.value =
-                        'null';
-                    transactionController.fetchTransaction(
-                        1, user_id, admin_status);
+                    transactionController.isTransactionProcessing.value = 'null';
+                    transactionController.fetchTransaction(1, user_id, admin_status);
                     transactionController.transactionList.refresh();
                   });
                 },
@@ -215,8 +212,7 @@ class _ListAllTransactionState extends State<ListAllTransaction> {
                   return Container();
                 }
 
-                String startDate = DateFormat('EEEE, MMM d, yyyy')
-                    .format(DateTime.parse('${trans.dateCreated}'));
+                String startDate = DateFormat('EEEE, MMM d, yyyy').format(DateTime.parse('${trans.dateCreated}'));
 
                 String? newType;
                 if (trans.transType == 'gift') {
@@ -227,7 +223,7 @@ class _ListAllTransactionState extends State<ListAllTransaction> {
                   newType = 'Bill';
                 } else if (trans.transType == 'account_top_up') {
                   newType = 'Account Deposit';
-                }else if(trans.transType == 'account_withdrawal'){
+                } else if (trans.transType == 'account_withdrawal') {
                   newType = 'Account Withdrawal';
                 }
                 return InkWell(
@@ -236,11 +232,13 @@ class _ListAllTransactionState extends State<ListAllTransaction> {
                   },
                   child: TransactionItem(
                     logo: '${trans.transType}',
-                    type: '$newType',
+                    // type: '$newType',
+                    type: '${trans.transCategory}',
                     method: '${trans.transMethod}',
                     status: '${trans.transStatus}',
                     amount: '${trans.disAmount}',
                     time_ago: startDate,
+                    bill_type: '${trans.billType}',
                   ),
                 );
               },

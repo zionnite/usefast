@@ -7,8 +7,7 @@ import 'package:usefast/model/transaction_model.dart';
 import 'package:usefast/util/currency_formatter.dart';
 
 class TransactionDetail extends StatefulWidget {
-  const TransactionDetail({Key? key, required this.transaction, required this.newType})
-      : super(key: key);
+  const TransactionDetail({Key? key, required this.transaction, required this.newType}) : super(key: key);
   final Transaction transaction;
   final String newType;
 
@@ -20,8 +19,7 @@ class _TransactionDetailState extends State<TransactionDetail> {
   @override
   Widget build(BuildContext context) {
     var trans = widget.transaction;
-    String startDate = DateFormat('EEEE, MMM d, yyyy')
-        .format(DateTime.parse('${trans.dateCreated}'));
+    String startDate = DateFormat('EEEE, MMM d, yyyy').format(DateTime.parse('${trans.dateCreated}'));
     return Scaffold(
       backgroundColor: kPrimaryColor,
       body: Column(
@@ -107,10 +105,7 @@ class _TransactionDetailState extends State<TransactionDetail> {
                   ),
                   style: kInfo.copyWith(
                     fontWeight: FontWeight.bold,
-                    color: (trans.transMethod == 'sell' ||
-                            trans.transMethod == 'deposit')
-                        ? Colors.green
-                        : Colors.red,
+                    color: (trans.transMethod == 'sell' || trans.transMethod == 'deposit') ? Colors.green : Colors.red,
                     fontSize: 25,
                   ),
                   textAlign: TextAlign.right,
@@ -140,7 +135,7 @@ class _TransactionDetailState extends State<TransactionDetail> {
                       height: 2,
                     ),
                     Text(
-                      'Transaction Method: ${trans.transMethod}',
+                      'Transaction Type: ${trans.billType}',
                       style: const TextStyle(
                         color: Colors.white,
                       ),
@@ -172,7 +167,7 @@ class _TransactionDetailState extends State<TransactionDetail> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Transaction Type: ${widget.newType!.toUpperCase()}',
+                      'Transaction Name: ${widget.newType!.toUpperCase()}',
                       style: const TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,

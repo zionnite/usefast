@@ -20,13 +20,11 @@ import 'package:usefast/widgets/my_text_field_num.dart';
 import 'package:usefast/widgets/property_btn.dart';
 
 class PurchaseBillElectricity extends StatefulWidget {
-  const PurchaseBillElectricity({Key? key, required this.utilityType})
-      : super(key: key);
+  const PurchaseBillElectricity({Key? key, required this.utilityType}) : super(key: key);
   final String utilityType;
 
   @override
-  State<PurchaseBillElectricity> createState() =>
-      _PurchaseBillElectricityState();
+  State<PurchaseBillElectricity> createState() => _PurchaseBillElectricityState();
 }
 
 class _PurchaseBillElectricityState extends State<PurchaseBillElectricity> {
@@ -41,10 +39,8 @@ class _PurchaseBillElectricityState extends State<PurchaseBillElectricity> {
   late Contact _contact;
 
   static const _locale = 'en';
-  String _formatNumber(String s) =>
-      NumberFormat.decimalPattern(_locale).format(int.parse(s));
-  String get _currency =>
-      NumberFormat.compactSimpleCurrency(locale: _locale).currencySymbol;
+  String _formatNumber(String s) => NumberFormat.decimalPattern(_locale).format(int.parse(s));
+  String get _currency => NumberFormat.compactSimpleCurrency(locale: _locale).currencySymbol;
 
   String disAmount = '0';
   String? networkSelected;
@@ -236,9 +232,7 @@ class _PurchaseBillElectricityState extends State<PurchaseBillElectricity> {
                           ),
                           child: Center(
                             child: Text(
-                              (networkSelected != null)
-                                  ? networkSelected.toString()
-                                  : 'Select provider',
+                              (networkSelected != null) ? networkSelected.toString() : 'Select provider',
                               style: TextStyle(
                                 color: textColorWhite,
                               ),
@@ -264,12 +258,10 @@ class _PurchaseBillElectricityState extends State<PurchaseBillElectricity> {
                         prefix: Icons.attach_money,
                         onChange: (string) {
                           if (amountController.text.isNotEmpty) {
-                            string =
-                                '${_formatNumber(string.replaceAll(',', ''))}';
+                            string = '${_formatNumber(string.replaceAll(',', ''))}';
                             amountController.value = TextEditingValue(
                               text: string,
-                              selection: TextSelection.collapsed(
-                                  offset: string.length),
+                              selection: TextSelection.collapsed(offset: string.length),
                             );
                           } else {
                             setState(() {
@@ -295,13 +287,10 @@ class _PurchaseBillElectricityState extends State<PurchaseBillElectricity> {
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 0.0),
                         child: propertyBtn(
-                          card_margin:
-                              const EdgeInsets.only(top: 0, left: 0, right: 0),
+                          card_margin: const EdgeInsets.only(top: 0, left: 0, right: 0),
                           onTap: () async {
                             print('disamount $disAmount');
-                            if (networkSelected != null &&
-                                disAmount != '0' &&
-                                phoneController.text != '') {
+                            if (networkSelected != null && disAmount != '0' && phoneController.text != '') {
                               setState(() {
                                 isLoading = true;
                                 // showError = false;
@@ -325,8 +314,7 @@ class _PurchaseBillElectricityState extends State<PurchaseBillElectricity> {
                                 setState(() {
                                   phoneError = true;
                                 });
-                              } else if (disAmount == null ||
-                                  disAmount == '0') {
+                              } else if (disAmount == null || disAmount == '0') {
                                 setState(() {
                                   amountError = true;
                                 });
@@ -716,9 +704,7 @@ class _PurchaseBillElectricityState extends State<PurchaseBillElectricity> {
               card_margin: const EdgeInsets.only(top: 0, left: 0, right: 0),
               onTap: () async {
                 Get.back();
-                if (disAmount != null &&
-                    networkSelected != null &&
-                    phoneController.text != '') {
+                if (disAmount != null && networkSelected != null && phoneController.text != '') {
                   verifyTransactionPin();
 
                   Future.delayed(const Duration(seconds: 1), () {
@@ -848,8 +834,7 @@ class _PurchaseBillElectricityState extends State<PurchaseBillElectricity> {
                                   ),
                                   child: InkWell(
                                     onTap: () async {
-                                      bool authenticate =
-                                          await LocalAuth.authenticate();
+                                      bool authenticate = await LocalAuth.authenticate();
                                       if (authenticate) {
                                         completeBillTransaction(
                                           amount: disAmount,
@@ -892,9 +877,7 @@ class _PurchaseBillElectricityState extends State<PurchaseBillElectricity> {
               card_margin: const EdgeInsets.only(top: 0, left: 0, right: 0),
               onTap: () async {
                 Get.back();
-                if (disAmount != null &&
-                    networkSelected != null &&
-                    phoneController.text != '') {
+                if (disAmount != null && networkSelected != null && phoneController.text != '') {
                   completeTransactionPin(
                     transactionPin: transactionPin!,
                     amount: disAmount,
@@ -947,6 +930,7 @@ class _PurchaseBillElectricityState extends State<PurchaseBillElectricity> {
       itemCode: itemCode,
       isAirtime: isAirtime,
       userId: userId,
+      transCategory: 'Electricity',
     );
 
     setState(() {
@@ -979,6 +963,7 @@ class _PurchaseBillElectricityState extends State<PurchaseBillElectricity> {
       itemCode: itemCode!,
       isAirtime: isAirtime,
       userId: userId,
+      transCategory: 'Electricity',
     );
 
     setState(() {

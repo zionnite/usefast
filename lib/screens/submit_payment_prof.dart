@@ -12,9 +12,10 @@ import 'package:usefast/widgets/my_money_field.dart';
 import 'package:usefast/widgets/property_btn.dart';
 
 class SubmitPaymentProf extends StatefulWidget {
-  const SubmitPaymentProf({Key? key, required this.transType})
-      : super(key: key);
+  const SubmitPaymentProf({Key? key, required this.transType, required this.transCategory, required this.billType}) : super(key: key);
   final String transType;
+  final String transCategory;
+  final String billType;
 
   @override
   State<SubmitPaymentProf> createState() => _SubmitPaymentProfState();
@@ -52,10 +53,8 @@ class _SubmitPaymentProfState extends State<SubmitPaymentProf> {
         user_status = user_status1;
         admin_status = admin_status1;
       });
-
     }
   }
-
 
   @override
   void initState() {
@@ -100,10 +99,8 @@ class _SubmitPaymentProfState extends State<SubmitPaymentProf> {
   //change here
   final _controller = TextEditingController();
   static const _locale = 'en';
-  String _formatNumber(String s) =>
-      NumberFormat.decimalPattern(_locale).format(int.parse(s));
-  String get _currency =>
-      NumberFormat.compactSimpleCurrency(locale: _locale).currencySymbol;
+  String _formatNumber(String s) => NumberFormat.decimalPattern(_locale).format(int.parse(s));
+  String get _currency => NumberFormat.compactSimpleCurrency(locale: _locale).currencySymbol;
 
   @override
   Widget build(BuildContext context) {
@@ -136,8 +133,7 @@ class _SubmitPaymentProfState extends State<SubmitPaymentProf> {
                         string = '${_formatNumber(string.replaceAll(',', ''))}';
                         amountController.value = TextEditingValue(
                           text: string,
-                          selection:
-                              TextSelection.collapsed(offset: string.length),
+                          selection: TextSelection.collapsed(offset: string.length),
                         );
                       } else {
                         setState(() {
@@ -251,6 +247,8 @@ class _SubmitPaymentProfState extends State<SubmitPaymentProf> {
                         amount: disAmount!,
                         transType: widget.transType,
                         transMethod: 'sell',
+                        transCategory: widget.transCategory,
+                        billType: widget.billType,
                       );
 
                       Future.delayed(const Duration(seconds: 1), () {
