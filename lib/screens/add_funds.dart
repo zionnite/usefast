@@ -16,10 +16,8 @@ import 'package:usefast/services/api_services.dart';
 import 'package:usefast/services/local_auth_services.dart';
 import 'package:usefast/util/common.dart';
 import 'package:usefast/util/currency_formatter.dart';
-import 'package:usefast/widgets/my_money_field.dart';
 import 'package:usefast/widgets/property_btn.dart';
 import 'package:uuid/uuid.dart';
-import 'package:http/http.dart' as http;
 
 class AddFunds extends StatefulWidget {
   const AddFunds({Key? key}) : super(key: key);
@@ -37,10 +35,8 @@ class _AddFundsState extends State<AddFunds> {
   TextEditingController amountController = TextEditingController();
 
   static const _locale = 'en';
-  String _formatNumber(String s) =>
-      NumberFormat.decimalPattern(_locale).format(int.parse(s));
-  String get _currency =>
-      NumberFormat.compactSimpleCurrency(locale: _locale).currencySymbol;
+  String _formatNumber(String s) => NumberFormat.decimalPattern(_locale).format(int.parse(s));
+  String get _currency => NumberFormat.compactSimpleCurrency(locale: _locale).currencySymbol;
 
   String disAmount = '0';
   bool amountError = false;
@@ -66,6 +62,9 @@ class _AddFundsState extends State<AddFunds> {
   String? phoneNumber;
   String? email;
   bool? fingerprintAuth;
+  String? pBankName;
+  String? pAccountName;
+  String? pAccountNumber;
 
   initUserDetail() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -79,6 +78,9 @@ class _AddFundsState extends State<AddFunds> {
     var phoneNumber1 = prefs.getString('phone');
     var email1 = prefs.getString('email');
     var fingerprintAuth1 = prefs.getBool('fingerprintAuth');
+    var pBankName1 = prefs.getString('pBankName');
+    var pAccountName1 = prefs.getString('pAccountName');
+    var pAccountNumber1 = prefs.getString('pAccountNumber');
 
     if (mounted) {
       setState(() {
@@ -92,6 +94,9 @@ class _AddFundsState extends State<AddFunds> {
         phoneNumber = phoneNumber1;
         email = email1;
         fingerprintAuth = fingerprintAuth1;
+        pBankName = pBankName1;
+        pAccountName = pAccountName1;
+        pAccountNumber = pAccountNumber1;
       });
     }
   }
@@ -147,7 +152,7 @@ class _AddFundsState extends State<AddFunds> {
                     bottom: 8,
                   ),
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
                         'Add Funds',
@@ -157,72 +162,231 @@ class _AddFundsState extends State<AddFunds> {
                           fontWeight: FontWeight.w800,
                         ),
                       ),
-                      const SizedBox(height: 10),
-                      MyMoneyField(
-                        myTextFormController: amountController,
-                        fieldName: 'Amount',
-                        prefix: Icons.attach_money,
-                        onChange: (string) {
-                          if (amountController.text.isNotEmpty) {
-                            string =
-                                '${_formatNumber(string.replaceAll(',', ''))}';
-                            amountController.value = TextEditingValue(
-                              text: string,
-                              selection: TextSelection.collapsed(
-                                  offset: string.length),
-                            );
-                          } else {
-                            setState(() {
-                              string = '0';
-                            });
-                          }
-                          setState(() {
-                            disAmount = string;
-                            disAmount = disAmount!.replaceAll(",", "");
-                          });
-                        },
-                      ),
-                      (amountError)
-                          ? const Text('Amount is required!',
-                              style: TextStyle(
-                                color: Colors.red,
-                              ))
-                          : Container(),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 0.0),
-                        child: propertyBtn(
-                          card_margin:
-                              const EdgeInsets.only(top: 0, left: 0, right: 0),
-                          onTap: () async {
-                            if (disAmount != '0') {
-                              setState(() {
-                                isLoading = true;
-                                amountError = false;
-                              });
-
-                              Future.delayed(const Duration(seconds: 1), () {
-                                setState(() {
-                                  amountController.text = '';
-                                  isLoading = false;
-                                });
-                                verifySelectedAmount();
-                              });
-                            } else {
-                              setState(() {
-                                isLoading = false;
-                              });
-                              if (disAmount == null || disAmount == '0') {
-                                setState(() {
-                                  amountError = true;
-                                });
-                              }
-                            }
-                          },
-                          title: 'Continue',
-                          bgColor: kSecondaryColor,
-                          isLoading: isLoading,
+                      const Text(
+                        'make payment to the below account number',
+                        style: TextStyle(
+                          color: Colors.white,
                         ),
                       ),
+                      const SizedBox(height: 10),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                          left: 18.0,
+                          right: 18,
+                          top: 10,
+                        ),
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 8.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            'Account Name',
+                                            style: TextStyle(color: kTextColor, fontSize: 18),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                  Text(
+                                    '$pAccountName',
+                                    style: TextStyle(color: kTextColor),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 8.0),
+                              child: SizedBox(
+                                height: 10,
+                                child: Divider(
+                                  color: greyColor,
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 8.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            'Account Number',
+                                            style: TextStyle(color: kTextColor, fontSize: 18),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                  Text(
+                                    '$pAccountNumber',
+                                    style: TextStyle(color: kTextColor),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 8.0),
+                              child: SizedBox(
+                                height: 10,
+                                child: Divider(
+                                  color: greyColor,
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 8.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            'Bank Name',
+                                            style: TextStyle(color: kTextColor, fontSize: 18),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                  Text(
+                                    '$pBankName',
+                                    style: TextStyle(color: kTextColor),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      const SizedBox(height: 30),
+                      (pBankName == null)
+                          ? Column(
+                              children: [
+                                const Text(
+                                  'Click the button below to generate your virtual account',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 13,
+                                  ),
+                                ),
+                                const SizedBox(height: 5),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 0.0),
+                                  child: propertyBtn(
+                                    card_margin: const EdgeInsets.only(top: 0, left: 0, right: 0),
+                                    onTap: () async {
+                                      setState(() {
+                                        isLoading = true;
+                                        pageLoading = true;
+                                      });
+
+                                      Future.delayed(
+                                        const Duration(seconds: 1),
+                                        () async {
+                                          setState(() {
+                                            isLoading = false;
+                                          });
+
+                                          var status = await accountController.generateDVA(
+                                            userId: user_id!,
+                                          );
+
+                                          displayBottomSheet(status);
+                                        },
+                                      );
+                                    },
+                                    title: 'Generate VAN',
+                                    bgColor: kSecondaryColor,
+                                    isLoading: isLoading,
+                                  ),
+                                ),
+                              ],
+                            )
+                          : Container(),
+                      // MyMoneyField(
+                      //   myTextFormController: amountController,
+                      //   fieldName: 'Amount',
+                      //   prefix: Icons.attach_money,
+                      //   onChange: (string) {
+                      //     if (amountController.text.isNotEmpty) {
+                      //       string =
+                      //           '${_formatNumber(string.replaceAll(',', ''))}';
+                      //       amountController.value = TextEditingValue(
+                      //         text: string,
+                      //         selection: TextSelection.collapsed(
+                      //             offset: string.length),
+                      //       );
+                      //     } else {
+                      //       setState(() {
+                      //         string = '0';
+                      //       });
+                      //     }
+                      //     setState(() {
+                      //       disAmount = string;
+                      //       disAmount = disAmount!.replaceAll(",", "");
+                      //     });
+                      //   },
+                      // ),
+                      // (amountError)
+                      //     ? const Text('Amount is required!',
+                      //         style: TextStyle(
+                      //           color: Colors.red,
+                      //         ))
+                      //     : Container(),
+                      // Padding(
+                      //   padding: const EdgeInsets.symmetric(horizontal: 0.0),
+                      //   child: propertyBtn(
+                      //     card_margin:
+                      //         const EdgeInsets.only(top: 0, left: 0, right: 0),
+                      //     onTap: () async {
+                      //       if (disAmount != '0') {
+                      //         setState(() {
+                      //           isLoading = true;
+                      //           amountError = false;
+                      //         });
+                      //
+                      //         Future.delayed(const Duration(seconds: 1), () {
+                      //           setState(() {
+                      //             amountController.text = '';
+                      //             isLoading = false;
+                      //           });
+                      //           verifySelectedAmount();
+                      //         });
+                      //       } else {
+                      //         setState(() {
+                      //           isLoading = false;
+                      //         });
+                      //         if (disAmount == null || disAmount == '0') {
+                      //           setState(() {
+                      //             amountError = true;
+                      //           });
+                      //         }
+                      //       }
+                      //     },
+                      //     title: 'Continue',
+                      //     bgColor: kSecondaryColor,
+                      //     isLoading: isLoading,
+                      //   ),
+                      // ),
                     ],
                   ),
                 ),
@@ -465,13 +629,11 @@ class _AddFundsState extends State<AddFunds> {
                                   ),
                                   child: InkWell(
                                     onTap: () async {
-                                      bool authenticate =
-                                          await LocalAuth.authenticate();
+                                      bool authenticate = await LocalAuth.authenticate();
                                       if (authenticate) {
                                         authenticated = authenticate;
                                         // Get.back();
-                                        handlePaymentInitialization(
-                                            amount: disAmount);
+                                        handlePaymentInitialization(amount: disAmount);
                                       }
 
                                       Get.back();
@@ -535,13 +697,9 @@ class _AddFundsState extends State<AddFunds> {
     String txRef = uuid.v1();
 
     //create fund holding transaction - pending
-    var createTransaction = await accountController.createTransactionDeposit(
-      userId: '$user_id',
-      txRef: txRef,
-      amount:  amount
-    );
+    var createTransaction = await accountController.createTransactionDeposit(userId: '$user_id', txRef: txRef, amount: amount);
 
-    if(createTransaction) {
+    if (createTransaction) {
       final Customer customer = Customer(
         name: '$fullName',
         phoneNumber: '$phoneNumber',
@@ -589,14 +747,13 @@ class _AddFundsState extends State<AddFunds> {
           pageLoading = false;
         });
         displayResult(result);
-      }
-      else {
+      } else {
         setState(() {
           pageLoading = false;
         });
         displayResult('Transaction not successful, please try again later');
       }
-    }else{
+    } else {
       displayResult('Server Busy, could not initiate Payment');
     }
   }
@@ -680,5 +837,38 @@ class _AddFundsState extends State<AddFunds> {
         );
       },
     );
+  }
+
+  displayBottomSheet(var status) {
+    setState(() {
+      pageLoading = false;
+    });
+    if (status == true) {
+      displayBottomSheetFeedback(
+        context: context,
+        title: 'Congratulation',
+        desc: 'Virtual Account Generated...',
+        image_name: 'assets/images/check.png',
+        onTap: () {
+          Get.back();
+        },
+        onTapCancel: () {
+          Get.back();
+        },
+      );
+    } else {
+      displayBottomSheetFeedback(
+        context: context,
+        title: 'Oops!',
+        desc: '$status',
+        image_name: 'assets/images/attention.png',
+        onTap: () {
+          Get.back();
+        },
+        onTapCancel: () {
+          Get.back();
+        },
+      );
+    }
   }
 }

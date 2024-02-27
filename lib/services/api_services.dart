@@ -53,6 +53,7 @@ class ApiServices {
   static const String _update_transaction_pin = 'update_transaction_pin';
   static const String _update_email = 'update_email';
   static const String _update_password = 'update_password';
+  static const String _generate_dva = 'generate_dva';
   static const String _create_tran_deposit = 'createTransactionDeposit';
 
   static Future uploadProfOfPayment({
@@ -837,6 +838,9 @@ class ApiServices {
           String isbank_verify = j['isbank_verify'];
           String pin = j['pin'];
           String pin_set = j['pin_set'];
+          String pBankName = j['p_bank_name'];
+          String pAccountName = j['p_account_name'];
+          String pAccountNumber = j['p_account_number'];
 
           prefs.setString('user_id', user_id);
           prefs.setString('user_name', user_name);
@@ -861,6 +865,9 @@ class ApiServices {
           prefs.setBool('tempLoginStatus', true);
           prefs.setString('pin', pin);
           prefs.setString('pin_set', pin_set);
+          prefs.setString('pBankName', pBankName);
+          prefs.setString('pAccountName', pAccountName);
+          prefs.setString('pAccountNumber', pAccountNumber);
 
           var isGuestLogin = prefs.getBool('isGuestLogin');
           if (isGuestLogin != null) {
@@ -1619,6 +1626,42 @@ class ApiServices {
       }
     } catch (ex) {
       return ex.toString();
+    }
+  }
+
+  static Future<String> generateDVA({
+    required String userId,
+  }) async {
+    try {
+      final uri = Uri.parse('$_mybaseUrl$_generate_dva');
+
+      var response = await http.post(uri, body: {
+        'user_id': userId.toString(),
+      });
+      if (response.statusCode == 200) {
+        var body = response.body;
+
+        final j = json.decode(body) as Map<String, dynamic>;
+        String status = j['status'];
+        if (status == 'success') {
+          return 'true';
+        } else {
+          String msg = j['status_msg'];
+          return msg;
+        }
+      } else {
+        return showSnackBar(
+          title: 'Oops!',
+          msg: 'could not connect to server',
+          backgroundColor: Colors.red,
+        );
+      }
+    } catch (ex) {
+      return showSnackBar(
+        title: 'Oops!',
+        msg: ex.toString(),
+        backgroundColor: Colors.red,
+      );
     }
   }
 }

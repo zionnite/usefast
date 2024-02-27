@@ -629,4 +629,18 @@ class AccountController extends GetxController {
       return seeker;
     }
   }
+
+  Future generateDVA({
+    required String userId,
+  }) async {
+    String? msg;
+    String status = await ApiServices.generateDVA(
+      userId: userId,
+    );
+    if (status == 'true') {
+      return true;
+    } else {
+      return status;
+    }
+  }
 }
