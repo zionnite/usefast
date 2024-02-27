@@ -278,11 +278,11 @@ class _AddFundsState extends State<AddFunds> {
                       ),
 
                       const SizedBox(height: 30),
-                      (pBankName == null)
+                      (pBankName == null || pBankName == '')
                           ? Column(
                               children: [
                                 const Text(
-                                  'Click the button below to generate your virtual account',
+                                  'you don\'t yet have a virtual account, click the button below to generate your virtual account',
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 13,
@@ -309,6 +309,8 @@ class _AddFundsState extends State<AddFunds> {
                                           var status = await accountController.generateDVA(
                                             userId: user_id!,
                                           );
+
+                                          setState(() {});
 
                                           displayBottomSheet(status);
                                         },
@@ -840,6 +842,7 @@ class _AddFundsState extends State<AddFunds> {
   }
 
   displayBottomSheet(var status) {
+    print('Status $status');
     setState(() {
       pageLoading = false;
     });
@@ -850,10 +853,10 @@ class _AddFundsState extends State<AddFunds> {
         desc: 'Virtual Account Generated...',
         image_name: 'assets/images/check.png',
         onTap: () {
-          Get.back();
+          accountController.logoutUser();
         },
         onTapCancel: () {
-          Get.back();
+          accountController.logoutUser();
         },
       );
     } else {

@@ -1643,7 +1643,7 @@ class ApiServices {
 
         final j = json.decode(body) as Map<String, dynamic>;
         String status = j['status'];
-        if (status == 'success') {
+        if (status == 'true') {
           return 'true';
         } else {
           String msg = j['status_msg'];

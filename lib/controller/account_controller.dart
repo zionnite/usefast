@@ -504,6 +504,10 @@ class AccountController extends GetxController {
     prefs.remove("isbank_verify");
     prefs.remove("login_status");
     prefs.remove("isGuestLogin");
+    prefs.remove("pBankName");
+    prefs.remove("pAccountName");
+    prefs.remove("pAccountNumber");
+
     // prefs.remove("fingerprintAuth");
     // prefs.remove("lockPin");
 
